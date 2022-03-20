@@ -8,3 +8,7 @@ I am not good enough in English to describe my project in it.
 
 2) Если всё пройдёт штатно, после этого появится папка bin, а в ней исполняемый файлик MolecularBox.out 
 
+UML диаграмма:
+
+![](UML.png)
+
