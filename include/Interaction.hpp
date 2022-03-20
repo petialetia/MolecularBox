@@ -1,5 +1,7 @@
 #include <functional>
 
+#include "UsingAlias.hpp"
+
 class Predictable {};
 class Continuus {};
 

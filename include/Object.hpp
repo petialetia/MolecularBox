@@ -1,24 +1,43 @@
 #include <vector>
 
-#include "ForMolecularBox.hpp"
+#include "UsingAlias.hpp"
 
-struct ObjectParams
+using coordinates = std::vector<coordinate_type>;
+
+enum shape_type
 {
-  std::vector<coordinate_type> coordinates_ = {};
-  coordinate_type radius_ = 0;
+  circle
 };
 
-class Object 
+class Shape
 {
   private:
-    std::vector<coordinate_type> coordinates_ = {};
-    coordinate_type radius = 0;
+    const shape_type type_;
 
-  public:
-    explicit Object (std::vector<coordinate_type> coordinates, coordinate_type radius) : coordinates_(coordinates), radius(radius)
+  protected:
+
+    Shape(shape_type type) : type_(type)
     {
     }
-    explicit Object (ObjectParams params) : coordinates_(params.coordinates_), radius(params.radius_)
+
+  public:
+
+    shape_type GetType()
+    {
+        return type_;
+    }
+};
+
+class Circle: public Shape
+{
+  private:
+    coordinates center_ = {0, 0};
+    coordinate_type radius_ = 0;
+
+  public:
+    Circle(coordinates center, coordinate_type radius) : center_(center), radius_(radius), Shape(circle)
     {
     }
 };
+
+using Object = Shape;

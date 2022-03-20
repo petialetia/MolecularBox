@@ -36,54 +36,36 @@ std::function<void(Object*)> GetCollisionSubscription()
     return [](Object*) { return; };
 }
 
-std::vector<Object> SpawnDefaultObjects(std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+std::vector<Object*> SpawnDefaultObjects(std::vector<std::function<void(Object*)>>& subscriptions_by_default)
 {
-    std::vector<Object> objects = {};
+    std::vector<Object*> objects = {};
     SpawnShell(objects, subscriptions_by_default);
     SpawnMolecules(objects, subscriptions_by_default);
 
     return objects;
 }
 
-void SpawnShell(std::vector<Object>& objects, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+void SpawnShell(std::vector<Object*>& objects, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
 {
-    SpawnObjectWithDefaultSubscriptions(SHELL_COORDINATES, SHELL_RADIUS, objects, subscriptions_by_default);
+    Object* new_object_ptr = new Circle(SHELL_COORDINATES, SHELL_RADIUS);
+    objects.push_back(new_object_ptr);
+    SubscribeToDefaultInteractons(new_object_ptr, subscriptions_by_default);
 }
 
-void SpawnObjectWithDefaultSubscriptions(std::vector<coordinate_type>& coordinates, coordinate_type radius, std::vector<Object>& objects, 
-                                         std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+void SubscribeToDefaultInteractons(Object* object_ptr, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
 {
-    Object new_object = SpawnObject(coordinates, radius, objects);
     for (std::function<void(Object*)> AddSubscription : subscriptions_by_default)
     {
-        AddSubscription(&new_object);
+        AddSubscription(object_ptr);
     }
 }
 
-Object SpawnObject (std::vector<coordinate_type>& coordinates, coordinate_type radius, std::vector<Object> objects)
+void SpawnMolecules(std::vector<Object*>& objects, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
 {
-    Object new_object = Object(coordinates, radius);
-    objects.push_back(new_object);
-
-    return new_object;
+    return;
 }
 
-void SpawnMolecules(std::vector<Object>& objects, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
-{
-    std::vector<ObjectParams> molecules_params = GetMoleculesParams();
-
-    for (size_t i = 0; i < molecules_params.size(); i++)
-    {
-        SpawnObjectWithDefaultSubscriptions(molecules_params[i].coordinates_, molecules_params[i].radius_, objects, subscriptions_by_default);
-    }
-}
-
-std::vector<ObjectParams> GetMoleculesParams()
-{
-    return {};
-}
-
-void StepByStepSimulation(std::vector<Object>& objects, std::vector<Interaction<Predictable>>& predictable_interactions, 
+void StepByStepSimulation(std::vector<Object*>& objects, std::vector<Interaction<Predictable>>& predictable_interactions, 
                           std::vector<Interaction<Continuus>>& continuus_interactions, time_type& global_time)
 {
     while (true)
@@ -105,7 +87,7 @@ void CheckInteractions(std::vector<Interaction<Predictable>>& predictable_intera
     }
 }
 
-void MoveObjects(std::vector<Object>& objects)
+void MoveObjects(std::vector<Object*>& objects)
 {
     return;
 }
