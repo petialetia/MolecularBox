@@ -98,7 +98,7 @@ void CheckInteractions(std::vector<Interaction<Predictable>>& predictable_intera
 {
     for (auto interaction : continuus_interactions)
     {
-        if (interaction.GetTimeToNextInteraction() == 0)
+        if (interaction.GetTimeToNextAction() == 0)
         {
             interaction.Action();
         }

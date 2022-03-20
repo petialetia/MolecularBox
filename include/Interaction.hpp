@@ -9,12 +9,12 @@ class Interaction
   private:
 
     std::function<void()> Action_ = []() { return; };
-    std::function<time_type()> GetTimeToNextInteraction_ = []() { return 0; };
+    std::function<time_type()> GetTimeToNextAction_ = []() { return 0; };
     
   public:
 
-    explicit Interaction(std::function<void()> Action, std::function<time_type()> GetTimeToNextInteraction) : 
-    Action_(Action), GetTimeToNextInteraction_(GetTimeToNextInteraction) 
+    explicit Interaction(std::function<void()> Action, std::function<time_type()> GetTimeToNextAction) : 
+    Action_(Action), GetTimeToNextAction_(GetTimeToNextAction) 
     {
     }
 
@@ -23,8 +23,8 @@ class Interaction
         Action_();
     }
 
-    time_type GetTimeToNextInteraction()
+    time_type GetTimeToNextAction()
     {
-        return GetTimeToNextInteraction_();
+        return GetTimeToNextAction_();
     }   
 };
