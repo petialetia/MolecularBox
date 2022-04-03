@@ -107,7 +107,7 @@ void Move(std::pair<id_type, object> pair, speed_storage& object_speeds, time_ty
 
 void Move(object& object, offset_type offset)
 {
-    std::visit([&offset](Circle& object) { 
+    std::visit([&offset](auto& object) { 
         Move(object, offset); 
     }, object);
 }
