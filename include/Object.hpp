@@ -1,43 +1,31 @@
-#include <vector>
+#ifndef OBJECT_HPP
+#define OBJECT_HPP
 
-#include "UsingAlias.hpp"
+#include <include/UsingAlias.hpp>
+#include <include/VectorCoordinateOperations.hpp>
+
+#include <vector>
+#include <variant>
 
 using coordinates = std::vector<coordinate_type>;
 
-enum shape_type
-{
-  circle
-};
-
-class Shape
-{
-  private:
-    const shape_type type_;
-
-  protected:
-
-    Shape(shape_type type) : type_(type)
-    {
-    }
-
-  public:
-
-    shape_type GetType()
-    {
-        return type_;
-    }
-};
-
-class Circle: public Shape
+class Circle
 {
   private:
     coordinates center_ = {0, 0};
     coordinate_type radius_ = 0;
 
   public:
-    Circle(coordinates center, coordinate_type radius) : center_(center), radius_(radius), Shape(circle)
-    {
-    }
+    Circle() = default;
+    Circle(coordinates center, coordinate_type radius);
+
+    coordinates GetCenter() const;
+    void SetCenter(coordinates coordinates);
+
 };
 
-using Object = Shape;
+void Move(Circle& circle, offset_type offset);
+
+using object = std::variant<Circle>;
+
+#endif /* OBJECT_HPP */

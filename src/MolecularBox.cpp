@@ -1,24 +1,28 @@
-#include "../include/MolecularBox.hpp"
+#include <include/MolecularBox.hpp>
 
 int main()
 {
     time_type global_time = 0;
 
-    std::vector<Interaction<Predictable>> predictable_interactions;
-    std::vector<Interaction<Continuus>> continuus_interactions;
+    IdStorage<Interaction> interactions;
+    IdStorage<PredictableInteraction> predictable_interactions;
+
+    IdStorage<object> objects;
+
+    speed_storage object_speeds;
 
     auto subscriptions_by_default = GetSubscriptionsByDefault();
 
-    auto objects = SpawnDefaultObjects(subscriptions_by_default);
+    SpawnDefaultObjects(objects, subscriptions_by_default, object_speeds);
 
-    StepByStepSimulation(objects, predictable_interactions, continuus_interactions, global_time);
+    StepByStepSimulation(objects, interactions, object_speeds, global_time);
 
     return 0;
 }
 
-std::vector<std::function<void(Object*)>> GetSubscriptionsByDefault()
+subsription_storage GetSubscriptionsByDefault()
 {
-    std::vector<std::function<void(Object*)>> subscriptions_by_default = {};
+    subsription_storage subscriptions_by_default = {};
 
     subscriptions_by_default.push_back(GetDrawSubscription());
     subscriptions_by_default.push_back(GetCollisionSubscription());
@@ -26,68 +30,84 @@ std::vector<std::function<void(Object*)>> GetSubscriptionsByDefault()
     return subscriptions_by_default;
 }
 
-std::function<void(Object*)> GetDrawSubscription()
+std::function<void(id_type)> GetDrawSubscription()
 {
-    return [](Object*) { return; };
+    return [](id_type) { return; };
 }
 
-std::function<void(Object*)> GetCollisionSubscription()
+std::function<void(id_type)> GetCollisionSubscription()
 {
-    return [](Object*) { return; };
+    return [](id_type) { return; };
 }
 
-std::vector<Object*> SpawnDefaultObjects(std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+void SpawnDefaultObjects(IdStorage<object>& objects, subsription_storage& subscriptions_by_default, speed_storage& object_speeds)
 {
-    std::vector<Object*> objects = {};
     SpawnShell(objects, subscriptions_by_default);
-    SpawnMolecules(objects, subscriptions_by_default);
-
-    return objects;
+    SpawnMolecules(objects, subscriptions_by_default, object_speeds);
 }
 
-void SpawnShell(std::vector<Object*>& objects, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+void SpawnShell(IdStorage<object>& objects, subsription_storage& subscriptions_by_default)
 {
-    Object* new_object_ptr = new Circle(SHELL_COORDINATES, SHELL_RADIUS);
-    objects.push_back(new_object_ptr);
-    SubscribeToDefaultInteractons(new_object_ptr, subscriptions_by_default);
+    auto new_object_id = objects.AddElement(Circle(SHELL_COORDINATES, SHELL_RADIUS));
+    SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 
-void SubscribeToDefaultInteractons(Object* object_ptr, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subscriptions_by_default)
 {
-    for (std::function<void(Object*)> AddSubscription : subscriptions_by_default)
+    for (auto& AddSubscription : subscriptions_by_default)
     {
-        AddSubscription(object_ptr);
+        AddSubscription(object_id);
     }
 }
 
-void SpawnMolecules(std::vector<Object*>& objects, std::vector<std::function<void(Object*)>>& subscriptions_by_default)
+void SpawnMolecules(IdStorage<object>& objects, subsription_storage& subscriptions_by_default, speed_storage& object_speeds)
 {
     return;
 }
 
-void StepByStepSimulation(std::vector<Object*>& objects, std::vector<Interaction<Predictable>>& predictable_interactions, 
-                          std::vector<Interaction<Continuus>>& continuus_interactions, time_type& global_time)
+void StepByStepSimulation(IdStorage<object>& objects, IdStorage<Interaction>& interactions, speed_storage& object_speeds, 
+                          time_type& global_time)
 {
     while (true)
     {
-        CheckInteractions(predictable_interactions, continuus_interactions);
-        MoveObjects(objects);
+        CheckInteractions(interactions);
+        MoveObjects(objects, object_speeds);
         global_time += TIME_STEP;
     }
 }
 
-void CheckInteractions(std::vector<Interaction<Predictable>>& predictable_interactions, std::vector<Interaction<Continuus>>& continuus_interactions)
+void CheckInteractions(IdStorage<Interaction>& interactions)
 {
-    for (auto interaction : continuus_interactions)
+    for (auto& pair: interactions)
     {
-        if (interaction.GetTimeToNextAction() == 0)
+        if (pair.second.CheckConditionForAction() == true)
         {
-            interaction.Action();
+            pair.second.Action();
         }
     }
 }
 
-void MoveObjects(std::vector<Object*>& objects)
+void MoveObjects(IdStorage<object>& objects, speed_storage& object_speeds, time_type time)
 {
-    return;
+    for (auto& pair: objects)
+    {
+        Move(pair, object_speeds, time);
+    }
+}
+
+void Move(std::pair<id_type, object> pair, speed_storage& object_speeds, time_type time)
+{
+    if (object_speeds.find(pair.first) == object_speeds.end())
+    {
+        return;
+    }
+
+    Move(pair.second, TermByTermMultiplication(object_speeds[pair.first], time));
+}
+
+void Move(object& object, offset_type offset)
+{
+    std::visit([&offset](Circle& object) { 
+        Move(object, offset); 
+    }, object);
 }

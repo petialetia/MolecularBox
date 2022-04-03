@@ -4,6 +4,8 @@ project (MolecularBox)
 
 set (CMAKE_CXX_STANDARD 20)
 
+include_directories (${PROJECT_SOURCE_DIR})
+
 set (CMAKE_EXECUTABLE_SUFFIX ".out")
 set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
