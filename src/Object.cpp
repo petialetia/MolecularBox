@@ -14,7 +14,7 @@ void Circle::SetCenter(coordinates center_coordinates)
     center_ = center_coordinates;
 }
 
-void Move(Circle& circle, offset_type offset)
+void MoveObjectOnOffset(Circle& circle, offset_type offset)
 {
     circle.SetCenter(TermByTermAddition(circle.GetCenter(), offset));
 }

@@ -31,5 +31,5 @@ void StepByStepSimulation(IdStorage<object>& objects, IdStorage<Interaction>& in
                           time_type& global_time);
 void CheckInteractions(IdStorage<Interaction>& interactions);
 void MoveObjects(IdStorage<object>& objects, speed_storage& object_speeds, time_type time = TIME_STEP);    
-void Move(std::pair<id_type, object> pair, speed_storage& object_speeds, time_type time);
+offset_type CalculateOffset(speed_type speed, time_type time);
 void Move(object& object, offset_type offset);                            

@@ -24,7 +24,7 @@ class Circle
 
 };
 
-void Move(Circle& circle, offset_type offset);
+void MoveObjectOnOffset(Circle& circle, offset_type offset);
 
 using object = std::variant<Circle>;
 

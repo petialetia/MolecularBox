@@ -89,25 +89,20 @@ void CheckInteractions(IdStorage<Interaction>& interactions)
 
 void MoveObjects(IdStorage<object>& objects, speed_storage& object_speeds, time_type time)
 {
-    for (auto& pair: objects)
-    {
-        Move(pair, object_speeds, time);
-    }
+    std::for_each(object_speeds.cbegin(), object_speeds.cend(), [&objects, time](const auto& pair){
+        const auto& [id, speed] = pair;
+        MoveObjectOnOffset(objects[id], CalculateOffset(speed, time));    
+    });
 }
 
-void Move(std::pair<id_type, object> pair, speed_storage& object_speeds, time_type time)
+offset_type CalculateOffset(speed_type speed, time_type time)
 {
-    if (object_speeds.find(pair.first) == object_speeds.end())
-    {
-        return;
-    }
-
-    Move(pair.second, TermByTermMultiplication(object_speeds[pair.first], time));
+    return TermByTermMultiplication(speed, time);
 }
 
-void Move(object& object, offset_type offset)
+void MoveObjectOnOffset(object& object, offset_type offset)
 {
     std::visit([&offset](auto& object) { 
-        Move(object, offset); 
+        MoveObjectOnOffset(object, offset); 
     }, object);
 }
