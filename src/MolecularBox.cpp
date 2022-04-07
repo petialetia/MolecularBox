@@ -7,16 +7,13 @@ int main()
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
 
-    IdStorage<object> objects;
-
-    coordinate_storage object_coordinates;
-    speed_storage object_speeds;
+    ObjectStorage objects;
 
     auto subscriptions_by_default = GetSubscriptionsByDefault();
 
-    SpawnDefaultObjects(objects, subscriptions_by_default, object_coordinates, object_speeds);
+    SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, object_coordinates, object_speeds, global_time);
+    StepByStepSimulation(interactions, objects, global_time);
 
     return 0;
 }
@@ -41,17 +38,15 @@ std::function<void(id_type)> GetCollisionSubscription()
     return [](id_type) { return; };
 }
 
-void SpawnDefaultObjects(IdStorage<object>& objects, subsription_storage& subscriptions_by_default, 
-                         coordinate_storage& object_coordinates, speed_storage& object_speeds)
+void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    SpawnShell(objects, subscriptions_by_default, object_coordinates);
-    SpawnMolecules(objects, subscriptions_by_default, object_coordinates, object_speeds);
+    SpawnShell(objects, subscriptions_by_default);
+    SpawnMolecules(objects, subscriptions_by_default);
 }
 
-void SpawnShell(IdStorage<object>& objects, subsription_storage& subscriptions_by_default, coordinate_storage& object_coordinates)
+void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddElement(Circle(SHELL_RADIUS));
-    object_coordinates[new_object_id] = SHELL_COORDINATES;
+    auto new_object_id = objects.AddObject(Circle(SHELL_RADIUS), SHELL_COORDINATES);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 
@@ -63,20 +58,17 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
     }
 }
 
-void SpawnMolecules(IdStorage<object>& objects, subsription_storage& subscriptions_by_default, 
-                    coordinate_storage& object_coordinates, speed_storage& object_speeds)
+void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
     return;
 }
 
-void StepByStepSimulation(IdStorage<Interaction>& interactions, 
-                          coordinate_storage& object_coordinates, speed_storage& object_speeds, 
-                          time_type& global_time)
+void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
 {
     while (true)
     {
         CheckInteractions(interactions);
-        MoveObjects(object_coordinates, object_speeds);
+        MoveObjects(objects);
         global_time += TIME_STEP;
     }
 }
@@ -92,11 +84,11 @@ void CheckInteractions(IdStorage<Interaction>& interactions)
     }
 }
 
-void MoveObjects(coordinate_storage& object_coordinates, speed_storage& object_speeds, time_type time)
+void MoveObjects(ObjectStorage& objects, time_type time)
 {
-    std::for_each(object_speeds.cbegin(), object_speeds.cend(), [&object_coordinates, time](const auto& pair){
+    std::for_each(objects.speeds_cbegin(), objects.speeds_cend(), [&objects, time](const auto& pair){
         const auto& [id, speed] = pair;
-        MoveOnOffset(object_coordinates[id], CalculateOffset(speed, time));    
+        MoveOnOffset(objects.GetCoordinates(id), CalculateOffset(speed, time));    
     });
 }
 

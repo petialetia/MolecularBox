@@ -33,9 +33,14 @@ class IdStorage
         return storage_[id];
     }
 
-    const T& operator[](id_type id) const
+    T& at(id_type id)
     {
-        return storage_[id];
+        return storage_.at(id);
+    }
+
+    const T& at(id_type id) const
+    {
+        return storage_.at(id);
     }
 
     auto begin()
