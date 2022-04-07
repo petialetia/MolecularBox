@@ -20,7 +20,7 @@ class IdStorage
     {
         id_type element_id = next_free_id_;
 
-        assert(storage_.count(element_id) == 0);
+        assert(storage_.contains(element_id) != true);
 
         storage_[element_id] = std::move(element);
         ++next_free_id_;
