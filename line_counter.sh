@@ -1,27 +1,21 @@
 TOTAL_N_LINES=0
 
-cd src
+START_FOLDER=$(pwd)
 
-CPP_FILES=$(find -type f -name "*.cpp")
+function CountLines {
+    cd "$1"
+    FILES=$(find -type f -name "*.$2")
 
-for file in $CPP_FILES
-do
-    N_LINES=$(wc -l < "$file")
-    ((TOTAL_N_LINES=TOTAL_N_LINES+N_LINES))
-done
+    for file in $FILES
+    do
+        N_LINES=$(wc -l < "$file")
+        ((TOTAL_N_LINES=TOTAL_N_LINES+N_LINES))
+    done
 
-cd ..
+    cd "$START_FOLDER"
+}
 
-cd include
-
-HPP_FILES=$(find -type f -name "*.hpp")
-
-for file in $HPP_FILES
-do  
-    N_LINES=$(wc -l < "$file")
-    ((TOTAL_N_LINES=TOTAL_N_LINES+N_LINES))
-done
-
-cd ..
+CountLines src cpp
+CountLines include hpp
 
 echo "$TOTAL_N_LINES"
