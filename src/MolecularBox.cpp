@@ -75,11 +75,11 @@ void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& o
 
 void CheckInteractions(IdStorage<Interaction>& interactions)
 {
-    for (auto& [id, object]: interactions)
+    for (auto& [id, interaction]: interactions)
     {
-        if (object.CheckConditionForAction() == true)
+        if (interaction.CheckConditionForAction() == true)
         {
-            object.Action();
+            interaction.Action();
         }
     }
 }
