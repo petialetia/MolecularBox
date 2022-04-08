@@ -2,7 +2,15 @@
 
 int main()
 {
-    time_type global_time = 0;
+    Graphic adapter {};
+
+    adapter.CreateWindow("MolecularBox", {0, 0}, {400, 300});
+    adapter.DrawCircle({100, 100}, 100, {255, 0, 0, 255});
+    adapter.Refresh();
+
+    SDL_Delay(3000);
+
+    /*time_type global_time = 0;
 
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
@@ -13,7 +21,7 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);
+    StepByStepSimulation(interactions, objects, global_time);*/
 
     return 0;
 }
@@ -94,7 +102,7 @@ void MoveObjects(ObjectStorage& objects, time_type time)
 
 offset_type CalculateOffset(speed_type speed, time_type time)
 {
-    return Coordinates(speed) * time;
+    return ObjectCoordinates(speed) * time;
 }
 
 void MoveOnOffset(coordinates& object_coordinates, offset_type offset)

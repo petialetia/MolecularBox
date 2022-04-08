@@ -1,7 +1,8 @@
 #include <include/UsingAlias.hpp>
+#include <include/SDL2GraphicAdapter.hpp>
+
 #include <include/Shape.hpp>
 #include <include/Interaction.hpp>
-
 #include <include/ObjectStorage.hpp>
 
 #include <vector>
@@ -10,8 +11,9 @@
 #include <cstdio>
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
+using Graphic = SDL2GraphicAdapter;
 
-Coordinates SHELL_COORDINATES = Coordinates({0, 0});
+ObjectCoordinates SHELL_COORDINATES = ObjectCoordinates({0, 0});
 coordinate_type SHELL_RADIUS = 0;
 
 time_type TIME_STEP = 1;

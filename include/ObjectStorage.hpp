@@ -1,7 +1,7 @@
 #ifndef OBJECT_STORAGE_HPP
 #define OBJECT_STORAGE_HPP
 
-#include <include/Coordinates.hpp>
+#include <include/ObjectCoordinates.hpp>
 #include <include/Shape.hpp>
 #include <include/IdStorage.hpp>
 
