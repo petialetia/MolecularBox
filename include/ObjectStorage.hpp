@@ -1,6 +1,7 @@
 #ifndef OBJECT_STORAGE_HPP
 #define OBJECT_STORAGE_HPP
 
+#include <include/Coordinates.hpp>
 #include <include/Shape.hpp>
 #include <include/IdStorage.hpp>
 
@@ -93,7 +94,7 @@ class ObjectStorage
     {
         return object_speeds_.end();
     }
-    
+
     auto speeds_cend() const
     {
       return object_speeds_.cend();

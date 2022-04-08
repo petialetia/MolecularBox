@@ -7,8 +7,6 @@
 #include <vector>
 #include <variant>
 
-using coordinates = std::vector<coordinate_type>;
-
 class Circle
 {
   private:

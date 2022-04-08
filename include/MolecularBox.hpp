@@ -11,7 +11,7 @@
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
-std::vector<coordinate_type> SHELL_COORDINATES = {0, 0};
+Coordinates SHELL_COORDINATES = /*Coordinates(*/{0, 0}/*)*/;
 coordinate_type SHELL_RADIUS = 0;
 
 time_type TIME_STEP = 1;
