@@ -16,6 +16,12 @@ class IdStorage
   public:
     explicit IdStorage() = default;
 
+    IdStorage(const IdStorage&) = delete;
+    IdStorage(IdStorage&) = delete;
+
+    IdStorage& operator=(const IdStorage&) = delete;
+    IdStorage& operator=(IdStorage&) = delete;
+
     id_type AddElement(T&& element)
     {
         id_type element_id = next_free_id_;

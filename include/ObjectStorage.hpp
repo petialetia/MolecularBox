@@ -25,6 +25,12 @@ class ObjectStorage
   public:
     explicit ObjectStorage() = default;
 
+    ObjectStorage(const ObjectStorage&) = delete;
+    ObjectStorage(ObjectStorage&) = delete;
+
+    ObjectStorage& operator=(const ObjectStorage&) = delete;
+    ObjectStorage& operator=(ObjectStorage&) = delete;
+
     id_type AddObject(object&& object, coordinates coordinates);
     id_type AddObject(object&& object, coordinates coordinates, speed_type speed);
 

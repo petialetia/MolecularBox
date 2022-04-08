@@ -27,7 +27,7 @@ class Interaction
     bool CheckConditionForAction() const;
 };
 
-class PredictableInteraction : private Interaction
+class PredictableInteraction : public Interaction
 {
   private:
 
