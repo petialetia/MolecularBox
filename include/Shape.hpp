@@ -13,8 +13,8 @@ class Circle
     coordinate_type radius_ = 0;
 
   public:
-    Circle() = default;
-    Circle(coordinate_type radius);
+    explicit Circle() = default;
+    explicit Circle(coordinate_type radius);
 };
 
 #endif /* SHAPE_HPP */

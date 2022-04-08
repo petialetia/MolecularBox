@@ -14,7 +14,7 @@ class IdStorage
     std::unordered_map<id_type, T> storage_ {};
 
   public:
-    IdStorage() = default;
+    explicit IdStorage() = default;
 
     id_type AddElement(T&& element)
     {

@@ -10,9 +10,9 @@
 class Coordinates: public std::vector<coordinate_type>
 {
   public:
-    Coordinates() = default;
-    Coordinates(std::initializer_list<coordinate_type> list);
-    Coordinates(std::vector<coordinate_type> vector);
+    explicit Coordinates() = default;
+    explicit Coordinates(std::initializer_list<coordinate_type> list);
+    explicit Coordinates(std::vector<coordinate_type> vector);
 
     Coordinates& operator+=(const Coordinates& other);
     Coordinates& operator*=(const coordinate_type other);

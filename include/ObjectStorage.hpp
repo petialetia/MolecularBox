@@ -23,6 +23,8 @@ class ObjectStorage
     speed_storage object_speeds_ {};
 
   public:
+    explicit ObjectStorage() = default;
+
     id_type AddObject(object&& object, coordinates coordinates);
     id_type AddObject(object&& object, coordinates coordinates, speed_type speed);
 

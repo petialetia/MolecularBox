@@ -94,7 +94,7 @@ void MoveObjects(ObjectStorage& objects, time_type time)
 
 offset_type CalculateOffset(speed_type speed, time_type time)
 {
-    return speed * time;
+    return Coordinates(speed) * time;
 }
 
 void MoveOnOffset(coordinates& object_coordinates, offset_type offset)
