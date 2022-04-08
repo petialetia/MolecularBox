@@ -2,7 +2,7 @@ I am not good enough in English to describe my project in it.
 
 # Это есть мой проект по предмету "Технологии программирования" - "Коробка с молекулами".
 
-## Описание можно прочитать в папке description
+> [Описание можно прочитать в папке description](description/Description.md)
 
 ## Как запускать:
 
