@@ -18,14 +18,14 @@ void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinate
 
     while (x >= y)
     {
+        SDL_RenderDrawPoint(renderer_, center[0] + y, center[1] - x);
+        SDL_RenderDrawPoint(renderer_, center[0] + x, center[1] - y);
         SDL_RenderDrawPoint(renderer_, center[0] + x, center[1] + y);
         SDL_RenderDrawPoint(renderer_, center[0] + y, center[1] + x);
+        SDL_RenderDrawPoint(renderer_, center[0] - y, center[1] + x);
         SDL_RenderDrawPoint(renderer_, center[0] - x, center[1] + y);
-        SDL_RenderDrawPoint(renderer_, center[0] + y, center[1] - x);
         SDL_RenderDrawPoint(renderer_, center[0] - x, center[1] - y);
         SDL_RenderDrawPoint(renderer_, center[0] - y, center[1] - x);
-        SDL_RenderDrawPoint(renderer_, center[0] + x, center[1] - y);
-        SDL_RenderDrawPoint(renderer_, center[0] - y, center[1] + x);
 
         y += 1;
         double sin = static_cast<double>(y)/static_cast<double>(radius);
@@ -42,12 +42,27 @@ void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinate
 
 void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coordinates_type radius)
 {
-    //TODO
+    auto x = radius;
+    decltype(x) y = 0;
+
+    while (x >= y)
+    {
+        SDL_RenderDrawLine(renderer_, center[0] + y, center[1] - x, center[0] - y, center[1] - x);
+        SDL_RenderDrawLine(renderer_, center[0] + x, center[1] - y, center[0] - x, center[1] - y);
+        SDL_RenderDrawLine(renderer_, center[0] + x, center[1] + y, center[0] - x, center[1] + y);
+        SDL_RenderDrawLine(renderer_, center[0] + y, center[1] + x, center[0] - y, center[1] + x);
+
+        y += 1;
+        double sin = static_cast<double>(y)/static_cast<double>(radius);
+        double cos = std::sqrt(1 - sin*sin);
+        x = cos/sin * static_cast<double>(y) + 0.5;
+    }
 }
 
 void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coordinates_type radius, color color)
 {
-    //TODO
+    SetColor(color);
+    DrawCircleRegion(center, radius);
 }
 
 void SDL2GraphicAdapter::Refresh()
