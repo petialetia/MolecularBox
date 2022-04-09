@@ -1,5 +1,16 @@
 #include <include/SDL2GraphicAdapter.hpp>
 
+SDL2GraphicAdapter::SDL2GraphicAdapter()
+{
+    SDL_Init(SDL_INIT_VIDEO);
+}
+
+display_size SDL2GraphicAdapter::GetResolution(display_number display)
+{
+    SDL_GetDesktopDisplayMode(display, &display_mode_);
+    return {static_cast<uint>(display_mode_.w), static_cast<uint>(display_mode_.h)};
+}
+
 void SDL2GraphicAdapter::CreateWindow(std::string name, window_coordinates win_coordinates, window_size win_size)
 {
     window_ = SDL_CreateWindow(name.c_str(), win_coordinates[0], win_coordinates[1], win_size[0], win_size[1], 0);
@@ -68,4 +79,9 @@ void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coor
 void SDL2GraphicAdapter::Refresh()
 {
     SDL_RenderPresent(renderer_);
+}
+
+SDL2GraphicAdapter::~SDL2GraphicAdapter()
+{
+    SDL_Quit();
 }

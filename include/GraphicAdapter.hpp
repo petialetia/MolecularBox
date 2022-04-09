@@ -10,6 +10,9 @@ using window_size = std::vector<uint>;
 using figure_coordinate_type = uint;
 using figure_coordinates = std::vector<figure_coordinate_type>;
 
+using display_number = uint;
+using display_size = std::vector<uint>;
+
 struct color
 {
     unsigned char red = 0;
@@ -21,6 +24,7 @@ struct color
 class GraphicAdapter
 {
   public:
+    virtual display_size GetResolution(display_number display) = 0;
     virtual void CreateWindow(std::string name, window_coordinates win_coordinates, window_size win_size) = 0;
     virtual void SetColor(color color) = 0;
     virtual void DrawCircle(figure_coordinates center, figure_coordinate_type radius) = 0;
@@ -28,6 +32,7 @@ class GraphicAdapter
     virtual void DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius) = 0;
     virtual void DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius, color color) = 0;
     virtual void Refresh() = 0;
+    virtual ~GraphicAdapter() = default;
 };
 
 #endif /* GRAPHIC_ADAPTER_HPP */

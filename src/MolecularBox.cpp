@@ -4,7 +4,8 @@ int main()
 {
     Graphic adapter {};
 
-    adapter.CreateWindow("MolecularBox", {0, 0}, {400, 300});
+    auto resolution = adapter.GetResolution(0);
+    adapter.CreateWindow(WINDOW_NAME, {resolution[0]/4, resolution[1]/4}, {resolution[0]/2, resolution[1]/2});
     adapter.DrawCircle({100, 100}, 100, {255, 0, 0, 255});
     adapter.Refresh();
 
@@ -21,9 +22,9 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);*/
+    StepByStepSimulation(interactions, objects, global_time);
 
-    return 0;
+    return 0;*/
 }
 
 subsription_storage GetSubscriptionsByDefault()

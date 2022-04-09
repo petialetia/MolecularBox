@@ -15,6 +15,8 @@
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 using Graphic = SDL2GraphicAdapter;
 
+std::string WINDOW_NAME = "MolecularBox";
+
 ObjectCoordinates SHELL_COORDINATES = ObjectCoordinates({0, 0});
 coordinate_type SHELL_RADIUS = 0;
 
