@@ -1,5 +1,5 @@
-#ifndef OBJECT_COORDINATES_HPP
-#define OBJECT_COORDINATES_HPP
+#ifndef COORDINATES_HPP
+#define COORDINATES_HPP
 
 #include <include/UsingAlias.hpp>
 #include <include/VectorCoordinateOperations.hpp>
@@ -117,4 +117,4 @@ Coordinates<T> operator/(Coordinates<T> first, const T second)
     return first;
 }
 
-#endif /* OBJECT_COORDINATES_HPP */
+#endif /* COORDINATES_HPP */
