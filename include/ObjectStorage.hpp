@@ -1,13 +1,17 @@
 #ifndef OBJECT_STORAGE_HPP
 #define OBJECT_STORAGE_HPP
 
-#include <include/ObjectCoordinates.hpp>
+#include <include/Coordinates.hpp>
 #include <include/Shape.hpp>
 #include <include/IdStorage.hpp>
 
 #include <variant>
 #include <vector>
 #include <unordered_map>
+
+using ObjectCoordinates = Coordinates<coordinate_type>;
+using coordinates = ObjectCoordinates;
+using offset_type = ObjectCoordinates;
 
 using object = std::variant<Circle>;
 using speed_type = std::vector<coordinate_type>;

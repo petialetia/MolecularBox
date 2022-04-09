@@ -11,7 +11,7 @@ void SDL2GraphicAdapter::SetColor(color color)
     SDL_SetRenderDrawColor(renderer_, color.red, color.green, color.blue, color.alpha);
 }
 
-void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinates_type radius)
+void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinate_type radius)
 {
     auto x = radius;
     decltype(x) y = 0;
@@ -30,17 +30,17 @@ void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinate
         y += 1;
         double sin = static_cast<double>(y)/static_cast<double>(radius);
         double cos = std::sqrt(1 - sin*sin);
-        x = cos/sin * static_cast<double>(y) + 0.5;
+        x = cos / sin * static_cast<double>(y) + 0.5;
     }
 }
 
-void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinates_type radius, color color)
+void SDL2GraphicAdapter::DrawCircle(figure_coordinates center, figure_coordinate_type radius, color color)
 {
     SetColor(color);
     DrawCircle(center, radius);
 }
 
-void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coordinates_type radius)
+void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius)
 {
     auto x = radius;
     decltype(x) y = 0;
@@ -55,11 +55,11 @@ void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coor
         y += 1;
         double sin = static_cast<double>(y)/static_cast<double>(radius);
         double cos = std::sqrt(1 - sin*sin);
-        x = cos/sin * static_cast<double>(y) + 0.5;
+        x = cos / sin * static_cast<double>(y) + 0.5;
     }
 }
 
-void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coordinates_type radius, color color)
+void SDL2GraphicAdapter::DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius, color color)
 {
     SetColor(color);
     DrawCircleRegion(center, radius);

@@ -4,6 +4,8 @@
 #include <include/Shape.hpp>
 #include <include/Interaction.hpp>
 #include <include/ObjectStorage.hpp>
+#include <include/Coordinates.hpp>
+#include <include/CoordinateSystem.hpp>
 
 #include <vector>
 #include <variant>
