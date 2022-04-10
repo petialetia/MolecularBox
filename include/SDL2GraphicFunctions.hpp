@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace SDL2
+namespace SDL2Graphic
 {
 
 void Init();

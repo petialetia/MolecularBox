@@ -1,6 +1,6 @@
 #include <include/SDL2GraphicFunctions.hpp>
 
-namespace SDL2
+namespace SDL2Graphic
 {
 
 void Init()

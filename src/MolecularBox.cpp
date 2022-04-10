@@ -2,10 +2,10 @@
 
 int main()
 {
-    Graphic graphic_adapter = Graphic(SDL2::Init, SDL2::GetResolution, SDL2::CreateWindow, SDL2::SetColor, 
-                                      SDL2::DrawCircle, SDL2::DrawCircleWithColor, 
-                                      SDL2::DrawCircleRegion, SDL2::DrawCircleRegionWithColor,
-                                      SDL2::Refresh, SDL2::Quit);
+    Graphic graphic_adapter = Graphic(SDL2Graphic::Init, SDL2Graphic::GetResolution, SDL2Graphic::CreateWindow, SDL2Graphic::SetColor, 
+                                      SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleWithColor, 
+                                      SDL2Graphic::DrawCircleRegion, SDL2Graphic::DrawCircleRegionWithColor,
+                                      SDL2Graphic::Refresh, SDL2Graphic::Quit);
 
     auto resolution = graphic_adapter.GetResolution(0);
     graphic_adapter.CreateWindow(WINDOW_NAME, {resolution[0]/4, resolution[1]/4}, {resolution[0]/2, resolution[1]/2});
@@ -13,7 +13,9 @@ int main()
     graphic_adapter.DrawCircleRegion({resolution[0]/2 - 200, resolution[1]/2 - 200}, 200, {0, 255, 255, 255});
     graphic_adapter.Refresh();
 
-    SDL_Delay(3000);
+    Timer timer_adapter = Timer(SDL2Timer::Init, SDL2Timer::Delay, SDL2Timer::Quit);
+
+    timer_adapter.Delay(3000);
 
     /*time_type global_time = 0;
 

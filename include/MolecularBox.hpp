@@ -1,6 +1,10 @@
 #include <include/UsingAliasMolecularBox.hpp>
+
 #include <include/SDL2GraphicFunctions.hpp>
 #include <include/SDL2GraphicImplementation.hpp>
+
+#include <include/SDL2TimerFunctions.hpp>
+#include <include/SDL2TimerImplementation.hpp>
 
 #include <include/Shape.hpp>
 #include <include/Interaction.hpp>
@@ -14,6 +18,7 @@
 #include <cstdio>
 
 using Graphic = SDL2GraphicImplementation;
+using Timer = SDL2TimerImplementation;
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 

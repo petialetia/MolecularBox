@@ -13,7 +13,7 @@ class GraphicInterface
 
     void Init()
     {
-        GetImplemetation()->Init();
+        this->GetImplemetation()->Init();
     }
 
     display_size GetResolution(display_number display)
@@ -58,7 +58,7 @@ class GraphicInterface
 
     void Quit()
     {
-        this->GetImplemetation()->Refresh();
+        this->GetImplemetation()->Quit();
     }
 
   private:
