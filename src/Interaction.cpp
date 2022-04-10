@@ -1,4 +1,4 @@
-#include <include/Interaction.hpp>
+#include <Interaction.hpp>
 
 Interaction::Interaction(std::function<void()> Action, std::function<bool()> CheckConditionForAction) : 
     Action_(Action), CheckConditionForAction_(CheckConditionForAction)

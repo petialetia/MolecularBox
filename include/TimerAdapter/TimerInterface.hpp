@@ -1,7 +1,7 @@
 #ifndef TIMER_INTERFACE_HPP
 #define TIMER_INTERFACE_HPP
 
-#include <include/UsingAliasTimer.hpp>
+#include "UsingAliasTimer.hpp"
 
 template<typename Implementation>
 class TimerInterface

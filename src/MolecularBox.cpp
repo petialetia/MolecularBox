@@ -1,4 +1,4 @@
-#include <include/MolecularBox.hpp>
+#include <MolecularBox.hpp>
 
 int main()
 {

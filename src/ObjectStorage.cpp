@@ -1,4 +1,4 @@
-#include <include/ObjectStorage.hpp>
+#include <ObjectStorage.hpp>
 
 id_type ObjectStorage::AddObject(object&& object, coordinates coordinates)
 {

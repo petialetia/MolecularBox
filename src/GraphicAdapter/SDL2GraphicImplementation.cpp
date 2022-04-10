@@ -1,4 +1,4 @@
-#include <include/SDL2GraphicImplementation.hpp>
+#include <SDL2GraphicImplementation.hpp>
 
 SDL2GraphicImplementation::SDL2GraphicImplementation(Init_type Init, GetResolution_type GetResolution, CreateWindow_type CreateWindow, SetColor_type SetColor, 
                                                      DrawCircle_type DrawCircle, DrawCircleWithColor_type DrawCircleWithColor,

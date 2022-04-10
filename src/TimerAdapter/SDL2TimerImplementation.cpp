@@ -1,4 +1,4 @@
-#include <include/SDL2TimerImplementation.hpp>
+#include <SDL2TimerImplementation.hpp>
 
 SDL2TimerImplementation::SDL2TimerImplementation(Init_type Init, Delay_type Delay, Quit_type Quit) :
                                                  Init_(Init), Delay_(Delay), Quit_(Quit)

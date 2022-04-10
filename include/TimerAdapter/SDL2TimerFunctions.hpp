@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 
-#include <include/UsingAliasTimer.hpp>
+#include "UsingAliasTimer.hpp"
 
 namespace SDL2Timer
 {

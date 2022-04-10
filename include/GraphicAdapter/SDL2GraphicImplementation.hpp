@@ -1,7 +1,7 @@
 #ifndef SDL2_GRAPHIC_IMPLEMENTATION_HPP
 #define SDL2_GRAPHIC_IMPLEMENTATION_HPP
 
-#include <include/GraphicInterface.hpp>
+#include "GraphicInterface.hpp"
 #include <SDL2/SDL.h>
 
 #include <functional>

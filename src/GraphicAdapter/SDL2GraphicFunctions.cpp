@@ -1,4 +1,4 @@
-#include <include/SDL2GraphicFunctions.hpp>
+#include <SDL2GraphicFunctions.hpp>
 
 namespace SDL2Graphic
 {

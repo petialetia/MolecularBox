@@ -1,4 +1,4 @@
-#include <include/SDL2TimerFunctions.hpp>
+#include <SDL2TimerFunctions.hpp>
 
 namespace SDL2Timer
 {

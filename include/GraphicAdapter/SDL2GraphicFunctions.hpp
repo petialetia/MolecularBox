@@ -1,8 +1,7 @@
 #ifndef SDL2_GRAPHIC_FUNCTIONS_HPP
 #define SDL2_GRAPHIC_FUNCTIONS_HPP
 
-#include <include/UsingAliasGraphic.hpp>
-
+#include "UsingAliasGraphic.hpp"
 
 #include <SDL2/SDL.h>
 

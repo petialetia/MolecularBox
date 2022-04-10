@@ -1,7 +1,7 @@
 #ifndef GRAPHIC_INTERFACE_HPP
 #define GRAPHIC_INTERFACE_HPP
 
-#include <include/UsingAliasGraphic.hpp>
+#include "UsingAliasGraphic.hpp"
 
 #include <string>
 

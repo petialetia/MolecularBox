@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 
-#include <include/TimerInterface.hpp>
+#include "TimerInterface.hpp"
 
 #include <functional>
 

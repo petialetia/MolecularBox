@@ -1,9 +1,9 @@
 #ifndef OBJECT_STORAGE_HPP
 #define OBJECT_STORAGE_HPP
 
-#include <include/Coordinates.hpp>
-#include <include/Shape.hpp>
-#include <include/IdStorage.hpp>
+#include <Coordinates.hpp>
+#include <Shape.hpp>
+#include <IdStorage.hpp>
 
 #include <variant>
 #include <vector>

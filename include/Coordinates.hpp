@@ -1,8 +1,8 @@
 #ifndef COORDINATES_HPP
 #define COORDINATES_HPP
 
-#include <include/UsingAliasMolecularBox.hpp>
-#include <include/VectorCoordinateOperations.hpp>
+#include <UsingAliasMolecularBox.hpp>
+#include <VectorCoordinateOperations.hpp>
 
 #include <vector>
 #include <initializer_list>
