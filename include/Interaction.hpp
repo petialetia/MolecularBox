@@ -1,7 +1,7 @@
 #ifndef INTERACTION_HPP
 #define INTERACTION_HPP
 
-#include <include/UsingAlias.hpp>
+#include <include/UsingAliasMolecularBox.hpp>
 
 #include <functional>
 

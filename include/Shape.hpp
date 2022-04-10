@@ -1,7 +1,7 @@
 #ifndef SHAPE_HPP
 #define SHAPE_HPP
 
-#include <include/UsingAlias.hpp>
+#include <include/UsingAliasMolecularBox.hpp>
 #include <include/VectorCoordinateOperations.hpp>
 
 #include <vector>

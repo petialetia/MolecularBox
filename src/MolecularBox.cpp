@@ -3,13 +3,14 @@
 int main()
 {
     Graphic graphic_adapter = Graphic(SDL2::Init, SDL2::GetResolution, SDL2::CreateWindow, SDL2::SetColor, 
-                                                                          SDL2::DrawCircle, SDL2::DrawCircleWithColor, 
-                                                                          SDL2::DrawCircleRegion, SDL2::DrawCircleRegionWithColor,
-                                                                          SDL2::Refresh, SDL2::Quit);
+                                      SDL2::DrawCircle, SDL2::DrawCircleWithColor, 
+                                      SDL2::DrawCircleRegion, SDL2::DrawCircleRegionWithColor,
+                                      SDL2::Refresh, SDL2::Quit);
 
     auto resolution = graphic_adapter.GetResolution(0);
     graphic_adapter.CreateWindow(WINDOW_NAME, {resolution[0]/4, resolution[1]/4}, {resolution[0]/2, resolution[1]/2});
     graphic_adapter.DrawCircle({100, 100}, 100, {255, 0, 0, 255});
+    graphic_adapter.DrawCircleRegion({resolution[0]/2 - 200, resolution[1]/2 - 200}, 200, {0, 255, 255, 255});
     graphic_adapter.Refresh();
 
     SDL_Delay(3000);
