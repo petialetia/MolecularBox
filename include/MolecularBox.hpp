@@ -1,5 +1,6 @@
 #include <include/UsingAlias.hpp>
-#include <include/SDL2GraphicAdapter.hpp>
+#include <include/SDL2GraphicFunctions.hpp>
+#include <include/SDL2GraphicImplementation.hpp>
 
 #include <include/Shape.hpp>
 #include <include/Interaction.hpp>
@@ -12,8 +13,9 @@
 #include <unordered_map>
 #include <cstdio>
 
+using Graphic = SDL2GraphicImplementation;
+
 using subsription_storage = std::vector<std::function<void(id_type)>>;
-using Graphic = SDL2GraphicAdapter;
 
 std::string WINDOW_NAME = "MolecularBox";
 
