@@ -4,10 +4,9 @@ SDL2GraphicImplementation::SDL2GraphicImplementation(Init_type Init, GetResoluti
                                                      DrawCircle_type DrawCircle, DrawCircleWithColor_type DrawCircleWithColor,
                                                      DrawCircleRegion_type DrawCircleRegion, DrawCircleRegionWithColor_type DrawCircleRegionWithColor,
                                                      Refresh_type Refresh, Quit_type Quit) : 
-                                                     Init_(Init), GetResolution_(GetResolution), CreateWindow_(CreateWindow), SetColor_(SetColor),
-                                                     DrawCircle_(DrawCircle), DrawCircleWithColor_(DrawCircleWithColor),
-                                                     DrawCircleRegion_(DrawCircleRegion), DrawCircleRegionWithColor_(DrawCircleRegionWithColor),
-                                                     Refresh_(Refresh), Quit_(Quit)
+    Init_(Init), GetResolution_(GetResolution), CreateWindow_(CreateWindow), SetColor_(SetColor),
+    DrawCircle_(DrawCircle), DrawCircleWithColor_(DrawCircleWithColor), 
+    DrawCircleRegion_(DrawCircleRegion), DrawCircleRegionWithColor_(DrawCircleRegionWithColor), Refresh_(Refresh), Quit_(Quit)
 {
     Init();
 }

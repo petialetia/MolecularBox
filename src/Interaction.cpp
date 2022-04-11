@@ -16,7 +16,7 @@ bool Interaction::CheckConditionForAction() const
 }
 
 PredictableInteraction::PredictableInteraction(std::function<void()> Action, std::function<time_type()> GetTimeToNextAction) :
-    GetTimeToNextAction_(GetTimeToNextAction), Interaction(Action, [this]() { return GetTimeToNextAction_() == 0; })
+    Interaction(Action, [GetTimeToNextAction]() { return GetTimeToNextAction() == 0; }), GetTimeToNextAction_(GetTimeToNextAction)
 {
 }
 

@@ -13,7 +13,8 @@ class Coordinates: public std::vector<T>
   public:
     explicit Coordinates() = default;
 
-    explicit Coordinates(std::initializer_list<T> list) : std::vector<T>(list)
+    explicit Coordinates(std::initializer_list<T> list) : 
+        std::vector<T>(list)
     {
     }
 
