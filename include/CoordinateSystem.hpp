@@ -1,7 +1,7 @@
 #ifndef COORDINATE_SYSTEM_HPP
 #define COORDINATE_SYSTEM_HPP
 
-#include <Coordinates.hpp>
+#include "Coordinates.hpp"
 
 template<typename absolut_t, typename relative_t>
 class CoordinateSystem
