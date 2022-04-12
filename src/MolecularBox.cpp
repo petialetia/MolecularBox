@@ -28,9 +28,9 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);
+    StepByStepSimulation(interactions, objects, global_time);*/
 
-    return 0;*/
+    return 0;
 }
 
 subsription_storage GetSubscriptionsByDefault()
