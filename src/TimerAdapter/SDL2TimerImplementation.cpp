@@ -25,3 +25,9 @@ SDL2TimerImplementation::~SDL2TimerImplementation()
 {
     Quit();
 }
+
+SDL2TimerImplementation* GetSDL2TimerImplementation()
+{
+    static auto timer = SDL2TimerImplementation(SDL2Timer::Init, SDL2Timer::Delay, SDL2Timer::Quit);
+    return &timer;
+}

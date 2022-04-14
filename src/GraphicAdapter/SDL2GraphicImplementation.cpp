@@ -65,3 +65,13 @@ SDL2GraphicImplementation::~SDL2GraphicImplementation()
 {
     Quit();
 }
+
+SDL2GraphicImplementation* GetSDL2GraphicImplementation()
+{
+    static SDL2GraphicImplementation graphic = SDL2GraphicImplementation(SDL2Graphic::Init, SDL2Graphic::GetResolution, SDL2Graphic::CreateWindow, 
+                                                                         SDL2Graphic::SetColor, SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleWithColor, 
+                                                                         SDL2Graphic::DrawCircleRegion, SDL2Graphic::DrawCircleRegionWithColor,
+                                                                         SDL2Graphic::Refresh, SDL2Graphic::Quit);
+
+    return &graphic;
+}

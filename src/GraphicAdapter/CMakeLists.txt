@@ -7,4 +7,4 @@ target_include_directories (SDL2GraphicFunctions      PRIVATE ${SDL2_INCLUDE_DIR
 target_include_directories (SDL2GraphicImplementation PRIVATE ${SDL2_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include/GraphicAdapter)
 
 target_link_libraries(SDL2GraphicFunctions      ${SDL2_LIBRARIES})
-target_link_libraries(SDL2GraphicImplementation ${SDL2_LIBRARIES})
+target_link_libraries(SDL2GraphicImplementation ${SDL2_LIBRARIES} SDL2GraphicFunctions)

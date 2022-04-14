@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "GraphicInterface.hpp"
+#include "SDL2GraphicFunctions.hpp"
 
 #include <functional>
 
@@ -37,6 +38,9 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
     Quit_type Quit_;
 
   public:
+    friend SDL2GraphicImplementation* GetSDL2GraphicImplementation();
+
+  private:
     SDL2GraphicImplementation() = delete;
 
     SDL2GraphicImplementation(Init_type Init, GetResolution_type GetResolution, CreateWindow_type CreateWindow, SetColor_type SetColor, 
@@ -57,5 +61,7 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
     void Quit();
     ~SDL2GraphicImplementation();
 };
+
+SDL2GraphicImplementation* GetSDL2GraphicImplementation();
 
 #endif /* SDL2_GRAPHIC_IMPLEMENTATION_HPP */
