@@ -1,17 +1,17 @@
-cmake_minimum_required (VERSION 3.7)
+cmake_minimum_required(VERSION 3.7)
 
-project (MolecularBox)
+project(MolecularBox)
 
-set (CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 
-include_directories (${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set (CMAKE_EXECUTABLE_SUFFIX ".out")
-set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_EXECUTABLE_SUFFIX ".out")
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-set (CMAKE_STATIC_LIBRARY_PREFIX "")
-set (LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-set (CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
 
-add_subdirectory (src)
+add_subdirectory(src)
