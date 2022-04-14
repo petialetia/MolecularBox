@@ -11,11 +11,13 @@ class GraphicInterface
   public:
     GraphicInterface() = default;
 
+  private:
     void Init()
     {
         this->GetImplemetation()->Init();
     }
 
+  public:
     display_size GetResolution(display_number display)
     {
         return this->GetImplementation()->GetResolution(display);
@@ -56,12 +58,12 @@ class GraphicInterface
         this->GetImplemetation()->Refresh();
     }
 
+  private:
     void Quit()
     {
         this->GetImplemetation()->Quit();
     }
 
-  private:
     Implementation* GetImplemetation()
     {
         return static_cast<Implementation*>(this);

@@ -9,22 +9,24 @@ class TimerInterface
   public:
     TimerInterface() = default;
 
+  private:
     void Init()
     {
         this->GetImplemetation()->Init();
     }
 
+  public:
     void Delay(milliseconds ms)
     {
         this->GetImplementation()->Delay();
     }
 
+  private:
     void Quit()
     {
         this->GetImplemetation()->Quit();
     }
-
-  private:
+    
     Implementation* GetImplemetation()
     {
         return static_cast<Implementation*>(this);

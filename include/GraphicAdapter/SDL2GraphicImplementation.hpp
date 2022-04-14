@@ -44,6 +44,7 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
                               DrawCircleRegion_type DrawCircleRegion, DrawCircleRegionWithColor_type DrawCircleRegionWithColor,
                               Refresh_type Refresh, Quit_type Quit);
 
+  public:
     void Init();
     display_size GetResolution(display_number display);
     void CreateWindow(std::string name, window_coordinates win_coordinates, window_size win_size);

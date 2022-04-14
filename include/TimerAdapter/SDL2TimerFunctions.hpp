@@ -14,6 +14,6 @@ void Delay(milliseconds ms);
 
 void Quit();
 
-} /* namespace SDL2 */
+} /* namespace SDL2Timer */
 
 #endif /* SDL2_TIMER_FUNCTIONS_HPP */

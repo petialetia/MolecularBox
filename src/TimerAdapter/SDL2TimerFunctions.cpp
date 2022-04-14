@@ -18,4 +18,4 @@ void Quit()
     return;
 }
 
-} /* namespace SDL2 */
+} /* namespace SDL2Timer */

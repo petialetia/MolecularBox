@@ -89,4 +89,4 @@ void Quit()
     SDL_Quit();
 }
 
-} /* namespace SDL2 */
+} /* namespace SDL2Graphic */

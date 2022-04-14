@@ -24,6 +24,6 @@ void Refresh(SDL_Renderer* const& renderer);
 
 void Quit();
 
-} /* namespace SDL2 */
+} /* namespace SDL2Graphic */
 
 #endif /* SDL2_GRAPHIC_FUNCTIONS_HPP */
