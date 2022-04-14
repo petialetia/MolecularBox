@@ -6,7 +6,7 @@
 template<typename Implementation>
 class TimerInterface
 {
-  public:
+  protected:
     TimerInterface() = default;
 
   private:

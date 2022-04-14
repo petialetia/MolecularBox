@@ -8,7 +8,7 @@
 template<typename Implementation>
 class GraphicInterface
 {
-  public:
+  protected:
     GraphicInterface() = default;
 
   private:
