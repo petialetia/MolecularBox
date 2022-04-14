@@ -17,9 +17,6 @@
 #include <unordered_map>
 #include <cstdio>
 
-using Graphic = SDL2GraphicImplementation;
-using Timer = SDL2TimerImplementation;
-
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
 std::string WINDOW_NAME = "MolecularBox";
