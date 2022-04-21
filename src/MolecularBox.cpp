@@ -4,13 +4,13 @@ int main()
 {
     auto resolution = GetSDL2GraphicImplementation()->GetResolution(0);
     GetSDL2GraphicImplementation()->CreateWindow(WINDOW_NAME, {resolution[0]/4, resolution[1]/4}, {resolution[0]/2, resolution[1]/2});
-    GetSDL2GraphicImplementation()->DrawCircle({100, 100}, 100, {255, 0, 0, 255});
+    /*GetSDL2GraphicImplementation()->DrawCircle({100, 100}, 100, {255, 0, 0, 255});
     GetSDL2GraphicImplementation()->DrawCircleRegion({resolution[0]/2 - 200, resolution[1]/2 - 200}, 200, {0, 255, 255, 255});
     GetSDL2GraphicImplementation()->Refresh();
 
-    GetSDL2TimerImplementation()->Delay(3000);
+    GetSDL2TimerImplementation()->Delay(3000);*/
 
-    /*time_type global_time = 0;
+    time_type global_time = 0;
 
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
@@ -21,7 +21,7 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);*/
+    StepByStepSimulation(interactions, objects, global_time);
 
     return 0;
 }
@@ -71,9 +71,36 @@ void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_b
     return;
 }
 
+simulation_status ProcessEvents()
+{
+    //TODO: Rewrite on event adapter
+
+    static SDL_Event event;
+
+
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_QUIT)
+        {
+            return SIMULATION_ENDED;
+        }
+
+
+        if  (event.type == SDL_KEYDOWN)
+        {
+            if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+            {
+                return SIMULATION_ENDED;
+            }
+        }
+    }
+
+    return SIMULATION_CONTINUES;
+}
+
 void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
 {
-    while (true)
+    while (ProcessEvents() != SIMULATION_ENDED)
     {
         CheckInteractions(interactions);
         MoveObjects(objects);

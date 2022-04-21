@@ -26,6 +26,12 @@ coordinate_type SHELL_RADIUS = 0;
 
 time_type TIME_STEP = 1;
 
+enum simulation_status
+{
+    SIMULATION_CONTINUES,
+    SIMULATION_ENDED
+};
+
 subsription_storage GetSubscriptionsByDefault();
 std::function<void(id_type)> GetDrawSubscription();
 std::function<void(id_type)> GetCollisionSubscription();
@@ -34,6 +40,8 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
 void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subscriptions_by_default);
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
+
+simulation_status ProcessEvents();
 
 void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time);
 void CheckInteractions(IdStorage<Interaction>& interactions);

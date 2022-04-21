@@ -3,11 +3,11 @@
 
 #include "Coordinates.hpp"
 
-template<typename absolut_t, typename relative_t>
+template<typename absolute_t, typename relative_t>
 class CoordinateSystem
 {
   public:
-    using absolute_coordinates = Coordinates<absolut_t>;
+    using absolute_coordinates = Coordinates<absolute_t>;
     using relative_coordinates = Coordinates<relative_t>;
 
   private:
