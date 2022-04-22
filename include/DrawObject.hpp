@@ -5,6 +5,7 @@
 #include "GraphicAdapter/GraphicInterface.hpp"
 #include "Shape.hpp"
 
+#include <iostream>
 
 template <typename Implementation>
 void DrawObject(GraphicInterface<Implementation>* const graphic, const Circle circle, const coordinates_on_screen center_coordinates)

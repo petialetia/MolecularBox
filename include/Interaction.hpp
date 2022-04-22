@@ -7,12 +7,13 @@
 
 class Interaction
 {
-  private:
-
+  protected:
     std::function<void()> Action_ = []() { return; };
     std::function<bool()> CheckConditionForAction_ = []() { return true; };
 
   public:
+
+    explicit Interaction() = default;
 
     explicit Interaction(std::function<void()> Action, std::function<bool()> CheckConditionForAction); 
 
@@ -21,6 +22,9 @@ class Interaction
 
     Interaction& operator=(const Interaction&) = delete;
     Interaction& operator=(Interaction&) = delete;
+
+    Interaction(Interaction&& other);
+    Interaction& operator=(Interaction&& other);
 
     void Action() const;
 
@@ -42,6 +46,9 @@ class PredictableInteraction : public Interaction
 
     PredictableInteraction& operator=(const Interaction&) = delete;
     PredictableInteraction& operator=(Interaction&) = delete;
+
+    PredictableInteraction(PredictableInteraction&& other);
+    PredictableInteraction& operator=(PredictableInteraction&& other);
 
     time_type GetTimeToNextAction() const;
 };

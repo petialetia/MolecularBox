@@ -22,12 +22,12 @@
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
 const coordinates_on_screen ORIGIN_COORDINATES_BY_DEFAULT = coordinates_on_screen({0, 0});
-const coordinates_on_screen SINGLE_SEGMENT_LENGTH_BY_DEFAULT = coordinates_on_screen({1, 1});
+const coordinates_on_screen SINGLE_SEGMENT_LENGTH_BY_DEFAULT = coordinates_on_screen({10, 10});
 
 const std::string WINDOW_NAME = "MolecularBox";
 
 const object_coordinates SHELL_COORDINATES = object_coordinates({0, 0});
-const coordinate_type SHELL_RADIUS = 0;
+const coordinate_type SHELL_RADIUS = 250;
 
 const time_type TIME_STEP = 1;
 
@@ -40,9 +40,11 @@ enum simulation_status
 coordinates_on_screen GetScreenCoordinates(object_coordinates relative_coordinates);
 CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects);
-std::function<void(id_type)> GetDrawSubscription(const ObjectStorage& objects);
-std::function<void(id_type)> GetCollisionSubscription();
+subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions);
+std::function<void(id_type)> GetAddDrawSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions);
+std::function<void()> GetDrawAction(const ObjectStorage& objects, id_type id);
+std::function<bool()> GetDrawCheck();
+std::function<void(id_type)> GetAddCollisionSubscription();
 
 void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default);

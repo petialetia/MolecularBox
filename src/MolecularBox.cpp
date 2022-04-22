@@ -4,7 +4,7 @@ int main()
 {
     auto resolution = GetSDL2GraphicImplementation()->GetResolution(0);
     GetSDL2GraphicImplementation()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
-    GetSDL2GraphicImplementation()->DrawCircle(coordinates_on_screen({100, 100}), 150, {.red = 255, 
+    /*GetSDL2GraphicImplementation()->DrawCircle(coordinates_on_screen({100, 100}), 150, {.red = 255, 
                                                                                         .green = 0, 
                                                                                         .blue = 0, 
                                                                                         .alpha = 255});
@@ -16,20 +16,25 @@ int main()
                                                            .alpha = 255});
     GetSDL2GraphicImplementation()->Refresh();
 
-    GetSDL2TimerImplementation()->Delay(3000);
+    GetSDL2TimerImplementation()->Delay(3000);*/
 
-    /*time_type global_time = 0;
+    GetSDL2GraphicImplementation()->SetColor({.red = 0,
+                                              .green = 255,
+                                              .blue = 255,
+                                              .alpha = 255});
+
+    time_type global_time = 0;
 
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
 
     ObjectStorage objects;
 
-    auto subscriptions_by_default = GetSubscriptionsByDefault();
+    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interactions);
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);*/
+    StepByStepSimulation(interactions, objects, global_time);
 
     return 0;
 }
@@ -45,19 +50,26 @@ CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem
     return CoordinateSystem<coordinate_on_screen_type, coordinate_type>(ORIGIN_COORDINATES_BY_DEFAULT, SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects)
+subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions)
 {
     subsription_storage subscriptions_by_default = {};
 
-    subscriptions_by_default.push_back(GetDrawSubscription(objects));
-    subscriptions_by_default.push_back(GetCollisionSubscription());
+    subscriptions_by_default.push_back(GetAddDrawSubscription(objects, interactions));
+    subscriptions_by_default.push_back(GetAddCollisionSubscription());
 
     return subscriptions_by_default;
 }
 
-std::function<void(id_type)> GetDrawSubscription(const ObjectStorage& objects)
+std::function<void(id_type)> GetAddDrawSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions)
 {
-    return [&objects](id_type id) { 
+    return [&objects, &interactions](id_type id) {
+        interactions.AddElement(Interaction(GetDrawAction(objects, id), GetDrawCheck()));
+    };
+}
+
+std::function<void()> GetDrawAction(const ObjectStorage& objects, id_type id)
+{
+    return [&objects, id]() { 
         auto object = objects.GetObject(id);
         auto relative_object_coordinates = objects.GetCoordinates(id);
         auto screen_object_coordinates = GetScreenCoordinates(relative_object_coordinates);
@@ -68,7 +80,14 @@ std::function<void(id_type)> GetDrawSubscription(const ObjectStorage& objects)
     };
 }
 
-std::function<void(id_type)> GetCollisionSubscription()
+std::function<bool()> GetDrawCheck()
+{
+    return []() {
+        return true;
+    };
+}
+
+std::function<void(id_type)> GetAddCollisionSubscription()
 {
     return [](id_type) { return; };
 }
@@ -127,11 +146,15 @@ simulation_status ProcessEvents()
 
 void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
 {
+    GetSDL2GraphicImplementation()->Refresh();
+
     while (ProcessEvents() != SIMULATION_ENDED)
     {
         CheckInteractions(interactions);
         MoveObjects(objects);
         global_time += TIME_STEP;
+
+        GetSDL2GraphicImplementation()->Refresh();
     }
 }
 

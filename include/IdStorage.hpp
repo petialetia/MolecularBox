@@ -28,7 +28,7 @@ class IdStorage
 
         assert(storage_.contains(element_id) != true);
 
-        storage_[element_id] = std::move(element);
+        storage_.emplace(element_id, std::move(element));
         ++next_free_id_;
 
         assert(next_free_id_ != 0); //overflowing catching
