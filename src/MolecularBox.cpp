@@ -3,14 +3,22 @@
 int main()
 {
     auto resolution = GetSDL2GraphicImplementation()->GetResolution(0);
-    GetSDL2GraphicImplementation()->CreateWindow(WINDOW_NAME, {resolution[0]/4, resolution[1]/4}, {resolution[0]/2, resolution[1]/2});
-    /*GetSDL2GraphicImplementation()->DrawCircle({100, 100}, 100, {255, 0, 0, 255});
-    GetSDL2GraphicImplementation()->DrawCircleRegion({resolution[0]/2 - 200, resolution[1]/2 - 200}, 200, {0, 255, 255, 255});
+    GetSDL2GraphicImplementation()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
+    GetSDL2GraphicImplementation()->DrawCircle(coordinates_on_screen({100, 100}), 150, {.red = 255, 
+                                                                                        .green = 0, 
+                                                                                        .blue = 0, 
+                                                                                        .alpha = 255});
+    GetSDL2GraphicImplementation()->DrawCircleRegion(coordinates_on_screen({static_cast<coordinate_on_screen_type>(resolution[0]/2 - 200), 
+                                                                            static_cast<coordinate_on_screen_type>(resolution[1]/2 - 200)}), 
+                                                     300, {.red = 0, 
+                                                           .green = 255, 
+                                                           .blue = 255, 
+                                                           .alpha = 255});
     GetSDL2GraphicImplementation()->Refresh();
 
-    GetSDL2TimerImplementation()->Delay(3000);*/
+    GetSDL2TimerImplementation()->Delay(3000);
 
-    time_type global_time = 0;
+    /*time_type global_time = 0;
 
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
@@ -21,24 +29,43 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);
+    StepByStepSimulation(interactions, objects, global_time);*/
 
     return 0;
 }
 
-subsription_storage GetSubscriptionsByDefault()
+coordinates_on_screen GetScreenCoordinates(object_coordinates relative_coordinates)
+{
+    static auto coordinate_system = GetCoordinateSystem();
+    return coordinate_system.GetAbsoluteCoordinates(relative_coordinates);
+}
+
+CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem()
+{
+    return CoordinateSystem<coordinate_on_screen_type, coordinate_type>(ORIGIN_COORDINATES_BY_DEFAULT, SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
+}
+
+subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects)
 {
     subsription_storage subscriptions_by_default = {};
 
-    subscriptions_by_default.push_back(GetDrawSubscription());
+    subscriptions_by_default.push_back(GetDrawSubscription(objects));
     subscriptions_by_default.push_back(GetCollisionSubscription());
 
     return subscriptions_by_default;
 }
 
-std::function<void(id_type)> GetDrawSubscription()
+std::function<void(id_type)> GetDrawSubscription(const ObjectStorage& objects)
 {
-    return [](id_type) { return; };
+    return [&objects](id_type id) { 
+        auto object = objects.GetObject(id);
+        auto relative_object_coordinates = objects.GetCoordinates(id);
+        auto screen_object_coordinates = GetScreenCoordinates(relative_object_coordinates);
+
+        std::visit([&screen_object_coordinates](auto& object) {
+            DrawObject(GetSDL2GraphicImplementation(), object, screen_object_coordinates);
+        }, object);
+    };
 }
 
 std::function<void(id_type)> GetCollisionSubscription()
@@ -129,10 +156,10 @@ void MoveObjects(ObjectStorage& objects, time_type time)
 
 offset_type CalculateOffset(speed_type speed, time_type time)
 {
-    return ObjectCoordinates(speed) * time;
+    return object_coordinates(speed) * time;
 }
 
-void MoveOnOffset(coordinates& object_coordinates, offset_type offset)
+void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset)
 {
     object_coordinates += offset;
 }

@@ -1,13 +1,13 @@
 #ifndef USING_ALIAS_GRAPHIC_HPP
 #define USING_ALIAS_GRAPHIC_HPP
 
-#include <vector>
+#include <Coordinates.hpp>
 
-using window_coordinates = std::vector<uint>;
+using window_coordinates = Coordinates<uint>;
 using window_size = std::vector<uint>;
 
-using figure_coordinate_type = uint;
-using figure_coordinates = std::vector<figure_coordinate_type>;
+using coordinate_on_screen_type = int;
+using coordinates_on_screen = Coordinates<coordinate_on_screen_type>;
 
 using display_number = uint;
 using display_size = std::vector<uint>;

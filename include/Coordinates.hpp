@@ -27,7 +27,7 @@ class Coordinates: public std::vector<T>
     {
         for (size_t i = 0; i < other.size(); i++)
         {
-            push_back(static_cast<T>(other[i]));
+            std::vector<T>::push_back(static_cast<T>(other[i]));
         }
     }
 

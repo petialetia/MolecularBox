@@ -31,22 +31,22 @@ void SDL2GraphicImplementation::SetColor(color color) const
     SetColor_(renderer_, color);
 }
 
-void SDL2GraphicImplementation::DrawCircle(figure_coordinates center, figure_coordinate_type radius) const
+void SDL2GraphicImplementation::DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius) const
 {
     DrawCircle_(renderer_, center, radius);
 }
 
-void SDL2GraphicImplementation::DrawCircle(figure_coordinates center, figure_coordinate_type radius, color color) const
+void SDL2GraphicImplementation::DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius, color color) const
 {
     DrawCircleWithColor_(renderer_, center, radius, color);
 }
 
-void SDL2GraphicImplementation::DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius) const
+void SDL2GraphicImplementation::DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius) const
 {
     DrawCircleRegion_(renderer_, center, radius);
 }
 
-void SDL2GraphicImplementation::DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius, color color) const
+void SDL2GraphicImplementation::DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius, color color) const
 {
     DrawCircleRegionWithColor_(renderer_, center, radius, color);
 }

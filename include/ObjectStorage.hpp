@@ -9,14 +9,13 @@
 #include <vector>
 #include <unordered_map>
 
-using ObjectCoordinates = Coordinates<coordinate_type>;
-using coordinates = ObjectCoordinates;
-using offset_type = ObjectCoordinates;
+using object_coordinates = Coordinates<coordinate_type>;
+using offset_type = object_coordinates;
 
 using object = std::variant<Circle>;
 using speed_type = std::vector<coordinate_type>;
 
-using coordinate_storage = std::unordered_map<id_type, coordinates>;
+using coordinate_storage = std::unordered_map<id_type, object_coordinates>;
 using speed_storage = std::unordered_map<id_type, speed_type>;
 
 class ObjectStorage
@@ -35,14 +34,14 @@ class ObjectStorage
     ObjectStorage& operator=(const ObjectStorage&) = delete;
     ObjectStorage& operator=(ObjectStorage&) = delete;
 
-    id_type AddObject(object&& object, coordinates coordinates);
-    id_type AddObject(object&& object, coordinates coordinates, speed_type speed);
+    id_type AddObject(object&& object, object_coordinates coordinates);
+    id_type AddObject(object&& object, object_coordinates coordinates, speed_type speed);
 
     object& GetObject(id_type id);
     const object& GetObject(id_type id) const;
 
-    coordinates& GetCoordinates(id_type id);
-    const coordinates& GetCoordinates(id_type id) const; 
+    object_coordinates& GetCoordinates(id_type id);
+    const object_coordinates& GetCoordinates(id_type id) const; 
 
     speed_type& GetSpeed(id_type id);
     const speed_type& GetSpeed(id_type id) const;

@@ -15,6 +15,8 @@ class Circle
   public:
     explicit Circle() = default;
     explicit Circle(coordinate_type radius);
+
+    coordinate_type GetRadius() const;
 };
 
 #endif /* SHAPE_HPP */

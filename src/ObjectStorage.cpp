@@ -1,6 +1,6 @@
 #include <ObjectStorage.hpp>
 
-id_type ObjectStorage::AddObject(object&& object, coordinates coordinates)
+id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates)
 {
     auto new_object_id = objects_.AddElement(std::move(object));
 
@@ -9,7 +9,7 @@ id_type ObjectStorage::AddObject(object&& object, coordinates coordinates)
     return new_object_id;
 }
 
-id_type ObjectStorage::AddObject(object&& object, coordinates coordinates, speed_type speed)
+id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates, speed_type speed)
 {
     auto new_object_id = AddObject(std::move(object), coordinates);
 
@@ -28,12 +28,12 @@ const object& ObjectStorage::GetObject(id_type id) const
     return objects_.at(id);
 }
 
-coordinates& ObjectStorage::GetCoordinates(id_type id)
+object_coordinates& ObjectStorage::GetCoordinates(id_type id)
 {
     return object_coordinates_.at(id);
 }
 
-const coordinates& ObjectStorage::GetCoordinates(id_type id) const
+const object_coordinates& ObjectStorage::GetCoordinates(id_type id) const
 {
     return object_coordinates_.at(id);
 }

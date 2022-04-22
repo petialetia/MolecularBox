@@ -12,6 +12,8 @@
 #include "Coordinates.hpp"
 #include "CoordinateSystem.hpp"
 
+#include "DrawObject.hpp"
+
 #include <vector>
 #include <variant>
 #include <unordered_map>
@@ -19,12 +21,15 @@
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
-std::string WINDOW_NAME = "MolecularBox";
+const coordinates_on_screen ORIGIN_COORDINATES_BY_DEFAULT = coordinates_on_screen({0, 0});
+const coordinates_on_screen SINGLE_SEGMENT_LENGTH_BY_DEFAULT = coordinates_on_screen({1, 1});
 
-ObjectCoordinates SHELL_COORDINATES = ObjectCoordinates({0, 0});
-coordinate_type SHELL_RADIUS = 0;
+const std::string WINDOW_NAME = "MolecularBox";
 
-time_type TIME_STEP = 1;
+const object_coordinates SHELL_COORDINATES = object_coordinates({0, 0});
+const coordinate_type SHELL_RADIUS = 0;
+
+const time_type TIME_STEP = 1;
 
 enum simulation_status
 {
@@ -32,8 +37,11 @@ enum simulation_status
     SIMULATION_ENDED
 };
 
-subsription_storage GetSubscriptionsByDefault();
-std::function<void(id_type)> GetDrawSubscription();
+coordinates_on_screen GetScreenCoordinates(object_coordinates relative_coordinates);
+CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
+
+subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects);
+std::function<void(id_type)> GetDrawSubscription(const ObjectStorage& objects);
 std::function<void(id_type)> GetCollisionSubscription();
 
 void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
@@ -47,4 +55,4 @@ void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& o
 void CheckInteractions(IdStorage<Interaction>& interactions);
 void MoveObjects(ObjectStorage& objects, time_type time = TIME_STEP);    
 offset_type CalculateOffset(speed_type speed, time_type time);
-void MoveOnOffset(coordinates& object_coordinates, offset_type offset);                       
+void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset);                       

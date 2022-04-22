@@ -25,7 +25,7 @@ void SetColor(SDL_Renderer* const& renderer, color color)
     SDL_SetRenderDrawColor(renderer, color.red, color.green, color.blue, color.alpha);
 }
 
-void DrawCircle(SDL_Renderer* const& renderer, figure_coordinates center, figure_coordinate_type radius)
+void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
 {
     auto x = radius;
     decltype(x) y = 0;
@@ -48,13 +48,13 @@ void DrawCircle(SDL_Renderer* const& renderer, figure_coordinates center, figure
     }
 }
 
-void DrawCircleWithColor(SDL_Renderer* const& renderer, figure_coordinates center, figure_coordinate_type radius, color color)
+void DrawCircleWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
 {
     SetColor(renderer, color);
     DrawCircle(renderer, center, radius);
 }
 
-void DrawCircleRegion(SDL_Renderer* const& renderer, figure_coordinates center, figure_coordinate_type radius)
+void DrawCircleRegion(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
 {
     auto x = radius;
     decltype(x) y = 0;
@@ -73,7 +73,7 @@ void DrawCircleRegion(SDL_Renderer* const& renderer, figure_coordinates center, 
     }
 }
 
-void DrawCircleRegionWithColor(SDL_Renderer* const& renderer, figure_coordinates center, figure_coordinate_type radius, color color)
+void DrawCircleRegionWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
 {
     SetColor(renderer, color);
     DrawCircleRegion(renderer, center, radius);

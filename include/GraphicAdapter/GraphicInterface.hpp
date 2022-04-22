@@ -14,7 +14,7 @@ class GraphicInterface
   private:
     void Init()
     {
-        this->GetImplemetation()->Init();
+        this->GetImplementation()->Init();
     }
 
   public:
@@ -33,38 +33,38 @@ class GraphicInterface
         this->GetImplementation()->SetColor(color);
     }
 
-    void DrawCircle(figure_coordinates center, figure_coordinate_type radius)
+    void DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius)
     {
         this->GetImplementation()->DrawCircle(center, radius);
     }
 
-    void DrawCircle(figure_coordinates center, figure_coordinate_type radius, color color)
+    void DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius, color color)
     {
         this->GetImplementation()->DrawCircle(center, radius, color);
     }
 
-    void DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius)
+    void DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius)
     {
-        this->GetImplemetation()->DrawCircleRegion(center, radius);
+        this->GetImplementation()->DrawCircleRegion(center, radius);
     }
 
-    void DrawCircleRegion(figure_coordinates center, figure_coordinate_type radius, color color)
+    void DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius, color color)
     {
-        this->GetImplemetation()->DrawCircleRegion(center, radius, color);
+        this->GetImplementation()->DrawCircleRegion(center, radius, color);
     }
 
     void Refresh()
     {
-        this->GetImplemetation()->Refresh();
+        this->GetImplementation()->Refresh();
     }
 
   private:
     void Quit()
     {
-        this->GetImplemetation()->Quit();
+        this->GetImplementation()->Quit();
     }
 
-    Implementation* GetImplemetation()
+    Implementation* GetImplementation()
     {
         return static_cast<Implementation*>(this);
     }
