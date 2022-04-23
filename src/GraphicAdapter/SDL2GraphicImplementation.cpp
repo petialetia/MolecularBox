@@ -1,11 +1,12 @@
 #include <SDL2GraphicImplementation.hpp>
 
-SDL2GraphicImplementation::SDL2GraphicImplementation(Init_type Init, GetResolution_type GetResolution, CreateWindow_type CreateWindow, SetColor_type SetColor, 
+SDL2GraphicImplementation::SDL2GraphicImplementation(Init_type Init, GetResolution_type GetResolution, CreateWindow_type CreateWindow, SetColor_type SetColor,
+                                                     ClearWindow_type ClearWindow, ClearWindowWithColor_type ClearWindowWithColor,
                                                      DrawCircle_type DrawCircle, DrawCircleWithColor_type DrawCircleWithColor,
                                                      DrawCircleRegion_type DrawCircleRegion, DrawCircleRegionWithColor_type DrawCircleRegionWithColor,
                                                      Refresh_type Refresh, Quit_type Quit) : 
     Init_(Init), GetResolution_(GetResolution), CreateWindow_(CreateWindow), SetColor_(SetColor),
-    DrawCircle_(DrawCircle), DrawCircleWithColor_(DrawCircleWithColor), 
+    ClearWindow_(ClearWindow), ClearWindowWithColor_(ClearWindowWithColor), DrawCircle_(DrawCircle), DrawCircleWithColor_(DrawCircleWithColor), 
     DrawCircleRegion_(DrawCircleRegion), DrawCircleRegionWithColor_(DrawCircleRegionWithColor), Refresh_(Refresh), Quit_(Quit)
 {
     Init();
@@ -29,6 +30,16 @@ void SDL2GraphicImplementation::CreateWindow(std::string name, window_coordinate
 void SDL2GraphicImplementation::SetColor(color color) const
 {
     SetColor_(renderer_, color);
+}
+
+void SDL2GraphicImplementation::ClearWindow() const
+{
+    ClearWindow_(renderer_);
+}
+
+void SDL2GraphicImplementation::ClearWindow(color color) const
+{
+    ClearWindowWithColor_(renderer_, color);
 }
 
 void SDL2GraphicImplementation::DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius) const
@@ -69,7 +80,8 @@ SDL2GraphicImplementation::~SDL2GraphicImplementation()
 SDL2GraphicImplementation* GetSDL2GraphicImplementation()
 {
     static SDL2GraphicImplementation graphic = SDL2GraphicImplementation(SDL2Graphic::Init, SDL2Graphic::GetResolution, SDL2Graphic::CreateWindow, 
-                                                                         SDL2Graphic::SetColor, SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleWithColor, 
+                                                                         SDL2Graphic::SetColor, SDL2Graphic::ClearWindow, SDL2Graphic::ClearWindowWithColor,
+                                                                         SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleWithColor, 
                                                                          SDL2Graphic::DrawCircleRegion, SDL2Graphic::DrawCircleRegionWithColor,
                                                                          SDL2Graphic::Refresh, SDL2Graphic::Quit);
 

@@ -24,6 +24,8 @@ using subsription_storage = std::vector<std::function<void(id_type)>>;
 const coordinates_on_screen ORIGIN_COORDINATES_BY_DEFAULT = coordinates_on_screen({100, 100});
 const coordinate_on_screen_type SINGLE_SEGMENT_LENGTH_BY_DEFAULT = 1;
 
+const milliseconds DELAY = 500;
+
 const std::string WINDOW_NAME = "MolecularBox";
 
 const object_coordinates SHELL_COORDINATES = object_coordinates({0, 0});

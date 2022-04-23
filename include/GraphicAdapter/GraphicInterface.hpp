@@ -33,6 +33,16 @@ class GraphicInterface
         this->GetImplementation()->SetColor(color);
     }
 
+    void ClearWindow()
+    {
+        this->GetImplementation()->ClearWindow();
+    }
+
+    void ClearWindow(color color)
+    {
+        this->GetImplementation()->ClearWindow(color);
+    }
+
     void DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius)
     {
         this->GetImplementation()->DrawCircle(center, radius);

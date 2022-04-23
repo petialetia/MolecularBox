@@ -97,6 +97,9 @@ void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_de
 {
     auto new_object_id = objects.AddObject(Circle(SHELL_RADIUS), SHELL_COORDINATES);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
+
+    new_object_id = objects.AddObject(Circle(5), SHELL_COORDINATES, {20, 20});
+    SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 
 void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subscriptions_by_default)
@@ -140,15 +143,27 @@ simulation_status ProcessEvents()
 
 void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
 {
+    CheckInteractions(interactions);
+
     GetSDL2GraphicImplementation()->Refresh();
+    GetSDL2TimerImplementation()->Delay(DELAY);
 
     while (ProcessEvents() != SIMULATION_ENDED)
     {
-        CheckInteractions(interactions);
+        GetSDL2GraphicImplementation()->ClearWindow({0, 0, 0, 0});
+
+        GetSDL2GraphicImplementation()->SetColor({.red = 0,
+                                              .green = 255,
+                                              .blue = 0,
+                                              .alpha = 255});
+
         MoveObjects(objects);
         global_time += TIME_STEP;
 
+        CheckInteractions(interactions);
+
         GetSDL2GraphicImplementation()->Refresh();
+        GetSDL2TimerImplementation()->Delay(DELAY);
     }
 }
 

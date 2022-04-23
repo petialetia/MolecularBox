@@ -25,6 +25,17 @@ void SetColor(SDL_Renderer* const& renderer, color color)
     SDL_SetRenderDrawColor(renderer, color.red, color.green, color.blue, color.alpha);
 }
 
+void ClearWindow(SDL_Renderer* const& renderer)
+{
+    SDL_RenderClear(renderer);
+}
+
+void ClearWindowWithColor(SDL_Renderer* const& renderer, color color)
+{
+    SetColor(renderer, color);
+    ClearWindow(renderer);
+}
+
 void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
 {
     auto x = radius;
