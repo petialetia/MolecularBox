@@ -4,24 +4,6 @@ int main()
 {
     auto resolution = GetSDL2GraphicImplementation()->GetResolution(0);
     GetSDL2GraphicImplementation()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
-    /*GetSDL2GraphicImplementation()->DrawCircle(coordinates_on_screen({100, 100}), 150, {.red = 255, 
-                                                                                        .green = 0, 
-                                                                                        .blue = 0, 
-                                                                                        .alpha = 255});
-    GetSDL2GraphicImplementation()->DrawCircleRegion(coordinates_on_screen({static_cast<coordinate_on_screen_type>(resolution[0]/2 - 200), 
-                                                                            static_cast<coordinate_on_screen_type>(resolution[1]/2 - 200)}), 
-                                                     300, {.red = 0, 
-                                                           .green = 255, 
-                                                           .blue = 255, 
-                                                           .alpha = 255});
-    GetSDL2GraphicImplementation()->Refresh();
-
-    GetSDL2TimerImplementation()->Delay(3000);*/
-
-    GetSDL2GraphicImplementation()->SetColor({.red = 0,
-                                              .green = 255,
-                                              .blue = 0,
-                                              .alpha = 255});
 
     time_type global_time = 0;
 
@@ -150,12 +132,7 @@ void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& o
 
     while (ProcessEvents() != SIMULATION_ENDED)
     {
-        GetSDL2GraphicImplementation()->ClearWindow({0, 0, 0, 0});
-
-        GetSDL2GraphicImplementation()->SetColor({.red = 0,
-                                              .green = 255,
-                                              .blue = 0,
-                                              .alpha = 255});
+        GetSDL2GraphicImplementation()->ClearWindow(BACKGROUND_COLOR);
 
         MoveObjects(objects);
         global_time += TIME_STEP;

@@ -33,6 +33,11 @@ const coordinate_type SHELL_RADIUS = 20;
 
 const time_type TIME_STEP = 1;
 
+const color BACKGROUND_COLOR = {.red = 0,
+                                .green = 0,
+                                .blue = 0,
+                                .alpha = 0};
+
 enum simulation_status
 {
     SIMULATION_CONTINUES,
