@@ -20,7 +20,7 @@ int main()
 
     GetSDL2GraphicImplementation()->SetColor({.red = 0,
                                               .green = 255,
-                                              .blue = 255,
+                                              .blue = 0,
                                               .alpha = 255});
 
     time_type global_time = 0;
@@ -30,7 +30,9 @@ int main()
 
     ObjectStorage objects;
 
-    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interactions);
+    auto coordinate_system = GetCoordinateSystem();
+
+    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interactions, coordinate_system);
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
@@ -39,44 +41,37 @@ int main()
     return 0;
 }
 
-coordinates_on_screen GetScreenCoordinates(object_coordinates relative_coordinates)
-{
-    static auto coordinate_system = GetCoordinateSystem();
-    return coordinate_system.GetAbsoluteCoordinates(relative_coordinates);
-}
-
-CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem()
+molecular_box_coordinate_system GetCoordinateSystem()
 {
     return CoordinateSystem<coordinate_on_screen_type, coordinate_type>(ORIGIN_COORDINATES_BY_DEFAULT, SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions)
+subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
+                                              const molecular_box_coordinate_system& coordinate_system)
 {
     subsription_storage subscriptions_by_default = {};
 
-    subscriptions_by_default.push_back(GetAddDrawSubscription(objects, interactions));
+    subscriptions_by_default.push_back(GetAddDrawSubscription(objects, interactions, coordinate_system));
     subscriptions_by_default.push_back(GetAddCollisionSubscription());
 
     return subscriptions_by_default;
 }
 
-std::function<void(id_type)> GetAddDrawSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions)
+std::function<void(id_type)> GetAddDrawSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
+                                                    const molecular_box_coordinate_system& coordinate_system)
 {
-    return [&objects, &interactions](id_type id) {
-        interactions.AddElement(Interaction(GetDrawAction(objects, id), GetDrawCheck()));
+    return [&objects, &coordinate_system, &interactions](id_type id) {
+        interactions.AddElement(Interaction(GetDrawAction(objects, coordinate_system, id), GetDrawCheck()));
     };
 }
 
-std::function<void()> GetDrawAction(const ObjectStorage& objects, id_type id)
+std::function<void()> GetDrawAction(const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, id_type id)
 {
-    return [&objects, id]() { 
+    return [&objects, &coordinate_system, id]() { 
         auto object = objects.GetObject(id);
         auto relative_object_coordinates = objects.GetCoordinates(id);
-        auto screen_object_coordinates = GetScreenCoordinates(relative_object_coordinates);
 
-        std::visit([&screen_object_coordinates](auto& object) {
-            DrawObject(GetSDL2GraphicImplementation(), object, screen_object_coordinates);
-        }, object);
+        DrawObject(GetSDL2GraphicImplementation(), coordinate_system, object, relative_object_coordinates);
     };
 }
 
@@ -122,7 +117,6 @@ simulation_status ProcessEvents()
     //TODO: Rewrite on event adapter
 
     static SDL_Event event;
-
 
     while (SDL_PollEvent(&event))
     {

@@ -3,6 +3,10 @@
 
 #include <Coordinates.hpp>
 
+#include <vector>
+
+using uint = unsigned int;
+
 using window_coordinates = Coordinates<uint>;
 using window_size = std::vector<uint>;
 
