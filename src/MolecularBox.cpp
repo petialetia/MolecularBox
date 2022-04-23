@@ -52,8 +52,9 @@ std::function<void()> GetDrawAction(const ObjectStorage& objects, const molecula
     return [&objects, &coordinate_system, id]() { 
         auto object = objects.GetObject(id);
         auto relative_object_coordinates = objects.GetCoordinates(id);
+        color object_color = objects.GetColor(id);
 
-        DrawObject(GetGraphic(), coordinate_system, object, relative_object_coordinates);
+        DrawObject(GetGraphic(), coordinate_system, object, relative_object_coordinates, object_color);
     };
 }
 
@@ -77,10 +78,10 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Circle(SHELL_RADIUS), SHELL_COORDINATES);
+    auto new_object_id = objects.AddObject(Circle(SHELL_RADIUS), SHELL_COORDINATES, SHELL_COLOR);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 
-    new_object_id = objects.AddObject(Circle(5), SHELL_COORDINATES, {20, 20});
+    new_object_id = objects.AddObject(Circle(5), SHELL_COORDINATES, {255, 0, 255, 255}, {20, 20});
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 

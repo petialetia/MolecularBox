@@ -1,17 +1,18 @@
 #include <ObjectStorage.hpp>
 
-id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates)
+id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates, color color)
 {
     auto new_object_id = objects_.AddElement(std::move(object));
 
     object_coordinates_[new_object_id] = coordinates;
+    object_colors_[new_object_id] = color;
 
     return new_object_id;
 }
 
-id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates, speed_type speed)
+id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates, color color, speed_type speed)
 {
-    auto new_object_id = AddObject(std::move(object), coordinates);
+    auto new_object_id = AddObject(std::move(object), coordinates, color);
 
     object_speeds_[new_object_id] = speed;
 
@@ -36,6 +37,16 @@ object_coordinates& ObjectStorage::GetCoordinates(id_type id)
 const object_coordinates& ObjectStorage::GetCoordinates(id_type id) const
 {
     return object_coordinates_.at(id);
+}
+
+color& ObjectStorage::GetColor(id_type id)
+{
+    return object_colors_.at(id);
+}
+
+const color ObjectStorage::GetColor(id_type id) const
+{
+    return object_colors_.at(id);
 }
 
 speed_type& ObjectStorage::GetSpeed(id_type id)

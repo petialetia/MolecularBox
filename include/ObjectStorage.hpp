@@ -16,6 +16,7 @@ using object = std::variant<Circle>;
 using speed_type = std::vector<coordinate_type>;
 
 using coordinate_storage = std::unordered_map<id_type, object_coordinates>;
+using color_storage = std::unordered_map<id_type, color>;
 using speed_storage = std::unordered_map<id_type, speed_type>;
 
 class ObjectStorage
@@ -23,6 +24,7 @@ class ObjectStorage
   private:
     IdStorage<object> objects_ {};
     coordinate_storage object_coordinates_ {};
+    color_storage object_colors_ {};
     speed_storage object_speeds_ {};
 
   public:
@@ -34,17 +36,21 @@ class ObjectStorage
     ObjectStorage& operator=(const ObjectStorage&) = delete;
     ObjectStorage& operator=(ObjectStorage&) = delete;
 
-    id_type AddObject(object&& object, object_coordinates coordinates);
-    id_type AddObject(object&& object, object_coordinates coordinates, speed_type speed);
+    id_type AddObject(object&& object, object_coordinates coordinates, color color);
+    id_type AddObject(object&& object, object_coordinates coordinates, color color, speed_type speed);
 
     object& GetObject(id_type id);
     const object& GetObject(id_type id) const;
 
     object_coordinates& GetCoordinates(id_type id);
-    const object_coordinates& GetCoordinates(id_type id) const; 
+    const object_coordinates& GetCoordinates(id_type id) const;
+
+    color& GetColor(id_type id);
+    const color GetColor(id_type id) const;
 
     speed_type& GetSpeed(id_type id);
     const speed_type& GetSpeed(id_type id) const;
+
 
     auto objects_begin()
     {
@@ -88,6 +94,28 @@ class ObjectStorage
     {
         return object_coordinates_.cend();
     }
+
+
+    auto colors_begin()
+    {
+        return object_colors_.begin();
+    }
+
+    auto colors_cbegin() const
+    {
+        return object_colors_.cbegin();
+    }
+
+
+    auto colors_end()
+    {
+        return object_colors_.end();
+    }
+
+    auto colors_cend() const
+    {
+        return object_colors_.cend();
+    }    
 
 
     auto speeds_begin()
