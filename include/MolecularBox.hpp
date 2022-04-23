@@ -44,6 +44,16 @@ enum simulation_status
     SIMULATION_ENDED
 };
 
+auto GetGraphic()
+{
+    return GetSDL2GraphicImplementation();
+}
+
+auto GetTimer()
+{
+    return GetSDL2TimerImplementation();
+}
+
 CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
 
 subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 

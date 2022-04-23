@@ -2,8 +2,8 @@
 
 int main()
 {
-    auto resolution = GetSDL2GraphicImplementation()->GetResolution(0);
-    GetSDL2GraphicImplementation()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
+    auto resolution = GetGraphic()->GetResolution(0);
+    GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
     time_type global_time = 0;
 
@@ -53,7 +53,7 @@ std::function<void()> GetDrawAction(const ObjectStorage& objects, const molecula
         auto object = objects.GetObject(id);
         auto relative_object_coordinates = objects.GetCoordinates(id);
 
-        DrawObject(GetSDL2GraphicImplementation(), coordinate_system, object, relative_object_coordinates);
+        DrawObject(GetGraphic(), coordinate_system, object, relative_object_coordinates);
     };
 }
 
@@ -127,20 +127,20 @@ void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& o
 {
     CheckInteractions(interactions);
 
-    GetSDL2GraphicImplementation()->Refresh();
-    GetSDL2TimerImplementation()->Delay(DELAY);
+    GetGraphic()->Refresh();
+    GetTimer()->Delay(DELAY);
 
     while (ProcessEvents() != SIMULATION_ENDED)
     {
-        GetSDL2GraphicImplementation()->ClearWindow(BACKGROUND_COLOR);
+        GetGraphic()->ClearWindow(BACKGROUND_COLOR);
 
         MoveObjects(objects);
         global_time += TIME_STEP;
 
         CheckInteractions(interactions);
 
-        GetSDL2GraphicImplementation()->Refresh();
-        GetSDL2TimerImplementation()->Delay(DELAY);
+        GetGraphic()->Refresh();
+        GetTimer()->Delay(DELAY);
     }
 }
 
