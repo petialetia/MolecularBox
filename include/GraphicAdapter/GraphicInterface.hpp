@@ -63,6 +63,16 @@ class GraphicInterface
         this->GetImplementation()->DrawCircleRegion(center, radius, color);
     }
 
+    void DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius)
+    {
+        this->GetImplementation()->DrawRing(center, inner_radius, outter_radius);
+    }
+
+    void DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius, color color)
+    {
+        this->GetImplementation()->DrawRing(center, inner_radius, outter_radius, color);
+    }
+
     void Refresh()
     {
         this->GetImplementation()->Refresh();

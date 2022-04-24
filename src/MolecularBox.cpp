@@ -5,7 +5,11 @@ int main()
     auto resolution = GetGraphic()->GetResolution(0);
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
-    time_type global_time = 0;
+    GetGraphic()->DrawRing(Coordinates({100, 100}), 50, 100, {255, 0, 0, 255});
+    GetGraphic()->Refresh();
+    GetTimer()->Delay(3000);
+
+    /*time_type global_time = 0;
 
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
@@ -18,7 +22,7 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);
+    StepByStepSimulation(interactions, objects, global_time);*/
 
     return 0;
 }

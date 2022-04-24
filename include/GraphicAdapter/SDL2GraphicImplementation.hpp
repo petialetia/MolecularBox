@@ -18,6 +18,9 @@ using DrawCircle_type =                std::function<void(SDL_Renderer* const&, 
 using DrawCircleWithColor_type =       std::function<void(SDL_Renderer* const&, coordinates_on_screen, coordinate_on_screen_type, color)>;
 using DrawCircleRegion_type =          std::function<void(SDL_Renderer* const&, coordinates_on_screen, coordinate_on_screen_type)>;
 using DrawCircleRegionWithColor_type = std::function<void(SDL_Renderer* const&, coordinates_on_screen, coordinate_on_screen_type, color)>;
+using DrawRing_type =                  std::function<void(SDL_Renderer* const&, coordinates_on_screen, coordinate_on_screen_type, coordinate_on_screen_type)>;
+using DrawRingWithColor_type =         std::function<void(SDL_Renderer* const&, coordinates_on_screen, coordinate_on_screen_type, coordinate_on_screen_type,
+                                                          color)>; 
 using Refresh_type =                   std::function<void(SDL_Renderer* const&)>;
 using Quit_type =                      std::function<void()>;
 
@@ -38,6 +41,8 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
     DrawCircleWithColor_type DrawCircleWithColor_;
     DrawCircleRegion_type DrawCircleRegion_;
     DrawCircleRegionWithColor_type DrawCircleRegionWithColor_;
+    DrawRing_type DrawRing_;
+    DrawRingWithColor_type DrawRingWithColor_;
     Refresh_type Refresh_;
     Quit_type Quit_;
 
@@ -51,6 +56,7 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
                               ClearWindow_type ClearWindow, ClearWindowWithColor_type ClearWindowWithColor,
                               DrawCircle_type DrawCircle, DrawCircleWithColor_type DrawCircleWithColor,
                               DrawCircleRegion_type DrawCircleRegion, DrawCircleRegionWithColor_type DrawCircleRegionWithColor,
+                              DrawRing_type DrawRing, DrawRingWithColor_type DrawRingWithColor,
                               Refresh_type Refresh, Quit_type Quit);
 
   public:
@@ -64,6 +70,8 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
     void DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius, color color) const;
     void DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius) const;
     void DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius, color color) const;
+    void DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius) const;
+    void DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius, color color) const;
     void Refresh() const;
     void Quit();
     ~SDL2GraphicImplementation();

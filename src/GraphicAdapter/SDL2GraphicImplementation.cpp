@@ -4,10 +4,12 @@ SDL2GraphicImplementation::SDL2GraphicImplementation(Init_type Init, GetResoluti
                                                      ClearWindow_type ClearWindow, ClearWindowWithColor_type ClearWindowWithColor,
                                                      DrawCircle_type DrawCircle, DrawCircleWithColor_type DrawCircleWithColor,
                                                      DrawCircleRegion_type DrawCircleRegion, DrawCircleRegionWithColor_type DrawCircleRegionWithColor,
+                                                     DrawRing_type DrawRing, DrawRingWithColor_type DrawRingWithColor,
                                                      Refresh_type Refresh, Quit_type Quit) : 
     Init_(Init), GetResolution_(GetResolution), CreateWindow_(CreateWindow), SetColor_(SetColor),
     ClearWindow_(ClearWindow), ClearWindowWithColor_(ClearWindowWithColor), DrawCircle_(DrawCircle), DrawCircleWithColor_(DrawCircleWithColor), 
-    DrawCircleRegion_(DrawCircleRegion), DrawCircleRegionWithColor_(DrawCircleRegionWithColor), Refresh_(Refresh), Quit_(Quit)
+    DrawCircleRegion_(DrawCircleRegion), DrawCircleRegionWithColor_(DrawCircleRegionWithColor), DrawRing_(DrawRing), DrawRingWithColor_(DrawRingWithColor),
+    Refresh_(Refresh), Quit_(Quit)
 {
     Init();
 }
@@ -62,6 +64,17 @@ void SDL2GraphicImplementation::DrawCircleRegion(coordinates_on_screen center, c
     DrawCircleRegionWithColor_(renderer_, center, radius, color);
 }
 
+void SDL2GraphicImplementation::DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius) const
+{
+    DrawRing_(renderer_, center, inner_radius, outter_radius);
+}
+
+void SDL2GraphicImplementation::DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius, 
+                                         color color) const
+{
+    DrawRingWithColor_(renderer_, center, inner_radius, outter_radius, color);
+}
+
 void SDL2GraphicImplementation::Refresh() const
 {
     Refresh_(renderer_);
@@ -83,6 +96,7 @@ SDL2GraphicImplementation* GetSDL2GraphicImplementation()
                                                                          SDL2Graphic::SetColor, SDL2Graphic::ClearWindow, SDL2Graphic::ClearWindowWithColor,
                                                                          SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleWithColor, 
                                                                          SDL2Graphic::DrawCircleRegion, SDL2Graphic::DrawCircleRegionWithColor,
+                                                                         SDL2Graphic::DrawRing, SDL2Graphic::DrawRingWithColor,
                                                                          SDL2Graphic::Refresh, SDL2Graphic::Quit);
 
     return &graphic;

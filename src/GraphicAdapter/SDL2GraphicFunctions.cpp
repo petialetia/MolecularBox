@@ -53,8 +53,8 @@ void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coo
         SDL_RenderDrawPoint(renderer, center[0] - y, center[1] - x);
 
         y += 1;
-        double sin = static_cast<double>(y)/static_cast<double>(radius);
-        double cos = std::sqrt(1 - sin*sin);
+        double sin = static_cast<double>(y) / static_cast<double>(radius);
+        double cos = std::sqrt(1 - sin * sin);
         x = cos / sin * static_cast<double>(y) + 0.5;
     }
 }
@@ -78,8 +78,8 @@ void DrawCircleRegion(SDL_Renderer* const& renderer, coordinates_on_screen cente
         SDL_RenderDrawLine(renderer, center[0] + y, center[1] + x, center[0] - y, center[1] + x);
 
         y += 1;
-        double sin = static_cast<double>(y)/static_cast<double>(radius);
-        double cos = std::sqrt(1 - sin*sin);
+        double sin = static_cast<double>(y) / static_cast<double>(radius);
+        double cos = std::sqrt(1 - sin * sin);
         x = cos / sin * static_cast<double>(y) + 0.5;
     }
 }
@@ -88,6 +88,50 @@ void DrawCircleRegionWithColor(SDL_Renderer* const& renderer, coordinates_on_scr
 {
     SetColor(renderer, color);
     DrawCircleRegion(renderer, center, radius);
+}
+
+void DrawRing(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius)
+{
+    auto inner_x = inner_radius;
+    decltype(inner_x) inner_y = 0;
+
+    auto outter_x = outter_radius;
+    decltype(outter_x) outter_y = 0;
+
+    while (inner_y <= inner_radius)
+    {
+        SDL_RenderDrawLine(renderer, center[0] - outter_x, center[1] - outter_y, center[0] - inner_x, center[1] - inner_y);
+        SDL_RenderDrawLine(renderer, center[0] + inner_x, center[1] - inner_y, center[0] + outter_x, center[1] - outter_y);
+        SDL_RenderDrawLine(renderer, center[0] - inner_x, center[1] + inner_y, center[0] - outter_x, center[1] + outter_y);
+        SDL_RenderDrawLine(renderer, center[0] + inner_x, center[1] + inner_y, center[0] + outter_x, center[1] + outter_y);
+
+        inner_y += 1;
+        outter_y += 1;
+        double outter_sin = static_cast<double>(outter_y) / static_cast<double>(outter_radius);
+        double outter_cos = std::sqrt(1 - outter_sin * outter_sin);
+        double inner_sin = static_cast<double>(inner_y) / static_cast<double>(inner_radius);
+        double inner_cos = std::sqrt(1 - inner_sin * inner_sin);
+        inner_x = inner_cos / inner_sin * static_cast<double>(inner_y) + 0.5;
+        outter_x = outter_cos / outter_sin * static_cast<double>(outter_y) + 0.5;
+    }
+
+    while (outter_y <= outter_radius)
+    {
+        SDL_RenderDrawLine(renderer, center[0] - outter_x, center[1] - outter_y, center[0] + outter_x, center[1] - outter_y);
+        SDL_RenderDrawLine(renderer, center[0] - outter_x, center[1] + outter_y, center[0] + outter_x, center[1] + outter_y);
+
+        outter_y += 1;
+        double sin = static_cast<double>(outter_y) / static_cast<double>(outter_radius);
+        double cos = std::sqrt(1 - sin * sin);
+        outter_x = cos / sin * static_cast<double>(outter_y) + 0.5;
+    } 
+}
+
+void DrawRingWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, 
+                       coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius, color color)
+{
+    SetColor(renderer, color);
+    DrawRing(renderer, center, inner_radius, outter_radius);
 }
 
 void Refresh(SDL_Renderer* const& renderer)

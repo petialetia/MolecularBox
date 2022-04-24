@@ -19,4 +19,15 @@ class Circle
     coordinate_type GetRadius() const;
 };
 
+class Ring
+{
+  private:
+    coordinate_type inner_radius_ = 0;
+    coordinate_type width_ = 0;
+
+  public:
+    explicit Ring() = default;
+    explicit Ring(coordinate_type inner_radius, coordinate_type width);
+};
+
 #endif /* SHAPE_HPP */
