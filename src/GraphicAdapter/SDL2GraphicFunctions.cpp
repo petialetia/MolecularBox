@@ -73,7 +73,7 @@ void DrawCircumference(SDL_Renderer* const& renderer, coordinates_on_screen cent
         y += 1;
         double sin = static_cast<double>(y) / static_cast<double>(radius);
         double cos = std::sqrt(1 - sin * sin);
-        x = cos / sin * static_cast<double>(y) + 0.5;
+        x = round(cos / sin * static_cast<double>(y));
     }
 }
 
@@ -98,7 +98,7 @@ void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coo
         y += 1;
         double sin = static_cast<double>(y) / static_cast<double>(radius);
         double cos = std::sqrt(1 - sin * sin);
-        x = cos / sin * static_cast<double>(y) + 0.5;
+        x = round(cos / sin * static_cast<double>(y));
     }
 }
 
@@ -129,8 +129,8 @@ void DrawRing(SDL_Renderer* const& renderer, coordinates_on_screen center, coord
         double outter_cos = std::sqrt(1 - outter_sin * outter_sin);
         double inner_sin = static_cast<double>(inner_y) / static_cast<double>(inner_radius);
         double inner_cos = std::sqrt(1 - inner_sin * inner_sin);
-        inner_x = inner_cos / inner_sin * static_cast<double>(inner_y) + 0.5;
-        outter_x = outter_cos / outter_sin * static_cast<double>(outter_y) + 0.5;
+        inner_x  = round(inner_cos  / inner_sin  * static_cast<double>(inner_y));
+        outter_x = round(outter_cos / outter_sin * static_cast<double>(outter_y));
     }
 
     while (outter_y <= outter_radius)
@@ -141,7 +141,7 @@ void DrawRing(SDL_Renderer* const& renderer, coordinates_on_screen center, coord
         outter_y += 1;
         double sin = static_cast<double>(outter_y) / static_cast<double>(outter_radius);
         double cos = std::sqrt(1 - sin * sin);
-        outter_x = cos / sin * static_cast<double>(outter_y) + 0.5;
+        outter_x = round(cos / sin * static_cast<double>(outter_y));
     } 
 }
 
