@@ -5,11 +5,7 @@ int main()
     auto resolution = GetGraphic()->GetResolution(0);
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
-    GetGraphic()->DrawRing(Coordinates({100, 100}), 50, 100, {255, 0, 0, 255});
-    GetGraphic()->Refresh();
-    GetTimer()->Delay(3000);
-
-    /*time_type global_time = 0;
+    time_type global_time = 0;
 
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
@@ -22,7 +18,7 @@ int main()
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);*/
+    StepByStepSimulation(interactions, objects, global_time);
 
     return 0;
 }
@@ -82,7 +78,7 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Circle(SHELL_RADIUS), SHELL_COORDINATES, SHELL_COLOR);
+    auto new_object_id = objects.AddObject(Ring(SHELL_RADIUS, 4), SHELL_COORDINATES, SHELL_COLOR);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 
     new_object_id = objects.AddObject(Circle(5), SHELL_COORDINATES, {255, 0, 255, 255}, {20, 20});

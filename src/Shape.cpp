@@ -14,3 +14,18 @@ Ring::Ring(coordinate_type inner_radius, coordinate_type width) :
     inner_radius_(inner_radius), width_(width)
 {
 }
+
+coordinate_type Ring::GetInnerRadius() const
+{
+    return inner_radius_;
+}
+
+coordinate_type Ring::GetOutterRadius() const
+{
+    return inner_radius_ + width_;
+}
+
+coordinate_type Ring::GetWidth() const
+{
+    return width_;
+}

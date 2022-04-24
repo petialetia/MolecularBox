@@ -28,6 +28,10 @@ class Ring
   public:
     explicit Ring() = default;
     explicit Ring(coordinate_type inner_radius, coordinate_type width);
+
+    coordinate_type GetInnerRadius() const;
+    coordinate_type GetOutterRadius() const;
+    coordinate_type GetWidth() const;
 };
 
 #endif /* SHAPE_HPP */

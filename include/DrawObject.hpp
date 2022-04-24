@@ -37,7 +37,14 @@ template <typename Implementation>
 void DrawObject(GraphicInterface<Implementation>* const graphic, const molecular_box_coordinate_system& coordinate_system, const Ring& ring, 
                 const object_coordinates& relative_coordinates, const color color)
 {
-    
+    auto screen_center_coordinates = coordinate_system.GetAbsoluteCoordinates(relative_coordinates);
+    auto inner_radius = ring.GetInnerRadius();
+    auto outter_radius = ring.GetOutterRadius();
+
+    auto scaled_inner_radius = coordinate_system.ScaleRelative(inner_radius);
+    auto scaler_outter_radius = coordinate_system.ScaleRelative(outter_radius);
+
+    graphic->DrawRing(screen_center_coordinates, scaled_inner_radius, scaler_outter_radius, color);
 }
 
 #endif /* DRAW_OBJECT_HPP */
