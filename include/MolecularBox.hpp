@@ -1,3 +1,6 @@
+#ifndef MOLECULAR_BOX_HPP
+#define MOLECULAR_BOX_HPP
+
 #include "UsingAliasMolecularBox.hpp"
 
 #include "GraphicAdapter/SDL2GraphicFunctions.hpp"
@@ -79,4 +82,6 @@ void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& o
 void CheckInteractions(IdStorage<Interaction>& interactions);
 void MoveObjects(ObjectStorage& objects, time_type time = TIME_STEP);    
 offset_type CalculateOffset(speed_type speed, time_type time);
-void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset);                       
+void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset);      
+
+#endif /* MOLECULAR_BOX_HPP */
