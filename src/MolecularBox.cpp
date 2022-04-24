@@ -96,7 +96,8 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
 
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    return;
+    auto new_molecule_id = objects.AddObject(Circle(10), object_coordinates({0, 0}), {255, 0, 255, 255}, {20, 20});
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 }
 
 simulation_status ProcessEvents()
