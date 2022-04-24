@@ -28,6 +28,11 @@ class GraphicInterface
         this->GetImplementation()->CreateWindow(name, win_coordinates, win_size);
     }
 
+    window_size GetWindowSize()
+    {
+        return this->GetImplementation()->GetWindowSize();
+    }
+
     void SetColor(color color)
     {
         this->GetImplementation()->SetColor(color);
@@ -43,6 +48,16 @@ class GraphicInterface
         this->GetImplementation()->ClearWindow(color);
     }
 
+    void DrawCircumference(coordinates_on_screen center, coordinate_on_screen_type radius)
+    {
+        this->GetImplementation()->DrawCircumference(center, radius);
+    }
+
+    void DrawCircumference(coordinates_on_screen center, coordinate_on_screen_type radius, color color)
+    {
+        this->GetImplementation()->DrawCircumference(center, radius, color);
+    }
+
     void DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius)
     {
         this->GetImplementation()->DrawCircle(center, radius);
@@ -51,16 +66,6 @@ class GraphicInterface
     void DrawCircle(coordinates_on_screen center, coordinate_on_screen_type radius, color color)
     {
         this->GetImplementation()->DrawCircle(center, radius, color);
-    }
-
-    void DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius)
-    {
-        this->GetImplementation()->DrawCircleRegion(center, radius);
-    }
-
-    void DrawCircleRegion(coordinates_on_screen center, coordinate_on_screen_type radius, color color)
-    {
-        this->GetImplementation()->DrawCircleRegion(center, radius, color);
     }
 
     void DrawRing(coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius)

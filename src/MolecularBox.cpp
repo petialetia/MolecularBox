@@ -25,7 +25,11 @@ int main()
 
 molecular_box_coordinate_system GetCoordinateSystem()
 {
-    return CoordinateSystem<coordinate_on_screen_type, coordinate_type>(ORIGIN_COORDINATES_BY_DEFAULT, SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
+    auto window_size = GetGraphic()->GetWindowSize();
+
+    return CoordinateSystem<coordinate_on_screen_type, coordinate_type>(Coordinates({static_cast<coordinate_on_screen_type>(window_size[0]) / 2, 
+                                                                                     static_cast<coordinate_on_screen_type>(window_size[1]) / 2}), 
+                                                                        SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
 subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
@@ -78,10 +82,7 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Ring(SHELL_RADIUS, 4), SHELL_COORDINATES, SHELL_COLOR);
-    SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
-
-    new_object_id = objects.AddObject(Circle(5), SHELL_COORDINATES, {255, 0, 255, 255}, {20, 20});
+    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 

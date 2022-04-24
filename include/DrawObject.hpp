@@ -7,11 +7,6 @@
 #include "GraphicAdapter/GraphicInterface.hpp"
 #include "Shape.hpp"
 
-const color CIRCLE_COLOR = {.red = 255,
-                            .green = 0,
-                            .blue = 255,
-                            .alpha = 255};
-
 template <typename Implementation>
 void DrawObject(GraphicInterface<Implementation>* const graphic, const molecular_box_coordinate_system& coordinate_system, const object& object, 
                 const object_coordinates& relative_coordinates, const color color)

@@ -20,6 +20,24 @@ void CreateWindow(SDL_Window*& window, SDL_Renderer*& renderer, std::string name
     renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
+window_size GetWindowSize(SDL_Window* const& window)
+{
+    assert(window != nullptr);
+
+    int w = 0;
+    int h = 0;
+
+    SDL_GetWindowSize(window, &w, &h);
+
+    assert(w >= 0 && h >= 0);
+
+    window_size window_size {};
+    window_size.push_back(w);
+    window_size.push_back(h);
+
+    return window_size;
+}
+
 void SetColor(SDL_Renderer* const& renderer, color color)
 {
     SDL_SetRenderDrawColor(renderer, color.red, color.green, color.blue, color.alpha);
@@ -36,7 +54,7 @@ void ClearWindowWithColor(SDL_Renderer* const& renderer, color color)
     ClearWindow(renderer);
 }
 
-void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
+void DrawCircumference(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
 {
     auto x = radius;
     decltype(x) y = 0;
@@ -62,10 +80,10 @@ void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coo
 void DrawCircleWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
 {
     SetColor(renderer, color);
-    DrawCircle(renderer, center, radius);
+    DrawCircumference(renderer, center, radius);
 }
 
-void DrawCircleRegion(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
+void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius)
 {
     auto x = radius;
     decltype(x) y = 0;
@@ -87,7 +105,7 @@ void DrawCircleRegion(SDL_Renderer* const& renderer, coordinates_on_screen cente
 void DrawCircleRegionWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
 {
     SetColor(renderer, color);
-    DrawCircleRegion(renderer, center, radius);
+    DrawCircle(renderer, center, radius);
 }
 
 void DrawRing(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius)
