@@ -15,7 +15,8 @@
 #include "Coordinates.hpp"
 #include "CoordinateSystem.hpp"
 
-#include "DrawObject.hpp"
+#include "GetGraphic.hpp"
+#include "AddDrawSubscription.hpp"
 
 #include <vector>
 #include <variant>
@@ -44,17 +45,13 @@ const color SHELL_COLOR = {.red = 0,
                            .alpha = 255};
 
 const time_type TIME_STEP = 1;
+const time_type DRAWNING_PERIOD_BY_DEFAULT = 1;
 
 enum simulation_status
 {
     SIMULATION_CONTINUES,
     SIMULATION_ENDED
 };
-
-auto GetGraphic()
-{
-    return GetSDL2GraphicImplementation();
-}
 
 auto GetTimer()
 {
@@ -64,7 +61,8 @@ auto GetTimer()
 CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
 
 subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
-                                              const molecular_box_coordinate_system& coordinate_system);
+                                              const molecular_box_coordinate_system& coordinate_system, 
+                                              const time_type& current_time, time_type& next_drawning_time);
 std::function<void(id_type)> GetAddDrawSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
                                                     const molecular_box_coordinate_system& coordinate_system);
 std::function<void()> GetDrawAction(const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, id_type id);
