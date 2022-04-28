@@ -11,7 +11,7 @@ int main()
 
     auto coordinate_system = GetCoordinateSystem();
 
-    DrawningInteraction drawning_interaction = DrawningInteraction(global_time, 0, DRAWNING_PERIOD_BY_DEFAULT, objects, coordinate_system);
+    DrawningInteraction drawning_interaction = DrawningInteraction(global_time, 0, DRAWNING_PERIOD_BY_DEFAULT, objects, coordinate_system, BACKGROUND_COLOR);
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
 
@@ -110,20 +110,14 @@ simulation_status ProcessEvents()
 void StepByStepSimulation(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
 {
     CheckInteractions(drawning_interaction, interactions);
-
-    GetGraphic()->Refresh();
     GetTimer()->Delay(DELAY);
 
     while (ProcessEvents() != SIMULATION_ENDED)
     {
-        GetGraphic()->ClearWindow(BACKGROUND_COLOR);
-
         MoveObjects(objects);
         global_time += TIME_STEP;
 
         CheckInteractions(drawning_interaction, interactions);
-
-        GetGraphic()->Refresh();
         GetTimer()->Delay(DELAY);
     }
 }

@@ -3,9 +3,6 @@
 
 #include "UsingAliasMolecularBox.hpp"
 
-#include "GraphicAdapter/SDL2GraphicFunctions.hpp"
-#include "GraphicAdapter/SDL2GraphicImplementation.hpp"
-
 #include "TimerAdapter/SDL2TimerFunctions.hpp"
 #include "TimerAdapter/SDL2TimerImplementation.hpp"
 

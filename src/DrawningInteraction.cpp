@@ -1,10 +1,11 @@
 #include <DrawningInteraction.hpp>
 
 DrawningInteraction::DrawningInteraction(const time_type& global_time, const time_type next_drawning_time, const time_type drawning_period,
-                                         const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system) :
-    PredictableInteraction(Draw(next_drawning_time_, drawning_period, objects_to_draw_, objects, coordinate_system), 
+                                         const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, 
+                                         const color background_color) :
+    PredictableInteraction(Draw(next_drawning_time_, drawning_period, objects_to_draw_, objects, coordinate_system, background_color), 
                            GetTimeToNextDrawning(global_time, next_drawning_time_)), 
-    global_time_(global_time), next_drawning_time_(next_drawning_time), drawning_period_(drawning_period)
+    next_drawning_time_(next_drawning_time)
 {
 }
 
@@ -22,15 +23,16 @@ void DrawningInteraction::DeleteObjectToDraw(id_type id)
 
 
 Draw::Draw(time_type& next_drawning_time, const time_type drawning_period, const std::unordered_set<id_type>& objects_to_draw, 
-           const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system) :
+           const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, const color background_color) :
     next_drawning_time_(next_drawning_time), drawning_period_(drawning_period), objects_to_draw_(objects_to_draw), 
-    objects_(objects), coordinate_system_(coordinate_system)
+    objects_(objects), coordinate_system_(coordinate_system), background_color_(background_color)
 {
 }
 
 void Draw::operator()()
 {
     next_drawning_time_ += drawning_period_;
+    GetGraphic()->ClearWindow(background_color_);
     
     std::for_each(objects_to_draw_.cbegin(), objects_to_draw_.cend(), [this](const auto id){
 
@@ -39,7 +41,9 @@ void Draw::operator()()
         color object_color = objects_.GetColor(id);
 
         DrawObject(GetGraphic(), coordinate_system_, object, relative_object_coordinates, object_color);    
-    });  
+    });
+
+    GetGraphic()->Refresh();
 }
 
 GetTimeToNextDrawning::GetTimeToNextDrawning(const time_type& global_time, const time_type& next_drawning_time) :
