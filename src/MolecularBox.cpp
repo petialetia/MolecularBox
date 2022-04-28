@@ -53,6 +53,20 @@ std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawnin
 std::function<void(id_type)> GetAddCollisionSubscription()
 {
     return [](id_type) { return; };
+
+    /*return [](id_type new_object_id) {
+        std::for_each(objects.objects_cbegin(), objects_cend(), [](const auto& pair){
+            const auto& [id, object] = pair;
+
+            if (id == new_object_id)
+            {
+                continue;
+            }
+
+
+            interaction.AddElement(Interaction(GetCollisionAction(), GetCollisionCheck()));
+        });
+    };*/
 }
 
 void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
@@ -77,7 +91,10 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
 
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_molecule_id = objects.AddObject(Circle(10), object_coordinates({0, 0}), {255, 0, 255, 255}, {20, 20});
+    auto new_molecule_id = objects.AddObject(Circle(100), object_coordinates({0, 0}), {255, 0, 255, 255}, {20, 20});
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+
+    new_molecule_id = objects.AddObject(Circle(30), object_coordinates({100, 100}), {0, 0, 255, 255}, {-30, 20});
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 }
 
