@@ -6,20 +6,20 @@ int main()
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
     time_type global_time = 0;
-    time_type next_drawning_time = global_time;
-
-    IdStorage<Interaction> interactions;
-    IdStorage<PredictableInteraction> predictable_interactions;
 
     ObjectStorage objects;
 
     auto coordinate_system = GetCoordinateSystem();
 
-    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interactions, coordinate_system, global_time, next_drawning_time);
+    DrawningInteraction drawning_interaction = DrawningInteraction(global_time, 0, DRAWNING_PERIOD_BY_DEFAULT, objects, coordinate_system);
+    IdStorage<Interaction> interactions;
+    IdStorage<PredictableInteraction> predictable_interactions;
+
+    auto subscriptions_by_default = GetSubscriptionsByDefault(drawning_interaction);
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(interactions, objects, global_time);
+    StepByStepSimulation(drawning_interaction, interactions, objects, global_time);
 
     return 0;
 }
@@ -33,17 +33,21 @@ molecular_box_coordinate_system GetCoordinateSystem()
                                                                         SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
-                                              const molecular_box_coordinate_system& coordinate_system, 
-                                              const time_type& current_time, time_type& next_drawning_time)
+subsription_storage GetSubscriptionsByDefault(DrawningInteraction& drawning_interaction)
 {
     subsription_storage subscriptions_by_default = {};
 
-    subscriptions_by_default.push_back(AddDrawSubscription(objects, interactions, coordinate_system, 
-                                                           current_time, next_drawning_time, DRAWNING_PERIOD_BY_DEFAULT));
+    subscriptions_by_default.push_back(GetAddDrawSubscription(drawning_interaction));
     subscriptions_by_default.push_back(GetAddCollisionSubscription());
 
     return subscriptions_by_default;
+}
+
+std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawning_interaction)
+{
+    return [&drawning_interaction](id_type id) {
+        drawning_interaction.AddObjectToDraw(id);
+    };
 }
 
 std::function<void(id_type)> GetAddCollisionSubscription()
@@ -103,9 +107,9 @@ simulation_status ProcessEvents()
     return SIMULATION_CONTINUES;
 }
 
-void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
+void StepByStepSimulation(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
 {
-    CheckInteractions(interactions);
+    CheckInteractions(drawning_interaction, interactions);
 
     GetGraphic()->Refresh();
     GetTimer()->Delay(DELAY);
@@ -117,15 +121,20 @@ void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& o
         MoveObjects(objects);
         global_time += TIME_STEP;
 
-        CheckInteractions(interactions);
+        CheckInteractions(drawning_interaction, interactions);
 
         GetGraphic()->Refresh();
         GetTimer()->Delay(DELAY);
     }
 }
 
-void CheckInteractions(IdStorage<Interaction>& interactions)
+void CheckInteractions(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions)
 {
+    if (drawning_interaction.CheckConditionForAction() == true)
+    {
+        drawning_interaction.Action();
+    }
+
     for (auto& [id, interaction]: interactions)
     {
         if (interaction.CheckConditionForAction() == true)

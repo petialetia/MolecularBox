@@ -16,12 +16,13 @@
 #include "CoordinateSystem.hpp"
 
 #include "GetGraphic.hpp"
-#include "AddDrawSubscription.hpp"
+#include "DrawningInteraction.hpp"
 
 #include <vector>
 #include <variant>
 #include <unordered_map>
 #include <cstdio>
+#include <unordered_set>
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
@@ -60,13 +61,9 @@ auto GetTimer()
 
 CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
-                                              const molecular_box_coordinate_system& coordinate_system, 
-                                              const time_type& current_time, time_type& next_drawning_time);
-std::function<void(id_type)> GetAddDrawSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions, 
-                                                    const molecular_box_coordinate_system& coordinate_system);
-std::function<void()> GetDrawAction(const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, id_type id);
-std::function<bool()> GetDrawCheck();
+subsription_storage GetSubscriptionsByDefault(DrawningInteraction& drawning_interaction);
+
+std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawning_interaction);
 std::function<void(id_type)> GetAddCollisionSubscription();
 
 void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
@@ -76,8 +73,8 @@ void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_b
 
 simulation_status ProcessEvents();
 
-void StepByStepSimulation(IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time);
-void CheckInteractions(IdStorage<Interaction>& interactions);
+void StepByStepSimulation(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time);
+void CheckInteractions(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions);
 void MoveObjects(ObjectStorage& objects, time_type time = TIME_STEP);    
 offset_type CalculateOffset(speed_type speed, time_type time);
 void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset);      
