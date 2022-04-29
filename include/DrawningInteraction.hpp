@@ -54,6 +54,7 @@ class GetTimeToNextDrawning
   public:
     GetTimeToNextDrawning() = delete;
     GetTimeToNextDrawning(const time_type& global_time, const time_type& next_drawning_time);
+    
     time_type operator()();
 };
 

@@ -1,5 +1,7 @@
 #include <MolecularBox.hpp>
 
+#include <iostream>
+
 int main()
 {
     auto resolution = GetGraphic()->GetResolution(0);
@@ -15,7 +17,7 @@ int main()
     IdStorage<Interaction> interactions;
     IdStorage<PredictableInteraction> predictable_interactions;
 
-    auto subscriptions_by_default = GetSubscriptionsByDefault(drawning_interaction);
+    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interactions, drawning_interaction);
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
@@ -33,12 +35,12 @@ molecular_box_coordinate_system GetCoordinateSystem()
                                                                         SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(DrawningInteraction& drawning_interaction)
+subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction)
 {
     subsription_storage subscriptions_by_default = {};
 
     subscriptions_by_default.push_back(GetAddDrawSubscription(drawning_interaction));
-    subscriptions_by_default.push_back(GetAddCollisionSubscription());
+    subscriptions_by_default.push_back(GetAddCollisionSubscription(objects, interactions));
 
     return subscriptions_by_default;
 }
@@ -50,23 +52,46 @@ std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawnin
     };
 }
 
-std::function<void(id_type)> GetAddCollisionSubscription()
+std::function<void(id_type)> GetAddCollisionSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions)
 {
-    return [](id_type) { return; };
-
-    /*return [](id_type new_object_id) {
-        std::for_each(objects.objects_cbegin(), objects_cend(), [](const auto& pair){
+    return [&objects, &interactions](id_type new_object_id) {
+        std::for_each(objects.objects_cbegin(), objects.objects_cend(), [new_object_id, &objects, &interactions](const auto& pair){
             const auto& [id, object] = pair;
 
             if (id == new_object_id)
             {
-                continue;
+                return;
             }
 
-
-            interaction.AddElement(Interaction(GetCollisionAction(), GetCollisionCheck()));
+            interactions.AddElement(Interaction(GetCollisionAction(), GetCollisionCheck(new_object_id, id, objects)));
         });
-    };*/
+    };
+}
+
+std::function<void()> GetCollisionAction()
+{
+    return []() {
+        std::cout << "Collision is happened!!!" << std::endl;
+    };
+}
+
+std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects)
+{
+    return [first_id, second_id, &objects]() {
+        auto first_object  = objects.GetObject(first_id);
+        auto first_object_coordinates = objects.GetCoordinates(first_id);
+        auto first_object_speed = objects.GetSpeed(first_id);
+
+        auto second_object = objects.GetObject(second_id);
+        auto second_object_coordinates = objects.GetCoordinates(second_id);
+        auto second_object_speed = objects.GetSpeed(second_id);
+
+        return std::visit([&first_object_coordinates, &first_object_speed, &second_object_coordinates, &second_object_speed]
+                          (auto& first_object, auto& second_object) {
+            return CheckCollision(first_object,  first_object_coordinates,  first_object_speed,
+                                  second_object, second_object_coordinates, second_object_speed);
+        }, first_object, second_object);
+    };
 }
 
 void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
@@ -77,7 +102,7 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
+    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR, {10, 10});
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 

@@ -51,6 +51,11 @@ class IdStorage
         return storage_.at(id);
     }
 
+    bool contains(id_type id) const 
+    {
+        return storage_.contains(id);
+    }
+
     auto begin()
     {
         return storage_.begin();

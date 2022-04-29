@@ -21,40 +21,48 @@ id_type ObjectStorage::AddObject(object&& object, object_coordinates coordinates
 
 object& ObjectStorage::GetObject(id_type id)
 {
+    assert(objects_.contains(id));
     return objects_.at(id);
 }
 
 const object& ObjectStorage::GetObject(id_type id) const
 {
+    assert(objects_.contains(id));
     return objects_.at(id);
 }
 
 object_coordinates& ObjectStorage::GetCoordinates(id_type id)
 {
+    assert(object_coordinates_.contains(id));
     return object_coordinates_.at(id);
 }
 
 const object_coordinates& ObjectStorage::GetCoordinates(id_type id) const
 {
+    assert(object_coordinates_.contains(id));
     return object_coordinates_.at(id);
 }
 
 color& ObjectStorage::GetColor(id_type id)
 {
+    assert(object_colors_.contains(id));
     return object_colors_.at(id);
 }
 
 const color ObjectStorage::GetColor(id_type id) const
 {
+    assert(object_colors_.contains(id));
     return object_colors_.at(id);
 }
 
 speed_type& ObjectStorage::GetSpeed(id_type id)
 {
+    assert(object_speeds_.contains(id));
     return object_speeds_.at(id);
 }
 
 const speed_type& ObjectStorage::GetSpeed(id_type id) const
 {
+    assert(object_speeds_.contains(id));
     return object_speeds_.at(id);
 }
