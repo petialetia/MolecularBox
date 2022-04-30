@@ -35,7 +35,7 @@ molecular_box_coordinate_system GetCoordinateSystem()
                                                                         SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction)
+subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction)
 {
     subsription_storage subscriptions_by_default = {};
 
@@ -52,7 +52,7 @@ std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawnin
     };
 }
 
-std::function<void(id_type)> GetAddCollisionSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions)
+std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, IdStorage<Interaction>& interactions)
 {
     return [&objects, &interactions](id_type new_object_id) {
         std::for_each(objects.objects_cbegin(), objects.objects_cend(), [new_object_id, &objects, &interactions](const auto& pair){
@@ -63,22 +63,27 @@ std::function<void(id_type)> GetAddCollisionSubscription(const ObjectStorage& ob
                 return;
             }
 
-            interactions.AddElement(Interaction(GetCollisionAction(), GetCollisionCheck(new_object_id, id, objects)));
+            interactions.AddElement(Interaction(GetCollisionAction(new_object_id, id, objects), GetCollisionCheck(new_object_id, id, objects)));
         });
     };
 }
 
-std::function<void()> GetCollisionAction()
+std::function<void()> GetCollisionAction(const id_type first_id, const id_type second_id, ObjectStorage& objects)
 {
-    return []() {
-        std::cout << "Collision detected" << std::endl;
+    return [first_id, second_id, &objects]() {
+        auto first_object  = objects.GetObject(first_id);
+        auto second_object = objects.GetObject(second_id);
+
+        std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
+            ProcessCollision(first_id, first_object, second_id, second_object, objects);
+        }, first_object, second_object);
     };
 }
 
 std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects)
 {
     return [first_id, second_id, &objects]() {
-        auto first_object = objects.GetObject(first_id);
+        auto first_object  = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
 
         return std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
@@ -109,10 +114,10 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
 
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_molecule_id = objects.AddObject(Circle(20), object_coordinates({0, 0}), {255, 0, 255, 255}, {20, 20});
+    auto new_molecule_id = objects.AddObject(Circle(50), object_coordinates({-100, 0}), {255, 0, 255, 255}, speed_type({30, 0}));
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(30), object_coordinates({50, 45}), {0, 0, 255, 255}, {-30, 20});
+    new_molecule_id = objects.AddObject(Circle(100), object_coordinates({100, 0}), {0, 0, 255, 255}, speed_type({-40, 0}));
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 }
 

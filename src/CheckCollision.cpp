@@ -1,10 +1,10 @@
 #include <CheckCollision.hpp>
 
-bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_spped,
-                    const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_spped)
+bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_speed,
+                    const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_speed)
 {
-    UNUSED(first_circle_spped)
-    UNUSED(second_circle_spped)
+    UNUSED(first_circle_speed)
+    UNUSED(second_circle_speed)
 
 
     auto distance_vector = second_circle_center - first_circle_center;
@@ -21,7 +21,7 @@ bool CheckCollision(const Circle& first_circle,  const object_coordinates& first
         //TODO: Implement
         assert(false);
 
-        /*if IsCodirectional((CountProjection(first_circle_spped, distance_vector) - CountProjection(second_circle_spped, distance_vector)), distance_vector)
+        /*if IsCodirectional((CountProjection(first_circle_speed, distance_vector) - CountProjection(second_circle_speed, distance_vector)), distance_vector)
         {
             return true;
         }*/
@@ -72,18 +72,18 @@ bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordin
                           ring,   ring_coordinates,   ring_speed);
 }
 
-bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  const speed_type& first_ring_spped,
-                    const Ring& second_ring, const object_coordinates& second_ring_center, const speed_type& second_ring_spped)
+bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  const speed_type& first_ring_speed,
+                    const Ring& second_ring, const object_coordinates& second_ring_center, const speed_type& second_ring_speed)
 
 {
     //TODO: Imlement
 
     UNUSED(first_ring)
     UNUSED(first_ring_center)
-    UNUSED(first_ring_spped)
+    UNUSED(first_ring_speed)
     UNUSED(second_ring)
     UNUSED(second_ring_center)
-    UNUSED(second_ring_spped)
+    UNUSED(second_ring_speed)
 
     assert(false);
     return false;
@@ -94,8 +94,8 @@ bool CheckCollision(const Circle& first_circle,  const object_coordinates& first
 {
     //TODO: optimize
 
-    return CheckCollision(first_circle,  first_circle_center,  {0, 0},
-                          second_circle, second_circle_center, {0, 0});
+    return CheckCollision(first_circle,  first_circle_center,  speed_type({0, 0}),
+                          second_circle, second_circle_center, speed_type({0, 0}));
 }
 
 bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates,
@@ -103,8 +103,8 @@ bool CheckCollision(const Circle& circle, const object_coordinates& circle_coord
 {
     //TODO: optimize
 
-    return CheckCollision(circle, circle_coordinates, {0, 0},
-                          ring,   ring_coordinates,   {0, 0});
+    return CheckCollision(circle, circle_coordinates, speed_type({0, 0}),
+                          ring,   ring_coordinates,   speed_type({0, 0}));
 }
             
 bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
@@ -118,8 +118,8 @@ bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_rin
 {
     //TODO: optimize
 
-    return CheckCollision(first_ring,  first_ring_center,  {0, 0},
-                          second_ring, second_ring_center, {0, 0});
+    return CheckCollision(first_ring,  first_ring_center,  speed_type({0, 0}),
+                          second_ring, second_ring_center, speed_type({0, 0}));
 }
 
 bool IsPenetrated(const Circle& first_circle, const Circle& second_circle, const coordinate_type distance)

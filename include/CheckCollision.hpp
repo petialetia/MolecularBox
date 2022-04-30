@@ -2,7 +2,6 @@
 #define CHECK_COLLISION_HPP
 
 #include "ObjectStorage.hpp"
-#include <optional>
 
 #ifndef UNUSED
 #define UNUSED(x) [&x](){};
@@ -27,7 +26,7 @@ bool CheckCollision(const id_type first_id, Object1 first_object, const id_type 
         else
         {
             return CheckCollision(first_object,  first_object_coordinates,  first_object_speed, 
-                                  second_object, second_object_coordinates, {0, 0});
+                                  second_object, second_object_coordinates, speed_type({0, 0}));
         }
     }
     else
@@ -35,7 +34,7 @@ bool CheckCollision(const id_type first_id, Object1 first_object, const id_type 
         if (objects.ContainsSpeed(second_id))
         {
             auto second_object_speed = objects.GetSpeed(second_id);
-            return CheckCollision(first_object,  first_object_coordinates,  {0, 0},
+            return CheckCollision(first_object,  first_object_coordinates,  speed_type({0, 0}),
                                   second_object, second_object_coordinates, second_object_speed);
         }
         else
@@ -46,14 +45,14 @@ bool CheckCollision(const id_type first_id, Object1 first_object, const id_type 
     }
 }
 
-bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_spped,
-                    const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_spped);
+bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_speed,
+                    const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_speed);
 bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates, const speed_type& circle_speed,
                     const Ring& ring,     const object_coordinates& ring_coordinates,   const speed_type& ring_speed);
 bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordinates,   const speed_type& ring_speed,
                     const Circle& circle, const object_coordinates& circle_coordinates, const speed_type& circle_speed);
-bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  const speed_type& first_ring_spped,
-                    const Ring& second_ring, const object_coordinates& second_ring_center, const speed_type& second_ring_spped);
+bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  const speed_type& first_ring_speed,
+                    const Ring& second_ring, const object_coordinates& second_ring_center, const speed_type& second_ring_speed);
 
 bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
                     const Circle& second_circle, const object_coordinates& second_circle_center);

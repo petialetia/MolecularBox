@@ -16,6 +16,7 @@
 #include "DrawningInteraction.hpp"
 
 #include "CheckCollision.hpp"
+#include "ProcessCollision.hpp"
 
 #include <vector>
 #include <variant>
@@ -59,12 +60,12 @@ auto GetTimer()
 
 CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
 
-subsription_storage GetSubscriptionsByDefault(const ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction);
+subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction);
 
 std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawning_interaction);
 
-std::function<void(id_type)> GetAddCollisionSubscription(const ObjectStorage& objects, IdStorage<Interaction>& interactions);
-std::function<void()> GetCollisionAction();
+std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, IdStorage<Interaction>& interactions);
+std::function<void()> GetCollisionAction(const id_type first_id, const id_type second_id, ObjectStorage& objects);
 std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects);
 
 void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default);

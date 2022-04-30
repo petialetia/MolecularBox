@@ -131,10 +131,37 @@ T CountLength(const Coordinates<T>& vector)
     return std::sqrt(sum);
 }
 
-/*template<typename T>
+template<typename T>
+T CountDotProduct(const Coordinates<T>& first_vector, const Coordinates<T>& second_vector)
+{
+    assert(first_vector.size() == second_vector.size());
+
+    T dot_product = 0;
+
+    for (size_t i = 0; i < first_vector.size(); i++)
+    {
+        dot_product += first_vector[i] * second_vector[i];
+    }
+
+    return dot_product;
+}
+
+template<typename T>
+double FindVectorsCos(const Coordinates<T>& first_vector, const Coordinates<T>& second_vector)
+{
+    return CountDotProduct(first_vector, second_vector) / (CountLength(first_vector) * CountLength(second_vector));
+}
+
+template<typename T> 
+Coordinates<T> GetUnitVector(const Coordinates<T>& direction)
+{
+    return direction / CountLength(direction);
+}
+
+template<typename T>
 Coordinates<T> CountProjection(const Coordinates<T>& projected, const Coordinates<T>& vector_to_be_projected_onto)
 {
-
-}*/
+    return CountLength(projected) * FindVectorsCos(projected, vector_to_be_projected_onto) * GetUnitVector(vector_to_be_projected_onto);
+}
 
 #endif /* COORDINATES_HPP */
