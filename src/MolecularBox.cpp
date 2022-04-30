@@ -1,7 +1,5 @@
 #include <MolecularBox.hpp>
 
-#include <iostream>
-
 int main()
 {
     auto resolution = GetGraphic()->GetResolution(0);
@@ -71,25 +69,18 @@ std::function<void(id_type)> GetAddCollisionSubscription(const ObjectStorage& ob
 std::function<void()> GetCollisionAction()
 {
     return []() {
-        std::cout << "Collision is happened!!!" << std::endl;
+        return;
     };
 }
 
 std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects)
 {
     return [first_id, second_id, &objects]() {
-        auto first_object  = objects.GetObject(first_id);
-        auto first_object_coordinates = objects.GetCoordinates(first_id);
-        auto first_object_speed = objects.GetSpeed(first_id);
-
+        auto first_object = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
-        auto second_object_coordinates = objects.GetCoordinates(second_id);
-        auto second_object_speed = objects.GetSpeed(second_id);
 
-        return std::visit([&first_object_coordinates, &first_object_speed, &second_object_coordinates, &second_object_speed]
-                          (auto& first_object, auto& second_object) {
-            return CheckCollision(first_object,  first_object_coordinates,  first_object_speed,
-                                  second_object, second_object_coordinates, second_object_speed);
+        return std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
+            return CheckCollision(first_id, first_object, second_id, second_object, objects);
         }, first_object, second_object);
     };
 }
@@ -102,7 +93,7 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR, {10, 10});
+    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 

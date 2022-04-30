@@ -48,6 +48,7 @@ class ObjectStorage
     color& GetColor(id_type id);
     const color GetColor(id_type id) const;
 
+    bool ContainsSpeed(id_type id) const;
     speed_type& GetSpeed(id_type id);
     const speed_type& GetSpeed(id_type id) const;
 

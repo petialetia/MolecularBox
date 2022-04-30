@@ -19,9 +19,8 @@
 
 #include <vector>
 #include <variant>
-#include <unordered_map>
 #include <cstdio>
-#include <unordered_set>
+#include <optional>
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 

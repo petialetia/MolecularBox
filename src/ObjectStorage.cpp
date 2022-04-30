@@ -55,6 +55,11 @@ const color ObjectStorage::GetColor(id_type id) const
     return object_colors_.at(id);
 }
 
+bool ObjectStorage::ContainsSpeed(id_type id) const
+{
+    return object_speeds_.contains(id);
+}
+
 speed_type& ObjectStorage::GetSpeed(id_type id)
 {
     assert(object_speeds_.contains(id));
