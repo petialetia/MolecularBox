@@ -89,6 +89,39 @@ bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_rin
     return false;
 }
 
+bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
+                    const Circle& second_circle, const object_coordinates& second_circle_center)
+{
+    //TODO: optimize
+
+    return CheckCollision(first_circle,  first_circle_center,  {0, 0},
+                          second_circle, second_circle_center, {0, 0});
+}
+
+bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates,
+                    const Ring& ring,     const object_coordinates& ring_coordinates)
+{
+    //TODO: optimize
+
+    return CheckCollision(circle, circle_coordinates, {0, 0},
+                          ring,   ring_coordinates,   {0, 0});
+}
+            
+bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
+                    const Circle& circle, const object_coordinates& circle_coordinates)
+{
+    return CheckCollision(circle, circle_coordinates, ring, ring_coordinates);
+}
+                
+bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,
+                    const Ring& second_ring, const object_coordinates& second_ring_center)
+{
+    //TODO: optimize
+
+    return CheckCollision(first_ring,  first_ring_center,  {0, 0},
+                          second_ring, second_ring_center, {0, 0});
+}
+
 bool IsPenetrated(const Circle& first_circle, const Circle& second_circle, const coordinate_type distance)
 {
     return distance < first_circle.GetRadius() + second_circle.GetRadius();

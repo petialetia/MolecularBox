@@ -95,7 +95,7 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR, {0, 0});
+    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 
