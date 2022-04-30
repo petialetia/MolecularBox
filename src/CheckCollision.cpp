@@ -18,13 +18,10 @@ bool CheckCollision(const Circle& first_circle,  const object_coordinates& first
 
     if (distance == first_circle.GetRadius() + second_circle.GetRadius())
     {
-        //TODO: Implement
-        assert(false);
-
-        /*if IsCodirectional((CountProjection(first_circle_speed, distance_vector) - CountProjection(second_circle_speed, distance_vector)), distance_vector)
+        if (IsCodirectional((CountProjection(first_circle_speed, distance_vector) - CountProjection(second_circle_speed, distance_vector)), distance_vector))
         {
             return true;
-        }*/
+        }
     }
 
 
@@ -49,15 +46,22 @@ bool CheckCollision(const Circle& circle, const object_coordinates& circle_coord
 
     if (distance == ring.GetInnerRadius() - circle.GetRadius())
     {
-        //TODO: Implement
-        assert(false);
+        if (IsCodirectional((CountProjection(circle_speed, distance_vector) - CountProjection(ring_speed, distance_vector)), distance_vector))
+        {
+            return true;
+        }
+
+
+        return false;
     }
 
 
     if (distance == ring.GetOutterRadius() + circle.GetRadius())
     {
-        //TODO: Implement
-        assert(false);
+        if (IsCodirectional((CountProjection(ring_speed, distance_vector) - CountProjection(circle_speed, distance_vector)), distance_vector))
+        {
+            return true;
+        }
     }
 
 

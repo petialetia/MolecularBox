@@ -25,7 +25,7 @@
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
-const milliseconds DELAY = 100;
+const milliseconds DELAY = 500;
 
 const std::string WINDOW_NAME = "MolecularBox";
 
