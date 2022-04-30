@@ -9,6 +9,7 @@
 #include "Shape.hpp"
 #include "Interaction.hpp"
 #include "ObjectStorage.hpp"
+#include "InteractionStorage.hpp"
 #include "Coordinates.hpp"
 #include "CoordinateSystem.hpp"
 
@@ -25,7 +26,7 @@
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
-const milliseconds DELAY = 500;
+const milliseconds DELAY = 100;
 
 const std::string WINDOW_NAME = "MolecularBox";
 
@@ -60,11 +61,11 @@ auto GetTimer()
 
 CoordinateSystem<coordinate_on_screen_type, coordinate_type> GetCoordinateSystem();
 
-subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction);
+subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, InteractionStorage& interaction_storage);
 
-std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawning_interaction);
+std::function<void(id_type)> GetAddDrawSubscription(InteractionStorage& interaction_storage);
 
-std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, IdStorage<Interaction>& interactions);
+std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, InteractionStorage& interaction_storage);
 std::function<void()> GetCollisionAction(const id_type first_id, const id_type second_id, ObjectStorage& objects);
 std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects);
 
@@ -75,8 +76,7 @@ void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_b
 
 simulation_status ProcessEvents();
 
-void StepByStepSimulation(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time);
-void CheckInteractions(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions);
+void StepByStepSimulation(InteractionStorage& interaction_storage, ObjectStorage& objects, time_type& global_time);
 void MoveObjects(ObjectStorage& objects, time_type time = TIME_STEP);    
 offset_type CalculateOffset(speed_type speed, time_type time);
 void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset);      

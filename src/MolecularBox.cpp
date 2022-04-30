@@ -13,15 +13,13 @@ int main()
 
     auto coordinate_system = GetCoordinateSystem();
 
-    DrawningInteraction drawning_interaction = DrawningInteraction(global_time, 0, DRAWNING_PERIOD_BY_DEFAULT, objects, coordinate_system, BACKGROUND_COLOR);
-    IdStorage<Interaction> interactions;
-    IdStorage<PredictableInteraction> predictable_interactions;
+    InteractionStorage interaction_storage(global_time, 0, DRAWNING_PERIOD_BY_DEFAULT, objects, coordinate_system, BACKGROUND_COLOR);
 
-    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interactions, drawning_interaction);
+    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interaction_storage);
 
     SpawnDefaultObjects(objects, subscriptions_by_default);
 
-    StepByStepSimulation(drawning_interaction, interactions, objects, global_time);
+    StepByStepSimulation(interaction_storage, objects, global_time);
 
     return 0;
 }
@@ -35,27 +33,27 @@ molecular_box_coordinate_system GetCoordinateSystem()
                                                                         SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, IdStorage<Interaction>& interactions, DrawningInteraction& drawning_interaction)
+subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, InteractionStorage& interaction_storage)
 {
     subsription_storage subscriptions_by_default = {};
 
-    subscriptions_by_default.push_back(GetAddDrawSubscription(drawning_interaction));
-    subscriptions_by_default.push_back(GetAddCollisionSubscription(objects, interactions));
+    subscriptions_by_default.push_back(GetAddDrawSubscription(interaction_storage));
+    subscriptions_by_default.push_back(GetAddCollisionSubscription(objects, interaction_storage));
 
     return subscriptions_by_default;
 }
 
-std::function<void(id_type)> GetAddDrawSubscription(DrawningInteraction& drawning_interaction)
+std::function<void(id_type)> GetAddDrawSubscription(InteractionStorage& interaction_storage)
 {
-    return [&drawning_interaction](id_type id) {
-        drawning_interaction.AddObjectToDraw(id);
+    return [&interaction_storage](id_type id) {
+        interaction_storage.AddObjectToDraw(id);
     };
 }
 
-std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, IdStorage<Interaction>& interactions)
+std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, InteractionStorage& interaction_storage)
 {
-    return [&objects, &interactions](id_type new_object_id) {
-        std::for_each(objects.objects_cbegin(), objects.objects_cend(), [new_object_id, &objects, &interactions](const auto& pair){
+    return [&objects, &interaction_storage](id_type new_object_id) {
+        std::for_each(objects.objects_cbegin(), objects.objects_cend(), [new_object_id, &objects, &interaction_storage](const auto& pair){
             const auto& [id, object] = pair;
 
             if (id == new_object_id)
@@ -63,7 +61,7 @@ std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects,
                 return;
             }
 
-            interactions.AddElement(Interaction(GetCollisionAction(new_object_id, id, objects), GetCollisionCheck(new_object_id, id, objects)));
+            interaction_storage.AddInteraction(Interaction(GetCollisionAction(new_object_id, id, objects), GetCollisionCheck(new_object_id, id, objects)));
         });
     };
 }
@@ -159,9 +157,9 @@ simulation_status ProcessEvents()
     return SIMULATION_CONTINUES;
 }
 
-void StepByStepSimulation(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions, ObjectStorage& objects, time_type& global_time)
+void StepByStepSimulation(InteractionStorage& interaction_storage, ObjectStorage& objects, time_type& global_time)
 {
-    CheckInteractions(drawning_interaction, interactions);
+    interaction_storage.CheckInteractions();
     GetTimer()->Delay(DELAY);
 
     while (ProcessEvents() != SIMULATION_ENDED)
@@ -169,24 +167,8 @@ void StepByStepSimulation(DrawningInteraction& drawning_interaction, IdStorage<I
         MoveObjects(objects);
         global_time += TIME_STEP;
 
-        CheckInteractions(drawning_interaction, interactions);
+        interaction_storage.CheckInteractions();
         GetTimer()->Delay(DELAY);
-    }
-}
-
-void CheckInteractions(DrawningInteraction& drawning_interaction, IdStorage<Interaction>& interactions)
-{
-    if (drawning_interaction.CheckConditionForAction() == true)
-    {
-        drawning_interaction.Action();
-    }
-
-    for (auto& [id, interaction]: interactions)
-    {
-        if (interaction.CheckConditionForAction() == true)
-        {
-            interaction.Action();
-        }
     }
 }
 
