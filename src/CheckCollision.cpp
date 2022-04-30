@@ -3,32 +3,64 @@
 bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_spped,
                     const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_spped)
 {
-    //TODO: Imlement
-
-    UNUSED(first_circle)
-    UNUSED(first_circle_center)
     UNUSED(first_circle_spped)
-    UNUSED(second_circle)
-    UNUSED(second_circle_center)
     UNUSED(second_circle_spped)
 
-    assert(false);
+
+    auto distance_vector = second_circle_center - first_circle_center;
+    auto distance = CountLength(distance_vector);
+
+    if (IsPenetrated(first_circle, second_circle, distance))
+    {
+        return true;
+    }
+    
+
+    if (distance == first_circle.GetRadius() + second_circle.GetRadius())
+    {
+        //TODO: Implement
+        assert(false);
+
+        /*if IsCodirectional((CountProjection(first_circle_spped, distance_vector) - CountProjection(second_circle_spped, distance_vector)), distance_vector)
+        {
+            return true;
+        }*/
+    }
+
+
     return false;
 }
 
 bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates, const speed_type& circle_speed,
                     const Ring& ring,     const object_coordinates& ring_coordinates,   const speed_type& ring_speed)
 {
-    //TODO: Imlement
-
-    UNUSED(circle)
-    UNUSED(circle_coordinates)
     UNUSED(circle_speed)
-    UNUSED(ring)
-    UNUSED(ring_coordinates)
     UNUSED(ring_speed)
 
-    assert(false);
+
+    auto distance_vector = ring_coordinates - circle_coordinates;
+    auto distance = CountLength(distance_vector);
+
+    if (IsPenetrated(circle, ring, distance))
+    {
+        return true;
+    }
+
+
+    if (distance == ring.GetInnerRadius() - circle.GetRadius())
+    {
+        //TODO: Implement
+        assert(false);
+    }
+
+
+    if (distance == ring.GetOutterRadius() + circle.GetRadius())
+    {
+        //TODO: Implement
+        assert(false);
+    }
+
+
     return false;
 }
 
@@ -55,4 +87,19 @@ bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_rin
 
     assert(false);
     return false;
+}
+
+bool IsPenetrated(const Circle& first_circle, const Circle& second_circle, const coordinate_type distance)
+{
+    return distance < first_circle.GetRadius() + second_circle.GetRadius();
+}
+
+bool IsPenetrated(const Circle& circle, const Ring& ring, const coordinate_type distance)
+{
+    return distance > ring.GetInnerRadius() - circle.GetRadius() && distance < ring.GetOutterRadius() + circle.GetRadius();
+}
+
+bool IsPenetrated(const Ring& ring, const Circle& circle, const coordinate_type distance)
+{
+    return IsPenetrated(circle, ring, distance);
 }

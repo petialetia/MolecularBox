@@ -105,4 +105,8 @@ bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordin
 bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  const speed_type& first_ring_spped,
                     const Ring& second_ring, const object_coordinates& second_ring_center, const speed_type& second_ring_spped);
 
+bool IsPenetrated(const Circle& first_circle, const Circle& second_circle, const coordinate_type distance);
+bool IsPenetrated(const Circle& circle, const Ring& ring, const coordinate_type distance);
+bool IsPenetrated(const Ring& ring, const Circle& circle, const coordinate_type distance);
+
 #endif /* CHECK_COLLISION_HPP */

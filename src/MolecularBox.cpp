@@ -1,5 +1,7 @@
 #include <MolecularBox.hpp>
 
+#include <iostream>
+
 int main()
 {
     auto resolution = GetGraphic()->GetResolution(0);
@@ -69,7 +71,7 @@ std::function<void(id_type)> GetAddCollisionSubscription(const ObjectStorage& ob
 std::function<void()> GetCollisionAction()
 {
     return []() {
-        return;
+        std::cout << "Collision detected" << std::endl;
     };
 }
 
@@ -93,7 +95,7 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
+    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR, {0, 0});
     SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
 }
 
@@ -107,10 +109,10 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
 
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_molecule_id = objects.AddObject(Circle(100), object_coordinates({0, 0}), {255, 0, 255, 255}, {20, 20});
+    auto new_molecule_id = objects.AddObject(Circle(20), object_coordinates({0, 0}), {255, 0, 255, 255}, {20, 20});
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(30), object_coordinates({100, 100}), {0, 0, 255, 255}, {-30, 20});
+    new_molecule_id = objects.AddObject(Circle(30), object_coordinates({50, 45}), {0, 0, 255, 255}, {-30, 20});
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 }
 

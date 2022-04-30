@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <initializer_list>
+#include <cmath>
 
 template<typename T>
 class Coordinates: public std::vector<T>
@@ -116,5 +117,24 @@ Coordinates<T> operator/(Coordinates<T> first, const T second)
     first/= second;
     return first;
 }
+
+template<typename T>
+T CountLength(const Coordinates<T>& vector)
+{
+    T sum = 0;
+
+    for (size_t i = 0; i < vector.size(); i++)
+    {
+        sum += vector[i] * vector[i];
+    }
+
+    return std::sqrt(sum);
+}
+
+/*template<typename T>
+Coordinates<T> CountProjection(const Coordinates<T>& projected, const Coordinates<T>& vector_to_be_projected_onto)
+{
+
+}*/
 
 #endif /* COORDINATES_HPP */
