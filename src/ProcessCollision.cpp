@@ -72,16 +72,9 @@ void ProcessCollision(const Circle& circle, const object_coordinates& circle_coo
                       const Ring& ring,     const object_coordinates& ring_coordinates)
 {
     UNUSED(circle)
+    UNUSED(ring)
 
     auto distance_vector = ring_coordinates - circle_coordinates;
-    auto distance = CountLength(distance_vector);
-
-    if (distance >= ring.GetInnerRadius() + ring.GetWidth() / 2)
-    {
-        //TODO: implement outter collision
-        assert(false);
-    }
-
     circle_speed -= 2.0 * CountProjection(object_coordinates(circle_speed),  distance_vector);
 }
 

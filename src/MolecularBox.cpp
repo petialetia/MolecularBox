@@ -114,10 +114,22 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
 
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_molecule_id = objects.AddObject(Circle(50), object_coordinates({-100, 0}), {255, 0, 255, 255}, speed_type({30, 0}));
+    auto new_molecule_id = objects.AddObject(Circle(55), object_coordinates({0, 0}), {255, 0, 255, 255}, speed_type({20, 20}));
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(100), object_coordinates({100, 0}), {0, 0, 255, 255}, speed_type({-40, 0}));
+    new_molecule_id = objects.AddObject(Circle(40), object_coordinates({150, 0}), {0, 0, 255, 255}, speed_type({-30, 20}));
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+
+    new_molecule_id = objects.AddObject(Circle(45), object_coordinates({-120, -120}), {255, 0, 0, 255}, speed_type({-20, 20}));
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+
+    new_molecule_id = objects.AddObject(Circle(50), object_coordinates({120, 120}), {255, 255, 0, 255}, speed_type({20, -20}));
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+
+    new_molecule_id = objects.AddObject(Circle(35), object_coordinates({0, 120}), {255, 255, 255, 255}, speed_type({20, -20}));
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+
+    new_molecule_id = objects.AddObject(Circle(30), object_coordinates({-120, 100}), {0, 255, 255, 255}, speed_type({20, -20}));
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 }
 

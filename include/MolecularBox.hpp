@@ -25,7 +25,7 @@
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
-const milliseconds DELAY = 500;
+const milliseconds DELAY = 100;
 
 const std::string WINDOW_NAME = "MolecularBox";
 
@@ -38,7 +38,7 @@ const coordinate_on_screen_type SINGLE_SEGMENT_LENGTH_BY_DEFAULT = 1;
 
 const object_coordinates SHELL_COORDINATES = object_coordinates({0, 0});
 const coordinate_type SHELL_INNER_RADIUS = 250;
-const coordinate_type SHELL_WIDTH = 5;
+const coordinate_type SHELL_WIDTH = 10;
 const color SHELL_COLOR = {.red = 0,
                            .green = 255,
                            .blue = 0,
