@@ -1,7 +1,5 @@
 #include <MolecularBox.hpp>
 
-#include <iostream>
-
 int main()
 {
     auto resolution = GetGraphic()->GetResolution(0);
