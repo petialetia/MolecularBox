@@ -50,8 +50,7 @@ const color SHELL_COLOR = {.red = 0,
 const uint MOLECULES_MAX_RADIUS = 70;
 const uint MOLECULES_MIN_RADIUS = 30;
 
-const int MOLECULES_MAX_SPEED = 30;
-const int MOLECULES_MIN_SPEED = -30;
+const uint MOLECULES_START_SPEED = 30;
 
 enum simulation_status
 {

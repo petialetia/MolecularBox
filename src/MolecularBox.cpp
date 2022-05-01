@@ -141,8 +141,10 @@ coordinate_type GetMoleculeRadius()
 
 speed_type GetMoleculeSpeed()
 {
-    return speed_type({static_cast<coordinate_type>(rand() % (MOLECULES_MAX_SPEED - MOLECULES_MIN_SPEED + 1) + MOLECULES_MIN_SPEED),
-                       static_cast<coordinate_type>(rand() % (MOLECULES_MAX_SPEED - MOLECULES_MIN_SPEED + 1) + MOLECULES_MIN_SPEED)});
+    auto x_speed = rand() % MOLECULES_START_SPEED;
+    auto y_speed = sqrt(MOLECULES_START_SPEED * MOLECULES_START_SPEED - x_speed * x_speed);
+
+    return speed_type({static_cast<coordinate_type>(x_speed), y_speed});
 }
 
 simulation_status ProcessEvents()
