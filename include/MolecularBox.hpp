@@ -24,9 +24,11 @@
 #include <cstdio>
 #include <optional>
 
-using subsription_storage = std::vector<std::function<void(id_type)>>;
-
+const time_type TIME_STEP = 1.0/256;
+const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
 const milliseconds DELAY = 0;
+
+using subsription_storage = std::vector<std::function<void(id_type)>>;
 
 const std::string WINDOW_NAME = "MolecularBox";
 
@@ -44,9 +46,6 @@ const color SHELL_COLOR = {.red = 0,
                            .green = 255,
                            .blue = 0,
                            .alpha = 255};
-
-const time_type TIME_STEP = 1.0/256;
-const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
 
 enum simulation_status
 {
