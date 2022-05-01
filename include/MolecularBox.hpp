@@ -24,7 +24,7 @@
 #include <cstdio>
 #include <optional>
 
-const time_type TIME_STEP = 1.0/512;
+const time_type TIME_STEP = 1.0/1024;
 const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
 const milliseconds DELAY = 0;
 
