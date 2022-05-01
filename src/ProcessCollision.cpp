@@ -7,8 +7,15 @@ void ProcessCollision(const Circle& first_circle,  const object_coordinates& fir
     UNUSED(second_circle)
 
     auto distance_vector = second_circle_center - first_circle_center;
-    first_circle_speed  -= 2.0 * CountProjection(object_coordinates(first_circle_speed),  distance_vector);
-    second_circle_speed -= 2.0 * CountProjection(object_coordinates(second_circle_speed), distance_vector);
+
+    auto first_circle_speed_projection =  CountProjection(object_coordinates(first_circle_speed),  distance_vector);
+    auto second_circle_speed_projection = CountProjection(object_coordinates(second_circle_speed), distance_vector);
+
+    first_circle_speed -= first_circle_speed_projection;
+    first_circle_speed += second_circle_speed_projection;
+    
+    second_circle_speed -= second_circle_speed_projection;
+    second_circle_speed += first_circle_speed_projection;
 }
 
 void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed,
