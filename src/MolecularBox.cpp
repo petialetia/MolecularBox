@@ -110,23 +110,39 @@ void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subsc
 
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
 {
-    auto new_molecule_id = objects.AddObject(Circle(55), object_coordinates({0, 0}), {255, 0, 255, 255}, speed_type({20, 20}));
+    srand(time(NULL));
+
+    auto new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({0, 0}), {255, 0, 255, 255}, GetMoleculeSpeed());
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(40), object_coordinates({150, 0}), {0, 0, 255, 255}, speed_type({-30, 20}));
+    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({-164, 0}), {0, 0, 255, 255}, GetMoleculeSpeed());
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(45), object_coordinates({-120, -120}), {255, 0, 0, 255}, speed_type({-20, 20}));
+    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({-82, -116}), {255, 0, 0, 255}, GetMoleculeSpeed());
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(50), object_coordinates({120, 120}), {255, 255, 0, 255}, speed_type({20, -20}));
+    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({82, -116}), {255, 255, 0, 255}, GetMoleculeSpeed());
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(35), object_coordinates({0, 120}), {255, 255, 255, 255}, speed_type({20, -20}));
+    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({164, 0}), {255, 255, 255, 255}, GetMoleculeSpeed());
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
 
-    new_molecule_id = objects.AddObject(Circle(30), object_coordinates({-120, 100}), {0, 255, 255, 255}, speed_type({20, -20}));
+    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({82, 116}), {0, 255, 255, 255}, GetMoleculeSpeed());
     SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+
+    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({-82, 116}), {0, 255, 0, 255}, GetMoleculeSpeed());
+    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+}
+
+coordinate_type GetMoleculeRadius()
+{
+    return static_cast<coordinate_type>(rand() % (MOLECULES_MAX_RADIUS - MOLECULES_MIN_RADIUS + 1) + MOLECULES_MIN_RADIUS);
+}
+
+speed_type GetMoleculeSpeed()
+{
+    return speed_type({static_cast<coordinate_type>(rand() % (MOLECULES_MAX_SPEED - MOLECULES_MIN_SPEED + 1) + MOLECULES_MIN_SPEED),
+                       static_cast<coordinate_type>(rand() % (MOLECULES_MAX_SPEED - MOLECULES_MIN_SPEED + 1) + MOLECULES_MIN_SPEED)});
 }
 
 simulation_status ProcessEvents()

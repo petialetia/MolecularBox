@@ -24,7 +24,7 @@
 #include <cstdio>
 #include <optional>
 
-const time_type TIME_STEP = 1.0/256;
+const time_type TIME_STEP = 1.0/512;
 const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
 const milliseconds DELAY = 0;
 
@@ -46,6 +46,12 @@ const color SHELL_COLOR = {.red = 0,
                            .green = 255,
                            .blue = 0,
                            .alpha = 255};
+
+const uint MOLECULES_MAX_RADIUS = 70;
+const uint MOLECULES_MIN_RADIUS = 30;
+
+const int MOLECULES_MAX_SPEED = 30;
+const int MOLECULES_MIN_SPEED = -30;
 
 enum simulation_status
 {
@@ -72,6 +78,8 @@ void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscripti
 void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
 void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subscriptions_by_default);
 void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default);
+coordinate_type GetMoleculeRadius();
+speed_type GetMoleculeSpeed();
 
 simulation_status ProcessEvents();
 
