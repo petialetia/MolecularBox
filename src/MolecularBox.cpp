@@ -183,7 +183,7 @@ void StepByStepSimulation(InteractionStorage& interaction_storage, ObjectStorage
 
     while (ProcessEvents() != SIMULATION_ENDED)
     {
-        MoveObjects(objects);
+        MoveObjects(objects, TIME_STEP);
         global_time += TIME_STEP;
 
         interaction_storage.CheckInteractions();

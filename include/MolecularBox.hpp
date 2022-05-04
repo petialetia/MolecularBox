@@ -82,7 +82,7 @@ speed_type GetMoleculeSpeed();
 simulation_status ProcessEvents();
 
 void StepByStepSimulation(InteractionStorage& interaction_storage, ObjectStorage& objects, time_type& global_time);
-void MoveObjects(ObjectStorage& objects, time_type time = TIME_STEP);    
+void MoveObjects(ObjectStorage& objects, time_type time);    
 offset_type CalculateOffset(speed_type speed, time_type time);
 void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset);      
 
