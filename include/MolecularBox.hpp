@@ -22,7 +22,6 @@
 #include <vector>
 #include <variant>
 #include <cstdio>
-#include <optional>
 
 const time_type TIME_STEP = 1.0/2048;
 const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
