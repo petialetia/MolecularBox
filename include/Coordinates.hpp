@@ -32,6 +32,17 @@ class Coordinates: public std::vector<T>
     }
 
 
+    const T& operator[](const size_t index) const
+    {
+        return std::vector<T>::operator[](index);
+    }
+
+    T& operator[](const size_t index)
+    {
+        return std::vector<T>::operator[](index);
+    }
+
+
     Coordinates& operator+=(const Coordinates& other)
     {
         TermByTermCompoundAddition(*this, other);
