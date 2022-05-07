@@ -39,12 +39,20 @@ const uint MOLECULES_MIN_RADIUS = 30;
 
 const uint MOLECULES_START_SPEED = 30;
 
+const milliseconds DELAY = 0;
+
 using Simulation = StepByStepSimulation<SDL2TimerImplementation>;
 
 auto GetTimer()
 {
     return GetSDL2TimerImplementation();
 }
+
+enum simulation_status
+{
+    SIMULATION_CONTINUES,
+    SIMULATION_ENDED
+};
 
 molecular_box_coordinate_system GetCoordinateSystem();
 
@@ -63,7 +71,8 @@ void SpawnMolecules(Simulation& simulation);
 coordinate_type GetMoleculeRadius();
 speed_type GetMoleculeSpeed();
 
-//void StepByStepSimulation(InteractionStorage& interaction_storage, ObjectStorage& objects, time_type& global_time);
-     
+void RunStepByStepSimulation(Simulation& simulation);
+
+simulation_status ProcessEvents();
 
 #endif /* MOLECULAR_BOX_HPP */

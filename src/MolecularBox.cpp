@@ -5,14 +5,14 @@ int main()
     auto resolution = GetGraphic()->GetResolution(0);
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
-    Simulation simulation = Simulation(GetCoordinateSystem(), GetTimer());
+    Simulation simulation = Simulation(GetCoordinateSystem());
 
     simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
     simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));
 
     SpawnDefaultObjects(simulation);
 
-    simulation.Run();
+    RunStepByStepSimulation(simulation);
 
     return 0;
 }
@@ -119,4 +119,42 @@ speed_type GetMoleculeSpeed()
     auto y_speed = sqrt(MOLECULES_START_SPEED * MOLECULES_START_SPEED - x_speed * x_speed);
 
     return speed_type({x_signum * static_cast<coordinate_type>(x_speed), y_signum * y_speed});
+}
+
+void RunStepByStepSimulation(Simulation& simulation)
+{
+    simulation.TryDraw();
+    GetTimer()->Delay(DELAY);
+
+    while (ProcessEvents() != SIMULATION_ENDED)
+    {
+        simulation.Step();
+        GetTimer()->Delay(DELAY);
+    }
+}
+
+simulation_status ProcessEvents()
+{
+    //TODO: Rewrite on event adapter
+
+    static SDL_Event event;
+
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_QUIT)
+        {
+            return SIMULATION_ENDED;
+        }
+
+
+        if  (event.type == SDL_KEYDOWN)
+        {
+            if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+            {
+                return SIMULATION_ENDED;
+            }
+        }
+    }
+
+    return SIMULATION_CONTINUES;
 }

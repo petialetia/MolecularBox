@@ -10,7 +10,6 @@
 using subsription_storage = std::vector<std::function<void(id_type)>>;
 
 const time_type TIME_STEP = 1.0/2048;
-const milliseconds DELAY = 0;
 
 const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
 
@@ -18,14 +17,7 @@ const color BACKGROUND_COLOR = {.red = 0,
                                 .green = 0,
                                 .blue = 0,
                                 .alpha = 0};
-
-enum simulation_status
-{
-    SIMULATION_CONTINUES,
-    SIMULATION_ENDED
-};
-
-simulation_status ProcessEvents();
+                                
 void MoveObjects(ObjectStorage& objects, time_type time);    
 offset_type CalculateOffset(speed_type speed, time_type time);
 void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset); 
@@ -42,15 +34,12 @@ class StepByStepSimulation
 
     subsription_storage subscriptions_by_default_;
 
-    TimerInterface<TimetImplementation>* timer_;
-
   public:
 
     StepByStepSimulation() = delete;
-    StepByStepSimulation(molecular_box_coordinate_system coordinate_system, TimerInterface<TimetImplementation>* timer) :
+    StepByStepSimulation(molecular_box_coordinate_system coordinate_system) :
       coordinate_system_(coordinate_system), 
-      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR),
-      timer_(timer)
+      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR)
     {
     }
 
@@ -91,19 +80,12 @@ class StepByStepSimulation
         interaction_storage_.TryDraw();
     }
 
-    void Run()
+    void Step()
     {
+        MoveObjects(object_storage_, TIME_STEP);
+        global_time_+= TIME_STEP;
+
         interaction_storage_.CheckInteractions();
-        timer_->Delay(DELAY);
-
-        while (ProcessEvents() != SIMULATION_ENDED)
-        {
-            MoveObjects(object_storage_, TIME_STEP);
-            global_time_+= TIME_STEP;
-
-            interaction_storage_.CheckInteractions();
-            timer_->Delay(DELAY);
-        }
     }
 };
 
