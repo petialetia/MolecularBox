@@ -28,6 +28,14 @@ bool Interaction::CheckConditionForAction() const
     return CheckConditionForAction_();
 }
 
+void Interaction::TryAction() const
+{
+    if (CheckConditionForAction_() == true)
+    {
+        Action_();
+    }
+}
+
 PredictableInteraction::PredictableInteraction(std::function<void()> Action, std::function<time_type()> GetTimeToNextAction) :
     Interaction(Action, [GetTimeToNextAction]() { return GetTimeToNextAction() == 0; }), GetTimeToNextAction_(GetTimeToNextAction)
 {

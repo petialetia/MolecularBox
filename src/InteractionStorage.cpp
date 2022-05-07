@@ -26,22 +26,13 @@ void InteractionStorage::CheckInteractions()
 {
     for (auto& [id, interaction]: interactions_)
     {
-        if (interaction.CheckConditionForAction() == true)
-        {
-            interaction.Action();
-        }
+        interaction.TryAction();
     }
 
     for (auto& [id, predictable_interaction]: predictable_interactions_)
     {
-        if (predictable_interaction.CheckConditionForAction() == true)
-        {
-            predictable_interaction.Action();
-        }
+        predictable_interaction.TryAction();
     }
 
-    if (drawning_interaction_.CheckConditionForAction() == true)
-    {
-        drawning_interaction_.Action();
-    }
+    drawning_interaction_.TryAction();
 }
