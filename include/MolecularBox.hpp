@@ -50,9 +50,9 @@ molecular_box_coordinate_system GetCoordinateSystem();
 
 subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, InteractionStorage& interaction_storage);
 
-std::function<void(id_type)> GetAddDrawSubscription(InteractionStorage& interaction_storage);
+std::function<void(id_type)> GetAddDrawSubscription(Simulation& simulation);
 
-std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, InteractionStorage& interaction_storage);
+std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation);
 std::function<void()> GetCollisionAction(const id_type first_id, const id_type second_id, ObjectStorage& objects);
 std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects);
 

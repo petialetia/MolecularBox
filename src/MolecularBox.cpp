@@ -7,8 +7,8 @@ int main()
 
     Simulation simulation = Simulation(GetCoordinateSystem(), GetTimer());
 
-    simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation.GetInteractions()));
-    simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation.GetObjects(), simulation.GetInteractions()));
+    simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
+    simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));
 
     SpawnDefaultObjects(simulation);
 
@@ -26,17 +26,17 @@ molecular_box_coordinate_system GetCoordinateSystem()
                                                                         SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-std::function<void(id_type)> GetAddDrawSubscription(InteractionStorage& interaction_storage)
+std::function<void(id_type)> GetAddDrawSubscription(Simulation& simulation)
 {
-    return [&interaction_storage](id_type id) {
-        interaction_storage.AddObjectToDraw(id);
+    return [&simulation](id_type id) {
+        simulation.GetInteractions().AddObjectToDraw(id);
     };
 }
 
-std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, InteractionStorage& interaction_storage)
+std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
 {
-    return [&objects, &interaction_storage](id_type new_object_id) {
-        std::for_each(objects.objects_cbegin(), objects.objects_cend(), [new_object_id, &objects, &interaction_storage](const auto& pair){
+    return [&simulation](id_type new_object_id) {
+        std::for_each(simulation.GetObjects().objects_cbegin(), simulation.GetObjects().objects_cend(), [new_object_id, &simulation](const auto& pair){
             const auto& [id, object] = pair;
 
             if (id == new_object_id)
@@ -44,7 +44,8 @@ std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects,
                 return;
             }
 
-            interaction_storage.AddInteraction(Interaction(GetCollisionAction(new_object_id, id, objects), GetCollisionCheck(new_object_id, id, objects)));
+            simulation.GetInteractions().AddInteraction(Interaction(GetCollisionAction(new_object_id, id, simulation.GetObjects()), 
+                                                                    GetCollisionCheck( new_object_id, id, simulation.GetObjects())));
         });
     };
 }
