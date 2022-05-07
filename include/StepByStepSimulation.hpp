@@ -86,6 +86,11 @@ class StepByStepSimulation
         SubscribeToDefaultInteraction(new_object_id);
     }
 
+    void TryDraw()
+    {
+        interaction_storage_.TryDraw();
+    }
+
     void Run()
     {
         interaction_storage_.CheckInteractions();

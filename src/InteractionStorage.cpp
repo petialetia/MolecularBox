@@ -22,6 +22,11 @@ void InteractionStorage::AddObjectToDraw(id_type id)
     drawning_interaction_.AddObjectToDraw(id);
 }
 
+void InteractionStorage::TryDraw()
+{
+    drawning_interaction_.TryAction();
+}
+
 void InteractionStorage::CheckInteractions()
 {
     for (auto& [id, interaction]: interactions_)
@@ -34,5 +39,5 @@ void InteractionStorage::CheckInteractions()
         predictable_interaction.TryAction();
     }
 
-    drawning_interaction_.TryAction();
+    TryDraw();
 }
