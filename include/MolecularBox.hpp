@@ -10,7 +10,8 @@
 #include "Coordinates.hpp"
 #include "CoordinateSystem.hpp"
 
-#include "GetGraphic.hpp"
+#include "GraphicAdapter/SDL2GraphicImplementation.hpp"
+
 #include "DrawningInteraction.hpp"
 
 #include "CheckCollision.hpp"
@@ -41,11 +42,16 @@ const uint MOLECULES_START_SPEED = 30;
 
 const milliseconds DELAY = 0;
 
-using Simulation = StepByStepSimulation<SDL2TimerImplementation>;
+using Simulation = StepByStepSimulation;
 
 auto GetTimer()
 {
     return GetSDL2TimerImplementation();
+}
+
+auto GetGraphic()
+{
+    return GetSDL2GraphicImplementation();
 }
 
 enum simulation_status

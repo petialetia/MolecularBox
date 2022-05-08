@@ -1,9 +1,6 @@
 add_subdirectory(GraphicAdapter)
 add_subdirectory(TimerAdapter)
 
-add_library(GetGraphic STATIC GetGraphic.cpp)
-target_link_libraries(GetGraphic SDL2GraphicFunctions SDL2GraphicImplementation)
-
 add_library(Shape                STATIC Shape.cpp)
 add_library(Interaction          STATIC Interaction.cpp)
 add_library(ObjectStorage        STATIC ObjectStorage.cpp)
@@ -14,8 +11,8 @@ add_library(ProcessCollision     STATIC ProcessCollision.cpp)
 add_library(StepByStepSimulation STATIC StepByStepSimulation.cpp)
 
 add_executable(MolecularBox MolecularBox.cpp)
+target_link_libraries(MolecularBox SDL2GraphicFunctions SDL2GraphicImplementation)
 target_link_libraries(MolecularBox SDL2TimerFunctions SDL2TimerImplementation)
-target_link_libraries(MolecularBox GetGraphic)
 target_link_libraries(MolecularBox Shape Interaction ObjectStorage InteractionStorage)
 target_link_libraries(MolecularBox DrawningInteraction)
 target_link_libraries(MolecularBox CheckCollision)

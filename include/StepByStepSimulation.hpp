@@ -22,7 +22,7 @@ void MoveObjects(ObjectStorage& objects, time_type time);
 offset_type CalculateOffset(speed_type speed, time_type time);
 void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset); 
 
-template<typename TimetImplementation>
+
 class StepByStepSimulation
 {
   private:
@@ -37,9 +37,11 @@ class StepByStepSimulation
   public:
 
     StepByStepSimulation() = delete;
-    StepByStepSimulation(molecular_box_coordinate_system coordinate_system) :
+
+    template<typename GraphicImplementation>
+    StepByStepSimulation(molecular_box_coordinate_system coordinate_system, GraphicInterface<GraphicImplementation>* graphic) :
       coordinate_system_(coordinate_system), 
-      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR)
+      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR, graphic)
     {
     }
 
