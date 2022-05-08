@@ -3,10 +3,6 @@
 bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_speed,
                     const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_speed)
 {
-    UNUSED(first_circle_speed)
-    UNUSED(second_circle_speed)
-
-
     auto distance_vector = second_circle_center - first_circle_center;
     auto distance = CountLength(distance_vector);
 
@@ -31,10 +27,6 @@ bool CheckCollision(const Circle& first_circle,  const object_coordinates& first
 bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates, const speed_type& circle_speed,
                     const Ring& ring,     const object_coordinates& ring_coordinates,   const speed_type& ring_speed)
 {
-    UNUSED(circle_speed)
-    UNUSED(ring_speed)
-
-
     auto distance_vector = ring_coordinates - circle_coordinates;
     auto distance = CountLength(distance_vector);
 
