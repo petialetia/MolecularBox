@@ -18,7 +18,7 @@ class TimerInterface
   public:
     void Delay(milliseconds ms)
     {
-        this->GetImplementation()->Delay();
+        this->GetImplemetation()->Delay(ms);
     }
 
   private:

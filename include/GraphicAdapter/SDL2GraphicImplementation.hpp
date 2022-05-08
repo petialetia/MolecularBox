@@ -52,9 +52,6 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
     Quit_type Quit_;
 
   public:
-    friend SDL2GraphicImplementation* GetSDL2GraphicImplementation();
-
-  private:
     SDL2GraphicImplementation() = delete;
 
     SDL2GraphicImplementation(Init_type Init, GetResolution_type GetResolution, CreateWindow_type CreateWindow, GetWindowSize_type GetWindowSize, 
@@ -64,7 +61,6 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
                               DrawRing_type DrawRing, DrawRingWithColor_type DrawRingWithColor,
                               Refresh_type Refresh, Quit_type Quit);
 
-  public:
     void Init();
     display_size GetResolution(display_number display);
     void CreateWindow(std::string name, window_coordinates win_coordinates, window_size win_size);
@@ -83,6 +79,6 @@ class SDL2GraphicImplementation : public GraphicInterface<SDL2GraphicImplementat
     ~SDL2GraphicImplementation();
 };
 
-SDL2GraphicImplementation* GetSDL2GraphicImplementation();
+SDL2GraphicImplementation GetSDL2GraphicImplementation();
 
 #endif /* SDL2_GRAPHIC_IMPLEMENTATION_HPP */

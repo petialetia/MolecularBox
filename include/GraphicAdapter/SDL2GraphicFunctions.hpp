@@ -20,9 +20,9 @@ void SetColor(SDL_Renderer* const& renderer, color color);
 void ClearWindow(SDL_Renderer* const& renderer);
 void ClearWindowWithColor(SDL_Renderer* const& renderer, color color);
 void DrawCircumference(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius);
-void DrawCircleWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color);
+void DrawCircumferenceWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color);
 void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius);
-void DrawCircleRegionWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color);
+void DrawCircleWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color);
 void DrawRing(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius);
 void DrawRingWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, 
                        coordinate_on_screen_type inner_radius, coordinate_on_screen_type outter_radius, color color);

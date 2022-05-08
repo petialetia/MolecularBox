@@ -13,13 +13,21 @@ class InteractionStorage
 
   public:
     InteractionStorage() = delete;
+
+    template<typename GraphicImplementation, typename TimerImplementation>
     InteractionStorage(const time_type& global_time, const time_type next_drawning_time, const time_type drawning_period,
                        const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, 
-                       const color background_color);
+                       const color background_color, GraphicInterface<GraphicImplementation>* graphic,
+                       TimerInterface<TimerImplementation>* timer, milliseconds delay):
+        drawning_interaction_(global_time, next_drawning_time, drawning_period, objects, coordinate_system, background_color, graphic, timer, delay)
+    {
+    }
 
     void AddInteraction(Interaction&& interaction);
     void AddPredictableInteraction(PredictableInteraction&& predictable_interaction);
     void AddObjectToDraw(id_type id);
+
+    void TryDraw();
     void CheckInteractions();
 };
 

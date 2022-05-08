@@ -29,6 +29,8 @@ class Interaction
     void Action() const;
 
     bool CheckConditionForAction() const;
+
+    void TryAction() const;
 };
 
 class PredictableInteraction : public Interaction

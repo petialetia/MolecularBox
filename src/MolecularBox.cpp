@@ -5,19 +5,14 @@ int main()
     auto resolution = GetGraphic()->GetResolution(0);
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
-    time_type global_time = 0;
+    Simulation simulation = Simulation(TIME_STEP, GetCoordinateSystem(), DRAWNING_PERIOD_BY_DEFAULT, BACKGROUND_COLOR, GetGraphic(), GetTimer(), DELAY);
 
-    ObjectStorage objects;
+    simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
+    simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));
 
-    auto coordinate_system = GetCoordinateSystem();
+    SpawnDefaultObjects(simulation);
 
-    InteractionStorage interaction_storage(global_time, 0, DRAWNING_PERIOD_BY_DEFAULT, objects, coordinate_system, BACKGROUND_COLOR);
-
-    auto subscriptions_by_default = GetSubscriptionsByDefault(objects, interaction_storage);
-
-    SpawnDefaultObjects(objects, subscriptions_by_default);
-
-    StepByStepSimulation(interaction_storage, objects, global_time);
+    RunStepByStepSimulation(simulation);
 
     return 0;
 }
@@ -31,27 +26,17 @@ molecular_box_coordinate_system GetCoordinateSystem()
                                                                         SINGLE_SEGMENT_LENGTH_BY_DEFAULT);
 }
 
-subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, InteractionStorage& interaction_storage)
+std::function<void(id_type)> GetAddDrawSubscription(Simulation& simulation)
 {
-    subsription_storage subscriptions_by_default = {};
-
-    subscriptions_by_default.push_back(GetAddDrawSubscription(interaction_storage));
-    subscriptions_by_default.push_back(GetAddCollisionSubscription(objects, interaction_storage));
-
-    return subscriptions_by_default;
-}
-
-std::function<void(id_type)> GetAddDrawSubscription(InteractionStorage& interaction_storage)
-{
-    return [&interaction_storage](id_type id) {
-        interaction_storage.AddObjectToDraw(id);
+    return [&simulation](id_type id) {
+        simulation.GetInteractions().AddObjectToDraw(id);
     };
 }
 
-std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects, InteractionStorage& interaction_storage)
+std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
 {
-    return [&objects, &interaction_storage](id_type new_object_id) {
-        std::for_each(objects.objects_cbegin(), objects.objects_cend(), [new_object_id, &objects, &interaction_storage](const auto& pair){
+    return [&simulation](id_type new_object_id) {
+        std::for_each(simulation.GetObjects().objects_cbegin(), simulation.GetObjects().objects_cend(), [new_object_id, &simulation](const auto& pair){
             const auto& [id, object] = pair;
 
             if (id == new_object_id)
@@ -59,7 +44,8 @@ std::function<void(id_type)> GetAddCollisionSubscription(ObjectStorage& objects,
                 return;
             }
 
-            interaction_storage.AddInteraction(Interaction(GetCollisionAction(new_object_id, id, objects), GetCollisionCheck(new_object_id, id, objects)));
+            simulation.GetInteractions().AddInteraction(Interaction(GetCollisionAction(new_object_id, id, simulation.GetObjects()), 
+                                                                    GetCollisionCheck( new_object_id, id, simulation.GetObjects())));
         });
     };
 }
@@ -88,50 +74,35 @@ std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type se
     };
 }
 
-void SpawnDefaultObjects(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
+void SpawnDefaultObjects(Simulation& simulation)
 {
-    SpawnShell(objects, subscriptions_by_default);
-    SpawnMolecules(objects, subscriptions_by_default);
+    SpawnShell(simulation);
+    SpawnMolecules(simulation);
 }
 
-void SpawnShell(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
+void SpawnShell(Simulation& simulation)
 {
-    auto new_object_id = objects.AddObject(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
-    SubscribeToDefaultInteractons(new_object_id, subscriptions_by_default);
+    simulation.AddObjectWithDefaultSubscriptions(Ring(SHELL_INNER_RADIUS, SHELL_WIDTH), SHELL_COORDINATES, SHELL_COLOR);
 }
 
-void SubscribeToDefaultInteractons(id_type object_id, subsription_storage& subscriptions_by_default)
-{
-    for (auto& AddSubscription : subscriptions_by_default)
-    {
-        AddSubscription(object_id);
-    }
-}
-
-void SpawnMolecules(ObjectStorage& objects, subsription_storage& subscriptions_by_default)
+void SpawnMolecules(Simulation& simulation)
 {
     srand(time(NULL));
 
-    auto new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({0, 0}), {255, 0, 255, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
-
-    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({-164, 0}), {0, 0, 255, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
-
-    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({-82, -116}), {255, 0, 0, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
-
-    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({82, -116}), {255, 255, 0, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
-
-    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({164, 0}), {255, 255, 255, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
-
-    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({82, 116}), {0, 255, 255, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
-
-    new_molecule_id = objects.AddObject(Circle(GetMoleculeRadius()), object_coordinates({-82, 116}), {0, 255, 0, 255}, GetMoleculeSpeed());
-    SubscribeToDefaultInteractons(new_molecule_id, subscriptions_by_default);
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({0,    0}),    color({255, 0,   255, 255}), 
+                                                 GetMoleculeSpeed());
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-164, 0}),    color({0,   0,   255, 255}), 
+                                                 GetMoleculeSpeed());
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-82,  -116}), color({255, 0,   0,   255}), 
+                                                 GetMoleculeSpeed());
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({82,   -116}), color({255, 255, 0,   255}), 
+                                                 GetMoleculeSpeed());
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({164,  0}),    color({255, 255, 255, 255}), 
+                                                 GetMoleculeSpeed());
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({82,   116}),  color({0,   255, 255, 255}), 
+                                                 GetMoleculeSpeed());
+    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-82,  116}),  color({0,   255, 0,   255}), 
+                                                 GetMoleculeSpeed());
 }
 
 coordinate_type GetMoleculeRadius()
@@ -148,6 +119,18 @@ speed_type GetMoleculeSpeed()
     auto y_speed = sqrt(MOLECULES_START_SPEED * MOLECULES_START_SPEED - x_speed * x_speed);
 
     return speed_type({x_signum * static_cast<coordinate_type>(x_speed), y_signum * y_speed});
+}
+
+void RunStepByStepSimulation(Simulation& simulation)
+{
+    simulation.TryDraw();
+    GetTimer()->Delay(DELAY);
+
+    while (ProcessEvents() != SIMULATION_ENDED)
+    {
+        simulation.Step();
+        GetTimer()->Delay(DELAY);
+    }
 }
 
 simulation_status ProcessEvents()
@@ -174,37 +157,4 @@ simulation_status ProcessEvents()
     }
 
     return SIMULATION_CONTINUES;
-}
-
-void StepByStepSimulation(InteractionStorage& interaction_storage, ObjectStorage& objects, time_type& global_time)
-{
-    interaction_storage.CheckInteractions();
-    GetTimer()->Delay(DELAY);
-
-    while (ProcessEvents() != SIMULATION_ENDED)
-    {
-        MoveObjects(objects);
-        global_time += TIME_STEP;
-
-        interaction_storage.CheckInteractions();
-        GetTimer()->Delay(DELAY);
-    }
-}
-
-void MoveObjects(ObjectStorage& objects, time_type time)
-{
-    std::for_each(objects.speeds_cbegin(), objects.speeds_cend(), [&objects, time](const auto& pair){
-        const auto& [id, speed] = pair;
-        MoveOnOffset(objects.GetCoordinates(id), CalculateOffset(speed, time));    
-    });
-}
-
-offset_type CalculateOffset(speed_type speed, time_type time)
-{
-    return speed * time;
-}
-
-void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset)
-{
-    object_coordinates += offset;
 }

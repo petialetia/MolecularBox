@@ -14,19 +14,15 @@ using Quit_type =  std::function<void()>;
 
 class SDL2TimerImplementation : public TimerInterface<SDL2TimerImplementation>
 {
-  public:
-    friend SDL2TimerImplementation* GetSDL2TimerImplementation();
-
   private:
     Init_type Init_;
     Delay_type Delay_;
     Quit_type Quit_;
 
-  private:
+  public:
     SDL2TimerImplementation() = delete;
     SDL2TimerImplementation(Init_type Init, Delay_type Delay, Quit_type Quit);
 
-  public:
     void Init() const;
     void Delay(milliseconds ms) const;
     void Quit() const;
@@ -34,6 +30,6 @@ class SDL2TimerImplementation : public TimerInterface<SDL2TimerImplementation>
     ~SDL2TimerImplementation();
 };
 
-SDL2TimerImplementation* GetSDL2TimerImplementation();
+SDL2TimerImplementation GetSDL2TimerImplementation();
 
 #endif /* SDL2_TIMER_IMPLEMENTATION_HPP */
