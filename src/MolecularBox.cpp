@@ -5,7 +5,7 @@ int main()
     auto resolution = GetGraphic()->GetResolution(0);
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
-    Simulation simulation = Simulation(GetCoordinateSystem(), GetGraphic());
+    Simulation simulation = Simulation(GetCoordinateSystem(), GetGraphic(), GetTimer(), DELAY);
 
     simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
     simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));

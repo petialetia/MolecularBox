@@ -7,9 +7,11 @@
 #include "DrawObject.hpp"
 #include "UsingAliasMolecularBox.hpp"
 
+#include "TimerAdapter/TimerInterface.hpp"
+
 #include <unordered_set>
 
-template<typename GraphicImplementation>
+template<typename GraphicImplementation, typename TimerImplementation>
 class Draw
 {
   private:
@@ -22,13 +24,16 @@ class Draw
 
     GraphicInterface<GraphicImplementation>* graphic_;
 
+    TimerInterface<TimerImplementation>* timer_;
+    const milliseconds delay_;
+
   public:
     Draw() = delete;
     Draw(time_type& next_drawning_time, const time_type drawning_period, const std::unordered_set<id_type>& objects_to_draw, 
          const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, const color background_color,
-         GraphicInterface<GraphicImplementation>* graphic) :
-        next_drawning_time_(next_drawning_time), drawning_period_(drawning_period), objects_to_draw_(objects_to_draw), 
-        objects_(objects), coordinate_system_(coordinate_system), background_color_(background_color), graphic_(graphic)
+         GraphicInterface<GraphicImplementation>* graphic, TimerInterface<TimerImplementation>* timer, milliseconds delay) :
+        next_drawning_time_(next_drawning_time), drawning_period_(drawning_period), objects_to_draw_(objects_to_draw), objects_(objects), 
+        coordinate_system_(coordinate_system), background_color_(background_color), graphic_(graphic), timer_(timer), delay_(delay)
     {
     }
 
@@ -37,6 +42,7 @@ class Draw
         //TODO: Rewrite with Timer
 
         assert(graphic_ != nullptr);
+        assert(timer_ != nullptr);
 
         next_drawning_time_ += drawning_period_;
         graphic_->ClearWindow(background_color_);
@@ -51,6 +57,8 @@ class Draw
         });
 
         graphic_->Refresh();
+
+        timer_->Delay(delay_);
     }
 };
 
@@ -76,12 +84,13 @@ class DrawningInteraction: public PredictableInteraction
   public:
     DrawningInteraction() = delete;
 
-    template<typename GraphicImplementation>
+    template<typename GraphicImplementation, typename TimerImplementation>
     DrawningInteraction(const time_type& global_time, const time_type next_drawning_time, const time_type drawning_period,
                         const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, 
-                        const color background_color, GraphicInterface<GraphicImplementation>* graphic) :
-        PredictableInteraction(Draw<GraphicImplementation>(next_drawning_time_, drawning_period, objects_to_draw_, 
-                                                           objects, coordinate_system, background_color, graphic), 
+                        const color background_color, GraphicInterface<GraphicImplementation>* graphic,
+                        TimerInterface<TimerImplementation>* timer, milliseconds delay) :
+        PredictableInteraction(Draw<GraphicImplementation, TimerImplementation>(next_drawning_time_, drawning_period, objects_to_draw_, objects, 
+                                                                                coordinate_system, background_color, graphic, timer, delay), 
                                GetTimeToNextDrawning(global_time, next_drawning_time_)), 
         next_drawning_time_(next_drawning_time)
     {

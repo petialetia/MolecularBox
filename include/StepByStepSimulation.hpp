@@ -38,10 +38,11 @@ class StepByStepSimulation
 
     StepByStepSimulation() = delete;
 
-    template<typename GraphicImplementation>
-    StepByStepSimulation(molecular_box_coordinate_system coordinate_system, GraphicInterface<GraphicImplementation>* graphic) :
+    template<typename GraphicImplementation, typename TimerImplementation>
+    StepByStepSimulation(molecular_box_coordinate_system coordinate_system, GraphicInterface<GraphicImplementation>* graphic, 
+                         TimerInterface<TimerImplementation>* timer, milliseconds delay) :
       coordinate_system_(coordinate_system), 
-      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR, graphic)
+      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR, graphic, timer, delay)
     {
     }
 
