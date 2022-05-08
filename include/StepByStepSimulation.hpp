@@ -8,15 +8,6 @@
 #include "TimerAdapter/SDL2TimerImplementation.hpp"
 
 using subsription_storage = std::vector<std::function<void(id_type)>>;
-
-const time_type TIME_STEP = 1.0/2048;
-
-const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
-
-const color BACKGROUND_COLOR = {.red = 0,
-                                .green = 0,
-                                .blue = 0,
-                                .alpha = 0};
                                 
 void MoveObjects(ObjectStorage& objects, time_type time);    
 offset_type CalculateOffset(speed_type speed, time_type time);
@@ -27,6 +18,7 @@ class StepByStepSimulation
 {
   private:
     time_type global_time_ = 0;
+    const time_type time_step_ = 0;
     molecular_box_coordinate_system coordinate_system_;
 
     ObjectStorage object_storage_;
@@ -39,10 +31,11 @@ class StepByStepSimulation
     StepByStepSimulation() = delete;
 
     template<typename GraphicImplementation, typename TimerImplementation>
-    StepByStepSimulation(molecular_box_coordinate_system coordinate_system, GraphicInterface<GraphicImplementation>* graphic, 
-                         TimerInterface<TimerImplementation>* timer, milliseconds delay) :
+    StepByStepSimulation(time_type time_step, molecular_box_coordinate_system coordinate_system, time_type drawning_period, color background_color, 
+                         GraphicInterface<GraphicImplementation>* graphic, TimerInterface<TimerImplementation>* timer, milliseconds delay) :
+      time_step_(time_step),
       coordinate_system_(coordinate_system), 
-      interaction_storage_(global_time_, 0, DRAWNING_PERIOD_BY_DEFAULT, object_storage_, coordinate_system_, BACKGROUND_COLOR, graphic, timer, delay)
+      interaction_storage_(global_time_, 0, drawning_period, object_storage_, coordinate_system_, background_color, graphic, timer, delay)
     {
     }
 
@@ -85,8 +78,8 @@ class StepByStepSimulation
 
     void Step()
     {
-        MoveObjects(object_storage_, TIME_STEP);
-        global_time_+= TIME_STEP;
+        MoveObjects(object_storage_, time_step_);
+        global_time_+= time_step_;
 
         interaction_storage_.CheckInteractions();
     }

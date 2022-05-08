@@ -27,6 +27,15 @@ const std::string WINDOW_NAME = "MolecularBox";
 
 const coordinate_on_screen_type SINGLE_SEGMENT_LENGTH_BY_DEFAULT = 1;
 
+const time_type TIME_STEP = 1.0/2048;
+
+const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
+
+const color BACKGROUND_COLOR = {.red = 0,
+                                .green = 0,
+                                .blue = 0,
+                                .alpha = 0};
+
 const object_coordinates SHELL_COORDINATES = object_coordinates({0, 0});
 const coordinate_type SHELL_INNER_RADIUS = 250;
 const coordinate_type SHELL_WIDTH = 10;
