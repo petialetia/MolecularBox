@@ -39,7 +39,7 @@ class Draw
 
     void operator()()
     {
-        //TODO: Rewrite with Timer
+        //TODO: Rewrite with different timer functions
 
         assert(graphic_ != nullptr);
         assert(timer_ != nullptr);

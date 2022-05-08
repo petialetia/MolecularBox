@@ -77,7 +77,7 @@ void DrawCircumference(SDL_Renderer* const& renderer, coordinates_on_screen cent
     }
 }
 
-void DrawCircleWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
+void DrawCircumferenceWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
 {
     SetColor(renderer, color);
     DrawCircumference(renderer, center, radius);
@@ -102,7 +102,7 @@ void DrawCircle(SDL_Renderer* const& renderer, coordinates_on_screen center, coo
     }
 }
 
-void DrawCircleRegionWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
+void DrawCircleWithColor(SDL_Renderer* const& renderer, coordinates_on_screen center, coordinate_on_screen_type radius, color color)
 {
     SetColor(renderer, color);
     DrawCircle(renderer, center, radius);

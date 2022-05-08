@@ -96,15 +96,12 @@ SDL2GraphicImplementation::~SDL2GraphicImplementation()
     Quit();
 }
 
-SDL2GraphicImplementation* GetSDL2GraphicImplementation()
+SDL2GraphicImplementation GetSDL2GraphicImplementation()
 {
-    static SDL2GraphicImplementation graphic = SDL2GraphicImplementation(SDL2Graphic::Init, SDL2Graphic::GetResolution, SDL2Graphic::CreateWindow, 
-                                                                         SDL2Graphic::GetWindowSize,
-                                                                         SDL2Graphic::SetColor, SDL2Graphic::ClearWindow, SDL2Graphic::ClearWindowWithColor,
-                                                                         SDL2Graphic::DrawCircumference, SDL2Graphic::DrawCircleWithColor, 
-                                                                         SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleRegionWithColor,
-                                                                         SDL2Graphic::DrawRing, SDL2Graphic::DrawRingWithColor,
-                                                                         SDL2Graphic::Refresh, SDL2Graphic::Quit);
-
-    return &graphic;
+   return SDL2GraphicImplementation(SDL2Graphic::Init, SDL2Graphic::GetResolution, SDL2Graphic::CreateWindow, SDL2Graphic::GetWindowSize,
+                                    SDL2Graphic::SetColor, SDL2Graphic::ClearWindow, SDL2Graphic::ClearWindowWithColor,
+                                    SDL2Graphic::DrawCircumference, SDL2Graphic::DrawCircumferenceWithColor, 
+                                    SDL2Graphic::DrawCircle, SDL2Graphic::DrawCircleWithColor,
+                                    SDL2Graphic::DrawRing, SDL2Graphic::DrawRingWithColor,
+                                    SDL2Graphic::Refresh, SDL2Graphic::Quit);
 }

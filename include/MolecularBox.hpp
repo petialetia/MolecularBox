@@ -55,12 +55,14 @@ using Simulation = StepByStepSimulation;
 
 auto GetTimer()
 {
-    return GetSDL2TimerImplementation();
+    static auto timer_implementation = GetSDL2TimerImplementation();
+    return &timer_implementation;
 }
 
 auto GetGraphic()
 {
-    return GetSDL2GraphicImplementation();
+    static auto graphic_implementation = GetSDL2GraphicImplementation();
+    return &graphic_implementation;
 }
 
 enum simulation_status
