@@ -7,8 +7,6 @@
 #include "DrawObject.hpp"
 #include "UsingAliasMolecularBox.hpp"
 
-#include "GraphicAdapter/SDL2GraphicImplementation.hpp"
-
 #include <unordered_set>
 
 template<typename GraphicImplementation>
