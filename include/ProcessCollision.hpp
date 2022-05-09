@@ -8,7 +8,7 @@
 #endif
 
 template <typename Object1, typename Object2>
-void ProcessCollision(const id_type first_id, Object1 first_object, const id_type second_id, Object2 second_object, ObjectStorage& objects)
+void ProcessCollision(const id_type first_id, Object1& first_object, const id_type second_id, Object2& second_object, ObjectStorage& objects)
 {
     auto first_object_coordinates  = objects.GetCoordinates(first_id);
     auto second_object_coordinates = objects.GetCoordinates(second_id);

@@ -62,14 +62,14 @@ std::function<void()> GetCollisionAction(const id_type first_id, const id_type s
     };
 }
 
-std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects)
+std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, ObjectStorage& objects)
 {
     return [first_id, second_id, &objects]() {
         auto first_object  = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
 
         return std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
-            return CheckCollision(first_id, first_object, second_id, second_object, objects);
+            return CheckCollision(ObjectInfo(first_object, first_id, objects), ObjectInfo(second_object, second_id, objects));
         }, first_object, second_object);
     };
 }
