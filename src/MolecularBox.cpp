@@ -56,8 +56,9 @@ std::function<void()> GetCollisionAction(const id_type first_id, const id_type s
         auto first_object  = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
 
-        std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
-            ProcessCollision(first_id, first_object, second_id, second_object, objects);
+        std::visit([first_id, second_id, &objects](const auto& first_object, const auto& second_object) {
+            ProcessCollision(ObjectInfo(first_object,  first_id,  objects),
+                             ObjectInfo(second_object, second_id, objects));
         }, first_object, second_object);
     };
 }

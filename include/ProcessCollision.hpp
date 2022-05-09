@@ -8,39 +8,39 @@
 #endif
 
 template <typename Object1, typename Object2>
-void ProcessCollision(const id_type first_id, Object1& first_object, const id_type second_id, Object2& second_object, ObjectStorage& objects)
+void ProcessCollision(ObjectInfo<Object1> first_object, ObjectInfo<Object2> second_object)
 {
-    auto first_object_coordinates  = objects.GetCoordinates(first_id);
-    auto second_object_coordinates = objects.GetCoordinates(second_id);
+    auto first_object_coordinates  = first_object.GetCoordinates();
+    auto second_object_coordinates = second_object.GetCoordinates();
 
-    if (objects.ContainsSpeed(first_id))
+    if (first_object.ContainsSpeed())
     {
-        auto& first_object_speed  = objects.GetSpeed(first_id);
+        auto& first_object_speed  = first_object.GetSpeed();
 
-        if (objects.ContainsSpeed(second_id))
+        if (second_object.ContainsSpeed())
         {
-            auto& second_object_speed = objects.GetSpeed(second_id);
-            ProcessCollision(first_object,  first_object_coordinates,  first_object_speed, 
-                             second_object, second_object_coordinates, second_object_speed);
+            auto& second_object_speed = second_object.GetSpeed();
+            ProcessCollision(first_object.GetObject(),  first_object_coordinates,  first_object_speed, 
+                             second_object.GetObject(), second_object_coordinates, second_object_speed);
         }
         else
         {
-            ProcessCollision(first_object,  first_object_coordinates,  first_object_speed, 
-                             second_object, second_object_coordinates);
+            ProcessCollision(first_object.GetObject(),  first_object_coordinates,  first_object_speed, 
+                             second_object.GetObject(), second_object_coordinates);
         }
     }
     else
     {
-        if (objects.ContainsSpeed(second_id))
+        if (second_object.ContainsSpeed())
         {
-            auto second_object_speed = objects.GetSpeed(second_id);
-            ProcessCollision(first_object,  first_object_coordinates,
-                             second_object, second_object_coordinates, second_object_speed);
+            auto second_object_speed = second_object.GetSpeed();
+            ProcessCollision(first_object.GetObject(),  first_object_coordinates,
+                             second_object.GetObject(), second_object_coordinates, second_object_speed);
         }
         else
         {
-            ProcessCollision(first_object,  first_object_coordinates, 
-                             second_object, second_object_coordinates);
+            ProcessCollision(first_object.GetObject(),  first_object_coordinates, 
+                             second_object.GetObject(), second_object_coordinates);
         } 
     }
 }
