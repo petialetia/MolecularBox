@@ -9,7 +9,7 @@ class InteractionStorage
   private:
     IdStorage<Interaction> interactions_;
     IdStorage<PredictableInteraction> predictable_interactions_;
-    DrawningInteraction drawning_interaction_;
+    DrawningInteraction::DrawningInteraction drawning_interaction_;
 
   public:
     InteractionStorage() = delete;
@@ -19,7 +19,8 @@ class InteractionStorage
                        const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, 
                        const color background_color, GraphicInterface<GraphicImplementation>* graphic,
                        TimerInterface<TimerImplementation>* timer, milliseconds delay):
-        drawning_interaction_(global_time, next_drawning_time, drawning_period, objects, coordinate_system, background_color, graphic, timer, delay)
+        drawning_interaction_({global_time, next_drawning_time, drawning_period, delay}, objects, coordinate_system, background_color, 
+                              DrawningInteraction::drawning_adapters<GraphicImplementation, TimerImplementation>({graphic, timer}))
     {
     }
 

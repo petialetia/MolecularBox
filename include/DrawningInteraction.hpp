@@ -24,6 +24,7 @@ struct time_info
 {
     time_type& next_drawning_time_;
     const time_type drawning_period_;
+
     const milliseconds delay_;
 };
 
@@ -98,6 +99,24 @@ class GetTimeToNextDrawning
     time_type operator()();
 };
 
+#include "GraphicAdapter/SDL2GraphicImplementation.hpp"
+#include "TimerAdapter/SDL2TimerImplementation.hpp"
+
+namespace DrawningInteraction
+{
+
+struct time_info
+{
+    const time_type& global_time_;
+    time_type next_drawning_time_;
+    const time_type drawning_period_;
+
+    const milliseconds delay_;
+};
+
+template<typename GraphicImplementation, typename TimerImplementation>
+using drawning_adapters = Draw::drawning_adapters<GraphicImplementation, TimerImplementation>;
+
 class DrawningInteraction: public PredictableInteraction
 {
   private:
@@ -108,15 +127,13 @@ class DrawningInteraction: public PredictableInteraction
     DrawningInteraction() = delete;
 
     template<typename GraphicImplementation, typename TimerImplementation>
-    DrawningInteraction(const time_type& global_time, const time_type next_drawning_time, const time_type drawning_period,
-                        const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, 
-                        const color background_color, GraphicInterface<GraphicImplementation>* graphic,
-                        TimerInterface<TimerImplementation>* timer, milliseconds delay) :
+    DrawningInteraction(const time_info time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
+                        const color background_color, drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
         PredictableInteraction(Draw::Draw<GraphicImplementation, TimerImplementation>({objects_to_draw_, background_color}, 
-                                                                                      {next_drawning_time_, drawning_period, delay}, 
-                                                                                      objects, coordinate_system, {graphic, timer}), 
-                               GetTimeToNextDrawning(global_time, next_drawning_time_)), 
-        next_drawning_time_(next_drawning_time)
+                                                                                      {next_drawning_time_, time_info.drawning_period_, time_info.delay_}, 
+                                                                                      objects, coordinate_system, adapters), 
+                               GetTimeToNextDrawning(time_info.global_time_, next_drawning_time_)), 
+        next_drawning_time_(time_info.next_drawning_time_)
     {
     }
 
@@ -124,5 +141,7 @@ class DrawningInteraction: public PredictableInteraction
 
     void DeleteObjectToDraw(id_type id);
 };
+
+} /* namespace DrawningInteraction */
 
 #endif /* DRAWNING_INTERACTION_HPP */
