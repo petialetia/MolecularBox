@@ -62,17 +62,23 @@ std::function<void()> GetCollisionAction(const id_type first_id, const id_type s
     };
 }
 
-std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, ObjectStorage& objects)
+std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects)
 {
     return [first_id, second_id, &objects]() {
         auto first_object  = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
 
-        return std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
-            return CheckCollision(ObjectInfo(first_object, first_id, objects), ObjectInfo(second_object, second_id, objects));
+        return std::visit([first_id, second_id, &objects](const auto& first_object, const auto& second_object) {
+            return CheckCollision(ObjectInfo(first_object,  first_id,  const_cast<ObjectStorage&>(objects)/*1*/), 
+                                  ObjectInfo(second_object, second_id, const_cast<ObjectStorage&>(objects)/*1*/)); 
         }, first_object, second_object);
     };
 }
+
+/*1 : It is necessary to use const_cast here. Variable objects is const because objects mustn't change is this function, and inside CheckCollision they won't,
+CheckCollision works with const ObjectInfo, but to constuct ObjectInfo I need objects not to be const, because not const methods of ObjectInfo can change 
+objects, so there is nothing else I can do. It would be great, if C++ had const constructor (which will know, what object to construct will be used only as 
+const, but I found nothing about it. C++ is the best programming language is the world*/
 
 void SpawnDefaultObjects(Simulation& simulation)
 {
