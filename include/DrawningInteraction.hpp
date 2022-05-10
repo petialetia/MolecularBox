@@ -24,8 +24,6 @@ struct time_info
 {
     time_type& next_drawning_time_;
     const time_type drawning_period_;
-
-    const milliseconds delay_;
 };
 
 template<typename GraphicImplementation, typename TimerImplementation>
@@ -45,16 +43,18 @@ class Draw
     const ObjectStorage& objects_;
     const molecular_box_coordinate_system& coordinate_system_;
 
+    const milliseconds delay_;
+
     drawning_adapters<GraphicImplementation, TimerImplementation> adapters_;
 
   public:
 
     Draw() = delete;
-    Draw(const drawning_info drawning_info, time_info time_info, 
-         const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system, 
+    Draw(const drawning_info drawning_info, time_info time_info, const ObjectStorage& objects, 
+         const molecular_box_coordinate_system& coordinate_system, const milliseconds delay,
          drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
         drawning_info_(drawning_info), time_info_(time_info), 
-        objects_(objects), coordinate_system_(coordinate_system), 
+        objects_(objects), coordinate_system_(coordinate_system), delay_(delay),
         adapters_(adapters)
     {
     }
@@ -80,7 +80,7 @@ class Draw
 
         adapters_.graphic_->Refresh();
 
-        adapters_.timer_->Delay(time_info_.delay_);
+        adapters_.timer_->Delay(delay_);
     }
 };
 
@@ -107,8 +107,6 @@ struct time_info
     const time_type& global_time_;
     time_type next_drawning_time_;
     const time_type drawning_period_;
-
-    const milliseconds delay_;
 };
 
 template<typename GraphicImplementation, typename TimerImplementation>
@@ -125,10 +123,10 @@ class DrawningInteraction: public PredictableInteraction
 
     template<typename GraphicImplementation, typename TimerImplementation>
     DrawningInteraction(const time_info time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
-                        const color background_color, drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
+                        const color background_color, const milliseconds delay, drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
         PredictableInteraction(Draw::Draw<GraphicImplementation, TimerImplementation>({objects_to_draw_, background_color}, 
-                                                                                      {next_drawning_time_, time_info.drawning_period_, time_info.delay_}, 
-                                                                                      objects, coordinate_system, adapters), 
+                                                                                      {next_drawning_time_, time_info.drawning_period_}, 
+                                                                                      objects, coordinate_system, delay, adapters), 
                                GetTimeToNextDrawning(time_info.global_time_, next_drawning_time_)), 
         next_drawning_time_(time_info.next_drawning_time_)
     {

@@ -31,11 +31,12 @@ class StepByStepSimulation
     StepByStepSimulation() = delete;
 
     template<typename GraphicImplementation, typename TimerImplementation>
-    StepByStepSimulation(time_type time_step, molecular_box_coordinate_system coordinate_system, time_type drawning_period, color background_color, 
-                         DrawningInteraction::drawning_adapters<GraphicImplementation, TimerImplementation> adapters, milliseconds delay) :
+    StepByStepSimulation(time_type time_step, molecular_box_coordinate_system coordinate_system, 
+                         time_type drawning_period, color background_color, milliseconds delay,
+                         DrawningInteraction::drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
       time_step_(time_step),
-      coordinate_system_(coordinate_system), 
-      interaction_storage_({global_time_, 0, drawning_period, delay}, object_storage_, coordinate_system_, background_color, adapters)
+      coordinate_system_(coordinate_system),
+      interaction_storage_({global_time_, 0, drawning_period}, object_storage_, coordinate_system_, background_color, delay, adapters)
     {
     }
 
