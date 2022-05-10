@@ -27,9 +27,9 @@ const std::string WINDOW_NAME = "MolecularBox";
 
 const coordinate_on_screen_type SINGLE_SEGMENT_LENGTH_BY_DEFAULT = 1;
 
-const time_type TIME_STEP = 1.0/2048;
+const time_type TIME_STEP = 1.0/4096;
 
-const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/4;
+const time_type DRAWNING_PERIOD_BY_DEFAULT = 1.0/8;
 
 const color BACKGROUND_COLOR = {.red = 0,
                                 .green = 0,
