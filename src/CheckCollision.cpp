@@ -85,6 +85,71 @@ bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_rin
     return false;
 }
 
+bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  const speed_type& first_circle_speed,
+                    const Circle& second_circle, const object_coordinates& second_circle_center)
+{
+    //TODO: Optimize
+
+    return CheckCollision(first_circle,  first_circle_center,  first_circle_speed,
+                          second_circle, second_circle_center, speed_type({0, 0}));
+}
+bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates, const speed_type& circle_speed,
+                    const Ring& ring,     const object_coordinates& ring_coordinates)
+
+{
+    //TODO: Optimize
+
+    return CheckCollision(circle, circle_coordinates, circle_speed,
+                          ring,   ring_coordinates,   speed_type({0, 0}));
+}
+
+bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordinates, const speed_type& ring_speed,
+                    const Circle& circle, const object_coordinates& circle_coordinates)
+
+{
+    //TODO: Optimize
+
+    return CheckCollision(ring,   ring_coordinates,   ring_speed,
+                          circle, circle_coordinates, speed_type({0, 0}));
+}
+
+bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center, const speed_type& first_ring_speed,
+                    const Ring& second_ring, const object_coordinates& second_ring_center)
+{
+    //TODO: Optimize
+
+    return CheckCollision(first_ring,  first_ring_center,  first_ring_speed,
+                          second_ring, second_ring_center, speed_type({0, 0}));
+}
+
+bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
+                    const Circle& second_circle, const object_coordinates& second_circle_center, const speed_type& second_circle_speed)
+{
+    return CheckCollision(second_circle, second_circle_center, second_circle_speed,
+                          first_circle,  first_circle_center);
+}
+
+bool CheckCollision(const Circle& circle, const object_coordinates& circle_coordinates,
+                    const Ring& ring,     const object_coordinates& ring_coordinates, const speed_type& ring_speed)
+{
+    return CheckCollision(ring,   ring_coordinates, ring_speed,
+                          circle, circle_coordinates);
+}
+
+bool CheckCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
+                    const Circle& circle, const object_coordinates& circle_coordinates, const speed_type& circle_speed)
+{
+    return CheckCollision(circle, circle_coordinates, circle_speed,
+                          ring,   ring_coordinates);
+}
+
+bool CheckCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,
+                    const Ring& second_ring, const object_coordinates& second_ring_center, const speed_type& second_ring_speed)
+{
+    return CheckCollision(second_ring, second_ring_center, second_ring_speed,
+                          first_ring,  first_ring_center);
+}
+
 bool CheckCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
                     const Circle& second_circle, const object_coordinates& second_circle_center)
 {
