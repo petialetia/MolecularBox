@@ -132,12 +132,10 @@ speed_type GetMoleculeSpeed()
 void RunStepByStepSimulation(Simulation& simulation)
 {
     simulation.TryDraw();
-    GetTimer()->Delay(DELAY);
 
     while (ProcessEvents() != SIMULATION_ENDED)
     {
         simulation.Step();
-        GetTimer()->Delay(DELAY);
     }
 }
 
