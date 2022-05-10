@@ -12,6 +12,9 @@ time_type GetTimeToNextDrawning::operator()()
     return next_drawning_time_ - global_time_;
 }
 
+namespace DrawningInteraction
+{
+
 void DrawningInteraction::AddObjectToDraw(id_type id)
 {
     assert(!objects_to_draw_.contains(id));
@@ -23,3 +26,5 @@ void DrawningInteraction::DeleteObjectToDraw(id_type id)
     assert(objects_to_draw_.contains(id));
     objects_to_draw_.erase(id);
 }
+
+} /* namespace DrawningInteraction */

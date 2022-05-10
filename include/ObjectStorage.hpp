@@ -12,7 +12,7 @@
 using object_coordinates = Coordinates<coordinate_type>;
 using offset_type = object_coordinates;
 
-using object = std::variant<Circle, Ring>;
+using object = std::variant<Ring, Circle>;
 using speed_type = object_coordinates;
 
 using coordinate_storage = std::unordered_map<id_type, object_coordinates>;
@@ -140,5 +140,63 @@ class ObjectStorage
       return object_speeds_.cend();
     }
 };
+
+#define ImplementGet(property)                    \
+    const auto& Get##property() const             \
+    {                                             \
+        return object_storage_.Get##property(id_);\
+    }                                             \
+                                                  \
+    auto& Get##property()                         \
+    {                                             \
+        return object_storage_.Get##property(id_);\
+    }
+
+#define ImplementContains(property)                    \
+    bool Contains##property() const                    \
+    {                                                  \
+        return object_storage_.Contains##property(id_);\
+    }
+
+template<typename Object>
+class ObjectInfo
+{
+  private:
+    Object& object_;
+    const id_type id_;
+    ObjectStorage& object_storage_;
+
+  public:
+    ObjectInfo() = delete;
+    
+    explicit ObjectInfo(Object& object, id_type id, ObjectStorage& object_storage) :
+        object_(object), id_(id), object_storage_(object_storage)
+    {
+    }
+
+    Object& GetObject()
+    {
+        return object_;
+    }
+
+    const Object& GetObject() const
+    {
+        return object_;
+    }
+
+    id_type GetId() const
+    {
+        return id_;
+    }
+
+    ImplementGet(Coordinates)
+    ImplementGet(Color)
+    ImplementGet(Speed)
+
+    ImplementContains(Speed)
+};
+
+#undef ImplementGet
+#undef ImplementContains
 
 #endif /* OBJECT_STORAGE_HPP */

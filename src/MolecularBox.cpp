@@ -5,7 +5,8 @@ int main()
     auto resolution = GetGraphic()->GetResolution(0);
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
-    Simulation simulation = Simulation(TIME_STEP, GetCoordinateSystem(), DRAWNING_PERIOD_BY_DEFAULT, BACKGROUND_COLOR, GetGraphic(), GetTimer(), DELAY);
+    Simulation simulation = Simulation(TIME_STEP, GetCoordinateSystem(), DRAWNING_PERIOD_BY_DEFAULT, BACKGROUND_COLOR, DELAY,
+                                       DrawningInteraction::drawning_adapters<SDL2GraphicImplementation, SDL2TimerImplementation>({GetGraphic(), GetTimer()}));
 
     simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
     simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));
@@ -56,8 +57,9 @@ std::function<void()> GetCollisionAction(const id_type first_id, const id_type s
         auto first_object  = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
 
-        std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
-            ProcessCollision(first_id, first_object, second_id, second_object, objects);
+        std::visit([first_id, second_id, &objects](const auto& first_object, const auto& second_object) {
+            ProcessCollision(ObjectInfo(first_object,  first_id,  objects),
+                             ObjectInfo(second_object, second_id, objects));
         }, first_object, second_object);
     };
 }
@@ -68,11 +70,17 @@ std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type se
         auto first_object  = objects.GetObject(first_id);
         auto second_object = objects.GetObject(second_id);
 
-        return std::visit([first_id, second_id, &objects](auto& first_object, auto& second_object) {
-            return CheckCollision(first_id, first_object, second_id, second_object, objects);
+        return std::visit([first_id, second_id, &objects](const auto& first_object, const auto& second_object) {
+            return CheckCollision(ObjectInfo(first_object,  first_id,  const_cast<ObjectStorage&>(objects)/*1*/), 
+                                  ObjectInfo(second_object, second_id, const_cast<ObjectStorage&>(objects)/*1*/)); 
         }, first_object, second_object);
     };
 }
+
+/*1 : It is necessary to use const_cast here. Variable objects is const because objects mustn't change is this function, and inside CheckCollision they won't,
+CheckCollision works with const ObjectInfo, but to constuct ObjectInfo I need objects not to be const, because not const methods of ObjectInfo can change 
+objects, so there is nothing else I can do. It would be great, if C++ had const constructor (which will know, what object to construct will be used only as 
+const, but I found nothing about it. C++ is the best programming language is the world*/
 
 void SpawnDefaultObjects(Simulation& simulation)
 {
