@@ -32,10 +32,10 @@ class StepByStepSimulation
 
     template<typename GraphicImplementation, typename TimerImplementation>
     StepByStepSimulation(time_type time_step, molecular_box_coordinate_system coordinate_system, time_type drawning_period, color background_color, 
-                         GraphicInterface<GraphicImplementation>* graphic, TimerInterface<TimerImplementation>* timer, milliseconds delay) :
+                         DrawningInteraction::drawning_adapters<GraphicImplementation, TimerImplementation> adapters, milliseconds delay) :
       time_step_(time_step),
       coordinate_system_(coordinate_system), 
-      interaction_storage_(global_time_, 0, drawning_period, object_storage_, coordinate_system_, background_color, graphic, timer, delay)
+      interaction_storage_({global_time_, 0, drawning_period, delay}, object_storage_, coordinate_system_, background_color, adapters)
     {
     }
 

@@ -99,9 +99,6 @@ class GetTimeToNextDrawning
     time_type operator()();
 };
 
-#include "GraphicAdapter/SDL2GraphicImplementation.hpp"
-#include "TimerAdapter/SDL2TimerImplementation.hpp"
-
 namespace DrawningInteraction
 {
 
