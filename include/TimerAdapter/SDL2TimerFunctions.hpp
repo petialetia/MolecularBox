@@ -10,6 +10,8 @@ namespace SDL2Timer
 
 void Init();
 
+milliseconds GetTicks();
+
 void Delay(milliseconds ms);
 
 void Quit();

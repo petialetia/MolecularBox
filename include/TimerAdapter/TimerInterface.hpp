@@ -16,6 +16,11 @@ class TimerInterface
     }
 
   public:
+    milliseconds GetTicks()
+    {
+        return this->GetImplemetation()->GetTicks();
+    }
+
     void Delay(milliseconds ms)
     {
         this->GetImplemetation()->Delay(ms);
