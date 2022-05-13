@@ -94,6 +94,8 @@ class Draw
             }
             else
             {
+                //TODO: user shouldn't see this message, logging is needed
+                //TODO: for user to see that kind of problem FPS counter is needed
                 std::cout << "FPS downfall is detected on " << current_ticks << " ticks" << std::endl;
                 last_draw_ticks_.value() = current_ticks;
             }
