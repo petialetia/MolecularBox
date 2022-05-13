@@ -1,7 +1,7 @@
 #include <SDL2TimerImplementation.hpp>
 
-SDL2TimerImplementation::SDL2TimerImplementation(Init_type Init, Delay_type Delay, Quit_type Quit) :
-    Init_(Init), Delay_(Delay), Quit_(Quit)
+SDL2TimerImplementation::SDL2TimerImplementation(Init_type Init, GetTicks_type GetTicks, Delay_type Delay, Quit_type Quit) :
+    Init_(Init), GetTicks_(GetTicks), Delay_(Delay), Quit_(Quit)
 {
     Init();
 }
@@ -9,6 +9,11 @@ SDL2TimerImplementation::SDL2TimerImplementation(Init_type Init, Delay_type Dela
 void SDL2TimerImplementation::Init() const
 {
     Init_();
+}
+
+milliseconds SDL2TimerImplementation::GetTicks() const
+{
+    return GetTicks_();
 }
 
 void SDL2TimerImplementation::Delay(milliseconds ms) const
@@ -28,5 +33,5 @@ SDL2TimerImplementation::~SDL2TimerImplementation()
 
 SDL2TimerImplementation GetSDL2TimerImplementation()
 {
-    return SDL2TimerImplementation(SDL2Timer::Init, SDL2Timer::Delay, SDL2Timer::Quit);
+    return SDL2TimerImplementation(SDL2Timer::Init, SDL2Timer::GetTicks, SDL2Timer::Delay, SDL2Timer::Quit);
 }

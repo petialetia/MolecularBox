@@ -23,6 +23,9 @@
 #include <variant>
 #include <cstdio>
 
+const uint FPS_BY_DEFAULT = 60;
+const milliseconds FRAME_TIME = 1000 / FPS_BY_DEFAULT;
+
 const std::string WINDOW_NAME = "MolecularBox";
 
 const coordinate_on_screen_type SINGLE_SEGMENT_LENGTH_BY_DEFAULT = 1;
@@ -48,8 +51,6 @@ const uint MOLECULES_MAX_RADIUS = 70;
 const uint MOLECULES_MIN_RADIUS = 30;
 
 const uint MOLECULES_START_SPEED = 30;
-
-const milliseconds DELAY = 0;
 
 using Simulation = StepByStepSimulation;
 

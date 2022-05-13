@@ -9,7 +9,10 @@
 
 #include "TimerAdapter/TimerInterface.hpp"
 
+#include <optional>
 #include <unordered_set>
+
+#include <iostream>
 
 namespace Draw
 {
@@ -43,7 +46,9 @@ class Draw
     const ObjectStorage& objects_;
     const molecular_box_coordinate_system& coordinate_system_;
 
-    const milliseconds delay_;
+    const milliseconds frame_time_;
+
+    std::optional<milliseconds> last_draw_ticks_ = std::nullopt;
 
     drawning_adapters<GraphicImplementation, TimerImplementation> adapters_;
 
@@ -51,18 +56,16 @@ class Draw
 
     Draw() = delete;
     Draw(const drawning_info drawning_info, time_info time_info, const ObjectStorage& objects, 
-         const molecular_box_coordinate_system& coordinate_system, const milliseconds delay,
+         const molecular_box_coordinate_system& coordinate_system, const milliseconds frame_time,
          drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
         drawning_info_(drawning_info), time_info_(time_info), 
-        objects_(objects), coordinate_system_(coordinate_system), delay_(delay),
+        objects_(objects), coordinate_system_(coordinate_system), frame_time_(frame_time),
         adapters_(adapters)
     {
     }
 
     void operator()()
     {
-        //TODO: Rewrite with different timer functions
-
         assert(adapters_.graphic_ != nullptr);
         assert(adapters_.timer_ != nullptr);
 
@@ -80,7 +83,25 @@ class Draw
 
         adapters_.graphic_->Refresh();
 
-        adapters_.timer_->Delay(delay_);
+        auto current_ticks = adapters_.timer_->GetTicks();
+
+        if (last_draw_ticks_.has_value())
+        {
+            if (last_draw_ticks_.value() + frame_time_ >= current_ticks)
+            {
+                adapters_.timer_->Delay(last_draw_ticks_.value() + frame_time_ - current_ticks);
+                last_draw_ticks_.value() += frame_time_;
+            }
+            else
+            {
+                std::cout << "FPS downfall is detected on " << current_ticks << " ticks" << std::endl;
+                last_draw_ticks_.value() = current_ticks;
+            }
+        }
+        else
+        {
+            last_draw_ticks_ = current_ticks;
+        }
     }
 };
 
@@ -123,10 +144,10 @@ class DrawningInteraction: public PredictableInteraction
 
     template<typename GraphicImplementation, typename TimerImplementation>
     DrawningInteraction(const time_info time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
-                        const color background_color, const milliseconds delay, drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
+                        const color background_color, const milliseconds frame_time, drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
         PredictableInteraction(Draw::Draw<GraphicImplementation, TimerImplementation>({objects_to_draw_, background_color}, 
                                                                                       {next_drawning_time_, time_info.drawning_period_}, 
-                                                                                      objects, coordinate_system, delay, adapters), 
+                                                                                      objects, coordinate_system, frame_time, adapters), 
                                GetTimeToNextDrawning(time_info.global_time_, next_drawning_time_)), 
         next_drawning_time_(time_info.next_drawning_time_)
     {

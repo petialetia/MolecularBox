@@ -8,6 +8,11 @@ void Init()
     return;
 }
 
+milliseconds GetTicks()
+{
+    return SDL_GetTicks();
+}
+
 void Delay(milliseconds ms)
 {
     SDL_Delay(ms);
