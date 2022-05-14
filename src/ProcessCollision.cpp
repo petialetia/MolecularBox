@@ -1,34 +1,35 @@
 #include <ProcessCollision.hpp>
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  speed_type& first_circle_speed,
-                      const Circle& second_circle, const object_coordinates& second_circle_center, speed_type& second_circle_speed)
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle)
 {
-    UNUSED(first_circle)
-    UNUSED(second_circle)
+    assert(first_circle.ContainsSpeed());
+    assert(first_circle.ContainsMass());
+    assert(second_circle.ContainsSpeed());
+    assert(second_circle.ContainsMass());
 
-    auto distance_vector = second_circle_center - first_circle_center;
+    auto distance_vector = second_circle.GetCoordinates() - first_circle.GetCoordinates();
 
-    auto first_circle_speed_projection =  CountProjection(object_coordinates(first_circle_speed),  distance_vector);
-    auto second_circle_speed_projection = CountProjection(object_coordinates(second_circle_speed), distance_vector);
+    auto first_circle_speed_projection =  CountProjection(object_coordinates(first_circle.GetSpeed()),  distance_vector);
+    auto second_circle_speed_projection = CountProjection(object_coordinates(second_circle.GetSpeed()), distance_vector);
 
-    first_circle_speed -= first_circle_speed_projection;
-    first_circle_speed += second_circle_speed_projection;
+    first_circle.GetSpeed() -= first_circle_speed_projection;
+    first_circle.GetSpeed() += second_circle_speed_projection;
     
-    second_circle_speed -= second_circle_speed_projection;
-    second_circle_speed += first_circle_speed_projection;
+    second_circle.GetSpeed() -= second_circle_speed_projection;
+    second_circle.GetSpeed() += first_circle_speed_projection;
 }
 
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed,
-                      const Ring& ring,     const object_coordinates& ring_coordinates,   speed_type& ring_speed)
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring)
 {
-    UNUSED(circle)
-    UNUSED(circle_speed)
-    UNUSED(ring_speed)
+    assert(circle.ContainsSpeed());
+    assert(circle.ContainsMass());
+    assert(ring.ContainsSpeed());
+    assert(ring.ContainsMass());
 
-    auto distance_vector = ring_coordinates - circle_coordinates;
+    auto distance_vector = ring.GetCoordinates() - circle.GetCoordinates();
     auto distance = CountLength(distance_vector);
 
-    if (distance >= ring.GetInnerRadius() + ring.GetWidth() / 2)
+    if (distance >= ring.GetObject().GetInnerRadius() + ring.GetObject().GetWidth() / 2)
     {
         //TODO: implement outter collision
         assert(false);
@@ -39,150 +40,110 @@ void ProcessCollision(const Circle& circle, const object_coordinates& circle_coo
     assert(false);
 }
 
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,   speed_type& ring_speed,
-                      const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed)
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle)
 {
-    ProcessCollision(circle, circle_coordinates, circle_speed,
-                     ring,   ring_coordinates,   ring_speed);
+    ProcessCollisionBothWithSpeed(circle, ring);
 }
 
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  speed_type& first_ring_speed,
-                      const Ring& second_ring, const object_coordinates& second_ring_center, speed_type& second_ring_speed)
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring)
 {
     //TODO: implement
-
-    UNUSED(first_ring)
-    UNUSED(first_ring_center)
-    UNUSED(first_ring_speed)
-    UNUSED(second_ring)
-    UNUSED(second_ring_center)
-    UNUSED(second_ring_speed)
+    assert(first_ring.ContainsSpeed());
+    assert(first_ring.ContainsMass());
+    assert(second_ring.ContainsSpeed());
+    assert(second_ring.ContainsMass());
 
     assert(false);
 }
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  speed_type& first_circle_speed,
-                      const Circle& second_circle, const object_coordinates& second_circle_center)
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle)
 {
     //TODO: implement
-
-    UNUSED(first_circle)
-    UNUSED(first_circle_center)
-    UNUSED(first_circle_speed)
-    UNUSED(second_circle)
-    UNUSED(second_circle_center)
+    assert(first_circle.ContainsSpeed());
+    assert(first_circle.ContainsMass());
+    assert(!second_circle.ContainsSpeed());
 
     assert(false);
 }
 
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed,
-                      const Ring& ring,     const object_coordinates& ring_coordinates)
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring)
 {
-    UNUSED(circle)
-    UNUSED(ring)
+    assert(circle.ContainsSpeed());
+    assert(circle.ContainsMass());
+    assert(!ring.ContainsSpeed());
 
-    auto distance_vector = ring_coordinates - circle_coordinates;
-    circle_speed -= 2.0 * CountProjection(object_coordinates(circle_speed),  distance_vector);
+    auto distance_vector = ring.GetCoordinates() - circle.GetCoordinates();
+    circle.GetSpeed() -= 2.0 * CountProjection(object_coordinates(circle.GetSpeed()),  distance_vector);
 }
 
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,   speed_type& ring_speed,
-                      const Circle& circle, const object_coordinates& circle_coordinates)
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle)
 {
     //TODO: implement
-
-    UNUSED(ring)
-    UNUSED(ring_coordinates)
-    UNUSED(ring_speed)
-    UNUSED(circle)
-    UNUSED(circle_coordinates)
+    assert(ring.ContainsSpeed());
+    assert(ring.ContainsMass());
+    assert(!circle.ContainsSpeed());
 
     assert(false);
 }
 
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  speed_type& first_ring_speed,
-                      const Ring& second_ring, const object_coordinates& second_ring_center)
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring)
 {
     //TODO: implement
-
-    UNUSED(first_ring)
-    UNUSED(first_ring_center)
-    UNUSED(first_ring_speed)
-    UNUSED(second_ring)
-    UNUSED(second_ring_center)
+    assert(first_ring.ContainsSpeed());
+    assert(first_ring.ContainsMass());
+    assert(!second_ring.ContainsSpeed());
 
     assert(false);
 }
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
-                      const Circle& second_circle, const object_coordinates& second_circle_center, speed_type& second_circle_speed)
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle)
 {
-    ProcessCollision(second_circle, second_circle_center, second_circle_speed,
-                     first_circle,  first_circle_center);
+    ProcessCollisionFirstWithSpeed(second_circle, first_circle);
 }
 
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates,
-                      const Ring& ring,     const object_coordinates& ring_coordinates, speed_type& ring_speed)
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring)
 {
-    ProcessCollision(ring,   ring_coordinates, ring_speed,
-                     circle, circle_coordinates);
+    ProcessCollisionFirstWithSpeed(ring, circle);
 }
 
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
-                      const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed)
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle)
 {
-    ProcessCollision(circle, circle_coordinates, circle_speed,
-                     ring,   ring_coordinates);
+    ProcessCollisionFirstWithSpeed(circle, ring);
 }
 
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,
-                      const Ring& second_ring, const object_coordinates& second_ring_center, speed_type& second_ring_speed)
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring)
 {
-    ProcessCollision(second_ring, second_ring_center, second_ring_speed,
-                     first_ring,  first_ring_center);
+    ProcessCollisionFirstWithSpeed(second_ring, first_ring);
 }
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
-                      const Circle& second_circle, const object_coordinates& second_circle_center)
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle)
 {
     //TODO: implement
-
-    UNUSED(first_circle)
-    UNUSED(first_circle_center)
-    UNUSED(second_circle)
-    UNUSED(second_circle_center)
+    assert(!first_circle.ContainsSpeed());
+    assert(!second_circle.ContainsSpeed());
 
     assert(false);
 }
 
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates,
-                      const Ring& ring,     const object_coordinates& ring_coordinates)
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring)
 {
     //TODO: implement
-
-    UNUSED(circle)
-    UNUSED(circle_coordinates)
-    UNUSED(ring)
-    UNUSED(ring_coordinates)
+    assert(!circle.ContainsSpeed());
+    assert(!ring.ContainsSpeed());
 
     assert(false);
 }
 
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
-                      const Circle& circle, const object_coordinates& circle_coordinates)
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle)
 {
-    ProcessCollision(circle, circle_coordinates,
-                     ring,   ring_coordinates);
+    ProcessCollisionWithoutSpeed(ring, circle);
 }
 
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,
-                      const Ring& second_ring, const object_coordinates& second_ring_center)
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring)
 {
     //TODO: implement
-
-    UNUSED(first_ring)
-    UNUSED(first_ring_center)
-    UNUSED(second_ring)
-    UNUSED(second_ring_center)
+    assert(!first_ring.ContainsSpeed());
+    assert(!second_ring.ContainsSpeed());
 
     assert(false);
 }
