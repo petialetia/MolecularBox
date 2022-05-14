@@ -37,6 +37,14 @@ std::function<void(id_type)> GetAddDrawSubscription(Simulation& simulation)
 std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
 {
     return [&simulation](id_type new_object_id) {
+
+        /*Objects with speed and without mass shoulbn't have collision interaction*/
+        if (!CanObjectHaveCollision(ObjectInfo(simulation.GetObjects().GetObject(new_object_id),  new_object_id,  simulation.GetObjects()))) 
+        {
+            return;
+        }
+
+
         std::for_each(simulation.GetObjects().objects_cbegin(), simulation.GetObjects().objects_cend(), [new_object_id, &simulation](const auto& pair){
             const auto& [id, object] = pair;
 
@@ -44,6 +52,13 @@ std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
             {
                 return;
             }
+
+
+            if (!CanObjectHaveCollision(ObjectInfo(simulation.GetObjects().GetObject(id),  id,  simulation.GetObjects())))
+            {
+                return;
+            }
+
 
             simulation.GetInteractions().AddInteraction(Interaction(GetCollisionAction(new_object_id, id, simulation.GetObjects()), 
                                                                     GetCollisionCheck( new_object_id, id, simulation.GetObjects())));

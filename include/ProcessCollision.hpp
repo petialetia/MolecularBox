@@ -10,6 +10,9 @@
 template <typename Object1, typename Object2>
 void ProcessCollision(ObjectInfo<Object1> first_object, ObjectInfo<Object2> second_object)
 {
+    assert(CanObjectHaveCollision(first_object));
+    assert(CanObjectHaveCollision(second_object));
+
     auto first_object_coordinates  = first_object.GetCoordinates();
     auto second_object_coordinates = second_object.GetCoordinates();
 
