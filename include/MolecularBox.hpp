@@ -50,6 +50,8 @@ const color SHELL_COLOR = {.red   = 127,
 const uint MOLECULES_MAX_RADIUS = 70;
 const uint MOLECULES_MIN_RADIUS = 30;
 
+const coordinate_type AREA_TO_MASS_KOEF = 1;
+
 const uint MOLECULES_START_SPEED = 30;
 
 using Simulation = StepByStepSimulation;
@@ -86,7 +88,9 @@ void SpawnDefaultObjects(Simulation& simulation);
 void SpawnShell(Simulation& simulation);
 void SpawnMolecules(Simulation& simulation);
 
+void SpawnMolecule(Simulation& simulation, object_coordinates coordinates, color color);
 coordinate_type GetMoleculeRadius();
+mass_type GetMoleculeMass(coordinate_type radius);
 speed_type GetMoleculeSpeed();
 
 void RunStepByStepSimulation(Simulation& simulation);

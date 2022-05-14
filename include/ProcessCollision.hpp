@@ -3,82 +3,54 @@
 
 #include "ObjectStorage.hpp"
 
-#ifndef UNUSED
-#define UNUSED(x) [&x](){};
-#endif
-
 template <typename Object1, typename Object2>
 void ProcessCollision(ObjectInfo<Object1> first_object, ObjectInfo<Object2> second_object)
 {
-    auto first_object_coordinates  = first_object.GetCoordinates();
-    auto second_object_coordinates = second_object.GetCoordinates();
+    assert(CanObjectHaveCollision(first_object));
+    assert(CanObjectHaveCollision(second_object));
 
     if (first_object.ContainsSpeed())
     {
-        auto& first_object_speed  = first_object.GetSpeed();
-
         if (second_object.ContainsSpeed())
         {
-            auto& second_object_speed = second_object.GetSpeed();
-            ProcessCollision(first_object.GetObject(),  first_object_coordinates,  first_object_speed, 
-                             second_object.GetObject(), second_object_coordinates, second_object_speed);
+            ProcessCollisionBothWithSpeed(first_object, second_object);
         }
         else
         {
-            ProcessCollision(first_object.GetObject(),  first_object_coordinates,  first_object_speed, 
-                             second_object.GetObject(), second_object_coordinates);
+            ProcessCollisionFirstWithSpeed(first_object, second_object);
         }
     }
     else
     {
         if (second_object.ContainsSpeed())
         {
-            auto second_object_speed = second_object.GetSpeed();
-            ProcessCollision(first_object.GetObject(),  first_object_coordinates,
-                             second_object.GetObject(), second_object_coordinates, second_object_speed);
+            ProcessCollisionSecondWithSpeed(first_object, second_object);
         }
         else
         {
-            ProcessCollision(first_object.GetObject(),  first_object_coordinates, 
-                             second_object.GetObject(), second_object_coordinates);
+            ProcessCollisionWithoutSpeed(first_object, second_object);
         } 
     }
 }
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,  speed_type& first_circle_speed,
-                      const Circle& second_circle, const object_coordinates& second_circle_center, speed_type& second_circle_speed);
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed,
-                      const Ring& ring,     const object_coordinates& ring_coordinates,   speed_type& ring_speed);
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,   speed_type& ring_speed,
-                      const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed);
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,  speed_type& first_ring_speed,
-                      const Ring& second_ring, const object_coordinates& second_ring_center, speed_type& second_ring_speed);
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle);
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring);
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle);
+void ProcessCollisionBothWithSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring);
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center, speed_type& first_circle_speed,
-                      const Circle& second_circle, const object_coordinates& second_circle_center);
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed,
-                      const Ring& ring,     const object_coordinates& ring_coordinates);
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates, speed_type& ring_speed,
-                      const Circle& circle, const object_coordinates& circle_coordinates);
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center, speed_type& first_ring_speed,
-                      const Ring& second_ring, const object_coordinates& second_ring_center);
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle);
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring);
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle);
+void ProcessCollisionFirstWithSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring);
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
-                      const Circle& second_circle, const object_coordinates& second_circle_center, speed_type& second_circle_speed);
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates,
-                      const Ring& ring,     const object_coordinates& ring_coordinates, speed_type& ring_speed);
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
-                      const Circle& circle, const object_coordinates& circle_coordinates, speed_type& circle_speed);
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,
-                      const Ring& second_ring, const object_coordinates& second_ring_center, speed_type& second_ring_speed);
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle);
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring);
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle);
+void ProcessCollisionSecondWithSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring);
 
-void ProcessCollision(const Circle& first_circle,  const object_coordinates& first_circle_center,
-                      const Circle& second_circle, const object_coordinates& second_circle_center);
-void ProcessCollision(const Circle& circle, const object_coordinates& circle_coordinates,
-                      const Ring& ring,     const object_coordinates& ring_coordinates);
-void ProcessCollision(const Ring& ring,     const object_coordinates& ring_coordinates,
-                      const Circle& circle, const object_coordinates& circle_coordinates);
-void ProcessCollision(const Ring& first_ring,  const object_coordinates& first_ring_center,
-                      const Ring& second_ring, const object_coordinates& second_ring_center);
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Circle>& first_circle, ObjectInfo<const Circle>& second_circle);
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring);
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Ring>& ring, ObjectInfo<const Circle>& circle);
+void ProcessCollisionWithoutSpeed(ObjectInfo<const Ring>& first_ring, ObjectInfo<const Ring>& second_ring);
 
 #endif /* PROCESS_COLLISION_HPP */

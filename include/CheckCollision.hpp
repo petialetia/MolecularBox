@@ -7,9 +7,18 @@
 #define UNUSED(x) [&x](){};
 #endif
 
+template <typename Object>
+bool CanObjectHaveCollision(const ObjectInfo<Object> object)
+{
+    return !((object.ContainsSpeed() == true) && (object.ContainsMass() == false));
+}
+
 template <typename Object1, typename Object2>
 bool CheckCollision(const ObjectInfo<Object1> first_object, const ObjectInfo<Object2> second_object)
 {
+    assert(CanObjectHaveCollision(first_object));
+    assert(CanObjectHaveCollision(second_object));
+
     auto first_object_coordinates  = first_object.GetCoordinates();
     auto second_object_coordinates = second_object.GetCoordinates();
 

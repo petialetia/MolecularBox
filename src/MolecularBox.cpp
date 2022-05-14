@@ -37,6 +37,14 @@ std::function<void(id_type)> GetAddDrawSubscription(Simulation& simulation)
 std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
 {
     return [&simulation](id_type new_object_id) {
+
+        /*Objects with speed and without mass shoulbn't have collision interaction*/
+        if (!CanObjectHaveCollision(ObjectInfo(simulation.GetObjects().GetObject(new_object_id),  new_object_id,  simulation.GetObjects()))) 
+        {
+            return;
+        }
+
+
         std::for_each(simulation.GetObjects().objects_cbegin(), simulation.GetObjects().objects_cend(), [new_object_id, &simulation](const auto& pair){
             const auto& [id, object] = pair;
 
@@ -44,6 +52,13 @@ std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
             {
                 return;
             }
+
+
+            if (!CanObjectHaveCollision(ObjectInfo(simulation.GetObjects().GetObject(id),  id,  simulation.GetObjects())))
+            {
+                return;
+            }
+
 
             simulation.GetInteractions().AddInteraction(Interaction(GetCollisionAction(new_object_id, id, simulation.GetObjects()), 
                                                                     GetCollisionCheck( new_object_id, id, simulation.GetObjects())));
@@ -97,25 +112,30 @@ void SpawnMolecules(Simulation& simulation)
 {
     srand(time(NULL));
 
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({0,    0}),    color({255, 0,   255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-164, 0}),    color({0,   0,   255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-82,  -116}), color({255, 0,   0,   255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({82,   -116}), color({255, 255, 0,   255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({164,  0}),    color({255, 255, 255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({82,   116}),  color({0,   255, 255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-82,  116}),  color({0,   255, 0,   255}), 
-                                                 GetMoleculeSpeed());
+    SpawnMolecule(simulation, object_coordinates({0,    0}),    color({255, 0,   255, 255}));
+    SpawnMolecule(simulation, object_coordinates({-164, 0}),    color({0,   0,   255, 255}));
+    SpawnMolecule(simulation, object_coordinates({-82,  -116}), color({255, 0,   0,   255}));
+    SpawnMolecule(simulation, object_coordinates({82,   -116}), color({255, 255, 0,   255}));
+    SpawnMolecule(simulation, object_coordinates({164,  0}),    color({255, 255, 255, 255}));
+    SpawnMolecule(simulation, object_coordinates({82,   116}),  color({0,   255, 255, 255}));
+    SpawnMolecule(simulation, object_coordinates({-82,  116}),  color({0,   255, 0,   255}));
+}
+
+void SpawnMolecule(Simulation& simulation, object_coordinates coordinates, color color)
+{
+    auto radius = GetMoleculeRadius();
+
+    simulation.AddObjectWithDefaultSubscriptions(Circle(radius), coordinates, color, GetMoleculeMass(radius), GetMoleculeSpeed());
 }
 
 coordinate_type GetMoleculeRadius()
 {
     return static_cast<coordinate_type>(rand() % (MOLECULES_MAX_RADIUS - MOLECULES_MIN_RADIUS + 1) + MOLECULES_MIN_RADIUS);
+}
+
+mass_type GetMoleculeMass(coordinate_type radius)
+{
+    return static_cast<mass_type>(radius * radius * AREA_TO_MASS_KOEF);
 }
 
 speed_type GetMoleculeSpeed()
