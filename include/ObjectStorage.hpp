@@ -13,7 +13,7 @@ using object_coordinates = Coordinates<coordinate_type>;
 using offset_type = object_coordinates;
 
 using object = std::variant<Ring, Circle>;
-using mass_type = uint;
+using mass_type = coordinate_type;
 using speed_type = object_coordinates;
 
 using coordinate_storage = std::unordered_map<id_type, object_coordinates>;
