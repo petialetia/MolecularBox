@@ -10,6 +10,7 @@ int main()
 
     simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
     simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));
+    //simulation.AddSubscriptionByDefault(GetAddLoggingSubscription(simulation));
 
     SpawnDefaultObjects(simulation);
 
@@ -97,6 +98,22 @@ CheckCollision works with const ObjectInfo, but to constuct ObjectInfo I need ob
 objects, so there is nothing else I can do. It would be great, if C++ had const constructor (which will know, what object to construct will be used only as 
 const, but I found nothing about it. C++ is the best programming language is the world*/
 
+std::function<void(id_type)> GetAddLoggingSubscription(Simulation& simulation)
+{
+    return [&simulation](id_type new_object_id) {
+        /*if (!simulation.GetObjects().ContainsSpeed(new_object_id)) 
+        {
+            return;
+        }
+
+        simulation.GetInteractions().AddInteraction(Interaction([&simulation, new_object_id](){
+            std::cout << simulation.GetGlobalTime() << " " << CountLength(simulation.GetObjects().GetSpeed(new_object_id)) << std::endl;
+        }, [] () {
+        return true;
+        }));*/
+    };
+}
+
 void SpawnDefaultObjects(Simulation& simulation)
 {
     SpawnShell(simulation);
@@ -135,7 +152,8 @@ coordinate_type GetMoleculeRadius()
 
 mass_type GetMoleculeMass(coordinate_type radius)
 {
-    return static_cast<mass_type>(radius * radius * AREA_TO_MASS_KOEF);
+    //return static_cast<mass_type>(radius * radius * AREA_TO_MASS_KOEF);
+    return 1;
 }
 
 speed_type GetMoleculeSpeed()

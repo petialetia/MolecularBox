@@ -40,6 +40,11 @@ class StepByStepSimulation
     {
     }
 
+    const time_type& GetGlobalTime()
+    {
+        return global_time_;
+    }
+
     ObjectStorage& GetObjects()
     {
         return object_storage_;

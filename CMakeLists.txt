@@ -15,5 +15,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -O2")
 
 add_subdirectory(src)
+add_subdirectory(tests)
 
 install(TARGETS MolecularBox DESTINATION bin)
