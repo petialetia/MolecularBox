@@ -13,10 +13,12 @@ using object_coordinates = Coordinates<coordinate_type>;
 using offset_type = object_coordinates;
 
 using object = std::variant<Ring, Circle>;
+using mass_type = uint;
 using speed_type = object_coordinates;
 
 using coordinate_storage = std::unordered_map<id_type, object_coordinates>;
 using color_storage = std::unordered_map<id_type, color>;
+using mass_storage  = std::unordered_map<id_type, mass_type>;
 using speed_storage = std::unordered_map<id_type, speed_type>;
 
 class ObjectStorage
@@ -25,6 +27,7 @@ class ObjectStorage
     IdStorage<object> objects_ {};
     coordinate_storage object_coordinates_ {};
     color_storage object_colors_ {};
+    mass_storage  object_masses_ {};
     speed_storage object_speeds_ {};
 
   public:
@@ -36,8 +39,25 @@ class ObjectStorage
     ObjectStorage& operator=(const ObjectStorage&) = delete;
     ObjectStorage& operator=(ObjectStorage&) = delete;
 
+    /*Adding object with parametrs only needed for it's drawning. 
+    Without additional specifying, such an object won't move or have gravitation interactions*/
     id_type AddObject(object&& object, object_coordinates coordinates, color color);
+
+    /*Adding object with parameters to draw it and mass.
+    Such an object can't move, but it has it's own gravitational field.
+    This field has influence on objects with mass and speed, but object itself won't see fields of another objects (because object can't move)
+    For example, this is suitable for Sun in Heliocentric model*/
+    id_type AddObject(object&& object, object_coordinates coordinates, color color, mass_type mass);
+
+    /*Adding object with parameters to draw it and speed.
+    Object with speed and without mass moves and have no mechanic interactions.
+    Use this method wisely*/
     id_type AddObject(object&& object, object_coordinates coordinates, color color, speed_type speed);
+
+    /*Adding object with parameters to draw, mass and speed.
+    Such an objects will have all mechanic properties we used to*/
+    id_type AddObject(object&& object, object_coordinates coordinates, color color, mass_type mass, speed_type speed);
+
 
     object& GetObject(id_type id);
     const object& GetObject(id_type id) const;
@@ -48,6 +68,12 @@ class ObjectStorage
     color& GetColor(id_type id);
     const color GetColor(id_type id) const;
 
+    void SpecifyMass(id_type id, mass_type mass);
+    bool ContainsMass(id_type id) const;
+    mass_type& GetMass(id_type id);
+    mass_type GetMass(id_type id) const;
+
+    void SpecifySpeed(id_type id, speed_type speed);
     bool ContainsSpeed(id_type id) const;
     speed_type& GetSpeed(id_type id);
     const speed_type& GetSpeed(id_type id) const;
@@ -117,6 +143,28 @@ class ObjectStorage
     {
         return object_colors_.cend();
     }    
+
+
+    auto masses_begin()
+    {
+        return object_masses_.begin();
+    }
+
+    auto masses_cbegin() const
+    {
+      return object_masses_.cbegin();
+    }
+
+
+    auto masses_end()
+    {
+        return object_masses_.end();
+    }
+
+    auto masses_cend() const
+    {
+      return object_masses_.cend();
+    }
 
 
     auto speeds_begin()

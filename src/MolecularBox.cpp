@@ -97,25 +97,30 @@ void SpawnMolecules(Simulation& simulation)
 {
     srand(time(NULL));
 
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({0,    0}),    color({255, 0,   255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-164, 0}),    color({0,   0,   255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-82,  -116}), color({255, 0,   0,   255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({82,   -116}), color({255, 255, 0,   255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({164,  0}),    color({255, 255, 255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({82,   116}),  color({0,   255, 255, 255}), 
-                                                 GetMoleculeSpeed());
-    simulation.AddObjectWithDefaultSubscriptions(Circle(GetMoleculeRadius()), object_coordinates({-82,  116}),  color({0,   255, 0,   255}), 
-                                                 GetMoleculeSpeed());
+    SpawnMolecule(simulation, object_coordinates({0,    0}),    color({255, 0,   255, 255}));
+    SpawnMolecule(simulation, object_coordinates({-164, 0}),    color({0,   0,   255, 255}));
+    SpawnMolecule(simulation, object_coordinates({-82,  -116}), color({255, 0,   0,   255}));
+    SpawnMolecule(simulation, object_coordinates({82,   -116}), color({255, 255, 0,   255}));
+    SpawnMolecule(simulation, object_coordinates({164,  0}),    color({255, 255, 255, 255}));
+    SpawnMolecule(simulation, object_coordinates({82,   116}),  color({0,   255, 255, 255}));
+    SpawnMolecule(simulation, object_coordinates({-82,  116}),  color({0,   255, 0,   255}));
+}
+
+void SpawnMolecule(Simulation& simulation, object_coordinates coordinates, color color)
+{
+    auto radius = GetMoleculeRadius();
+
+    simulation.AddObjectWithDefaultSubscriptions(Circle(radius), coordinates, color, GetMoleculeMass(radius), GetMoleculeSpeed());
 }
 
 coordinate_type GetMoleculeRadius()
 {
     return static_cast<coordinate_type>(rand() % (MOLECULES_MAX_RADIUS - MOLECULES_MIN_RADIUS + 1) + MOLECULES_MIN_RADIUS);
+}
+
+mass_type GetMoleculeMass(coordinate_type radius)
+{
+    return static_cast<mass_type>(radius * radius * AREA_TO_MASS_KOEF);
 }
 
 speed_type GetMoleculeSpeed()
