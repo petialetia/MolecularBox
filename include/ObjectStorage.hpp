@@ -239,8 +239,10 @@ class ObjectInfo
 
     ImplementGet(Coordinates)
     ImplementGet(Color)
+    ImplementGet(Mass)
     ImplementGet(Speed)
 
+    ImplementContains(Mass)
     ImplementContains(Speed)
 };
 
