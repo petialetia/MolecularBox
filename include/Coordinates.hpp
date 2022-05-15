@@ -160,6 +160,9 @@ T CountDotProduct(const Coordinates<T>& first_vector, const Coordinates<T>& seco
 template<typename T>
 double FindVectorsCos(const Coordinates<T>& first_vector, const Coordinates<T>& second_vector)
 {
+    assert(CountLength(first_vector)  != 0);
+    assert(CountLength(second_vector) != 0);
+
     return CountDotProduct(first_vector, second_vector) / (CountLength(first_vector) * CountLength(second_vector));
 }
 
@@ -172,49 +175,22 @@ Coordinates<T> GetUnitVector(const Coordinates<T>& direction)
 template<typename T>
 Coordinates<T> CountProjection(const Coordinates<T>& projected, const Coordinates<T>& vector_to_be_projected_onto)
 {
+    if (CountLength(projected) == 0)
+    {
+        return projected;
+    } 
+
+
     return CountLength(projected) * FindVectorsCos(projected, vector_to_be_projected_onto) * GetUnitVector(vector_to_be_projected_onto);
 }
 
 template<typename T>
 bool IsCodirectional(const Coordinates<T>& first_vector, const Coordinates<T>& second_vector)
 {
-    //TODO: make implementation dimensionality higher than 2
-
     assert(first_vector.size() == second_vector.size());
     assert(!first_vector.empty());
-    assert(first_vector.size() <= 2);
 
-    if (first_vector.size() == 1)
-    {
-        return std::signbit(first_vector[0]) == std::signbit(second_vector[0]);
-    }
-
-
-    if (first_vector[0] == 0)
-    {
-        if (second_vector[0] == 0)
-        {
-            return std::signbit(first_vector[1]) == std::signbit(second_vector[1]);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        if (second_vector[0] == 0)
-        {
-            return false;
-        }
-        else
-        {
-            double koef = first_vector[0] / second_vector[0];
-            return second_vector[1] * koef == first_vector[1];
-        }
-    }
-
-    return true;
+    return first_vector / CountLength(first_vector) == second_vector / CountLength(second_vector);
 }
 
 #endif /* COORDINATES_HPP */
