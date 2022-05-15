@@ -40,35 +40,12 @@ class StepByStepSimulation
     {
     }
 
-    const time_type& GetGlobalTime()
-    {
-        return global_time_;
-    }
+    const time_type& GetGlobalTime();
+    ObjectStorage& GetObjects();
+    InteractionStorage& GetInteractions();
 
-    ObjectStorage& GetObjects()
-    {
-        return object_storage_;
-    }
-
-    InteractionStorage& GetInteractions()
-    {
-        return interaction_storage_;
-    }
-
-
-    void AddSubscriptionByDefault(std::function<void(id_type)> subscription)
-    {
-        subscriptions_by_default_.push_back(subscription);
-    }
-
-    void SubscribeToDefaultInteraction(id_type id)
-    {
-        for (auto& AddSubscription : subscriptions_by_default_)
-        {
-            AddSubscription(id);
-        }
-    }
-
+    void AddSubscriptionByDefault(std::function<void(id_type)> subscription);
+    void SubscribeToDefaultInteraction(id_type id);
 
     template<typename... Args>
     void AddObjectWithDefaultSubscriptions(Args... args)
@@ -77,18 +54,8 @@ class StepByStepSimulation
         SubscribeToDefaultInteraction(new_object_id);
     }
 
-    void CheckInteractions()
-    {
-        interaction_storage_.CheckInteractions();
-    }
-
-    void Step()
-    {
-        MoveObjects(object_storage_, time_step_);
-        global_time_+= time_step_;
-
-        interaction_storage_.CheckInteractions();
-    }
+    void CheckInteractions();
+    void Step();
 };
 
 #endif /* STEP_BY_STEP_SIMULATION_HPP */
