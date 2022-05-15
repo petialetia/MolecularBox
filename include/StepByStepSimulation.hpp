@@ -40,6 +40,11 @@ class StepByStepSimulation
     {
     }
 
+    const time_type& GetGlobalTime()
+    {
+        return global_time_;
+    }
+
     ObjectStorage& GetObjects()
     {
         return object_storage_;
@@ -72,9 +77,9 @@ class StepByStepSimulation
         SubscribeToDefaultInteraction(new_object_id);
     }
 
-    void TryDraw()
+    void CheckInteractions()
     {
-        interaction_storage_.TryDraw();
+        interaction_storage_.CheckInteractions();
     }
 
     void Step()

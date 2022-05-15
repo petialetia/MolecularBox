@@ -26,7 +26,6 @@ class InteractionStorage
     void AddPredictableInteraction(PredictableInteraction&& predictable_interaction);
     void AddObjectToDraw(id_type id);
 
-    void TryDraw();
     void CheckInteractions();
 };
 

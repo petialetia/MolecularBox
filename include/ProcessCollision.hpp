@@ -2,6 +2,7 @@
 #define PROCESS_COLLISION_HPP
 
 #include "ObjectStorage.hpp"
+#include "CheckCollision.hpp"
 
 template <typename Object1, typename Object2>
 void ProcessCollision(ObjectInfo<Object1> first_object, ObjectInfo<Object2> second_object)
