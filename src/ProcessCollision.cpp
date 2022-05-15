@@ -12,13 +12,13 @@ void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& first_circle, Objec
     auto first_circle_speed_projection =  CountProjection(object_coordinates(first_circle.GetSpeed()),  distance_vector);
     auto second_circle_speed_projection = CountProjection(object_coordinates(second_circle.GetSpeed()), distance_vector);
 
-    /*first_circle.GetSpeed() -= first_circle_speed_projection;
+    first_circle.GetSpeed() -= first_circle_speed_projection;
     first_circle.GetSpeed() += second_circle_speed_projection;
     
     second_circle.GetSpeed() -= second_circle_speed_projection;
-    second_circle.GetSpeed() += first_circle_speed_projection;*/
+    second_circle.GetSpeed() += first_circle_speed_projection;
 
-    auto first_circle_mass  = first_circle.GetMass();
+    /*auto first_circle_mass  = first_circle.GetMass();
     auto second_circle_mass = second_circle.GetMass();
 
     first_circle.GetSpeed()  = ((first_circle_mass - second_circle_mass) * first_circle_speed_projection + 
@@ -27,7 +27,7 @@ void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& first_circle, Objec
 
     second_circle.GetSpeed() = ((second_circle_mass - first_circle_mass) * second_circle_speed_projection +
                                2 * first_circle_mass * first_circle_speed_projection) /
-                               (first_circle_mass + second_circle_mass);
+                               (first_circle_mass + second_circle_mass);*/
 }
 
 void ProcessCollisionBothWithSpeed(ObjectInfo<const Circle>& circle, ObjectInfo<const Ring>& ring)
