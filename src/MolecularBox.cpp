@@ -153,7 +153,8 @@ coordinate_type GetMoleculeRadius()
 
 mass_type GetMoleculeMass(coordinate_type radius)
 {
-    return static_cast<mass_type>(radius * radius * AREA_TO_MASS_KOEF);
+    //return static_cast<mass_type>(radius * radius * AREA_TO_MASS_KOEF);
+    return 1;
 }
 
 speed_type GetMoleculeSpeed()
