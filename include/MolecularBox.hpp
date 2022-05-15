@@ -84,8 +84,6 @@ std::function<void(id_type)> GetAddCollisionSubscription(Simulation& simulation)
 std::function<void()> GetCollisionAction(const id_type first_id, const id_type second_id, ObjectStorage& objects);
 std::function<bool()> GetCollisionCheck(const id_type first_id, const id_type second_id, const ObjectStorage& objects);
 
-std::function<void(id_type)> GetAddLoggingSubscription(Simulation& simulation);
-
 void SpawnDefaultObjects(Simulation& simulation);
 void SpawnShell(Simulation& simulation);
 void SpawnMolecules(Simulation& simulation);
