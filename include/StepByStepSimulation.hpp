@@ -21,6 +21,9 @@ enum simulation_status
 };
 
 
+//TODO: Do interface with CRTP (to lay the groundwork for PredictingSimulation)
+//TODO: Make templated from InteractionStorage for different types of them
+
 class StepByStepSimulation
 {
   private:

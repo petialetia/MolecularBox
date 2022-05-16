@@ -5,6 +5,8 @@
 
 #include <functional>
 
+//TODO: Rewrite with CRTP pattern
+
 class Interaction
 {
   protected:
