@@ -34,9 +34,9 @@ class StepByStepSimulation
     StepByStepSimulation(time_type time_step, molecular_box_coordinate_system coordinate_system, 
                          time_type drawning_period, color background_color, milliseconds frame_time,
                          DrawningInteraction::drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
-      time_step_(time_step),
-      coordinate_system_(coordinate_system),
-      interaction_storage_({global_time_, 0, drawning_period}, object_storage_, coordinate_system_, background_color, frame_time, adapters)
+        time_step_(time_step),
+        coordinate_system_(coordinate_system),
+        interaction_storage_({global_time_, 0, drawning_period}, object_storage_, coordinate_system_, background_color, frame_time, adapters)
     {
     }
 
