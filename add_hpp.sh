@@ -1,4 +1,5 @@
 NAME="$1"
+DIRECTION="$2"
 
 if [[ $NAME == "" ]]
 then
@@ -6,9 +7,15 @@ then
     read NAME
 fi
 
+if [[ $DIRECTION == "" ]]
+then
+    echo "Enter direction of hpp"
+    read DIRECTION
+fi
+
 SCREAMING_SNAKE_NAME=$(./casbab/casbab.sh screamingsnake $NAME)
 
-HPP_FILE=include/${NAME}.hpp
+HPP_FILE=${DIRECTION}/${NAME}.hpp
 
 touch ${HPP_FILE}
 echo "#ifndef ${SCREAMING_SNAKE_NAME}_HPP" >> ${HPP_FILE}
