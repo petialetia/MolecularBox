@@ -4,6 +4,8 @@
 #include "Interaction.hpp"
 #include "DrawningInteraction.hpp"
 
+//TODO: make different storages for different sets of interactions
+
 class InteractionStorage
 {
   private:
