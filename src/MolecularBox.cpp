@@ -13,7 +13,7 @@ int main()
 
     SpawnDefaultObjects(simulation);
 
-    RunStepByStepSimulation(simulation);
+    simulation.Run(ProcessEvents);
 
     return 0;
 }
@@ -148,16 +148,6 @@ speed_type GetMoleculeSpeed()
     auto y_speed = sqrt(MOLECULES_START_SPEED * MOLECULES_START_SPEED - x_speed * x_speed);
 
     return speed_type({x_signum * static_cast<coordinate_type>(x_speed), y_signum * y_speed});
-}
-
-void RunStepByStepSimulation(Simulation& simulation)
-{
-    simulation.CheckInteractions();
-
-    while (ProcessEvents() != SIMULATION_ENDED)
-    {
-        simulation.Step();
-    }
 }
 
 simulation_status ProcessEvents()

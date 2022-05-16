@@ -14,6 +14,13 @@ offset_type CalculateOffset(speed_type speed, time_type time);
 void MoveOnOffset(object_coordinates& object_coordinates, offset_type offset); 
 
 
+enum simulation_status
+{
+    SIMULATION_CONTINUES,
+    SIMULATION_ENDED
+};
+
+
 class StepByStepSimulation
 {
   private:
@@ -56,6 +63,17 @@ class StepByStepSimulation
 
     void CheckInteractions();
     void Step();
+    
+    template<typename CheckExitCondition>
+    void Run(CheckExitCondition check_exit_condition)
+    {
+        CheckInteractions();
+
+        while (check_exit_condition() != SIMULATION_ENDED)
+        {
+            Step();
+        }
+    }
 };
 
 #endif /* STEP_BY_STEP_SIMULATION_HPP */

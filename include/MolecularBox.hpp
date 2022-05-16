@@ -68,12 +68,6 @@ auto GetGraphic()
     return &graphic_implementation;
 }
 
-enum simulation_status
-{
-    SIMULATION_CONTINUES,
-    SIMULATION_ENDED
-};
-
 molecular_box_coordinate_system GetCoordinateSystem();
 
 subsription_storage GetSubscriptionsByDefault(ObjectStorage& objects, InteractionStorage& interaction_storage);
@@ -92,8 +86,6 @@ void SpawnMolecule(Simulation& simulation, object_coordinates coordinates, color
 coordinate_type GetMoleculeRadius();
 mass_type GetMoleculeMass(coordinate_type radius);
 speed_type GetMoleculeSpeed();
-
-void RunStepByStepSimulation(Simulation& simulation);
 
 simulation_status ProcessEvents();
 
