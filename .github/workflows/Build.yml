@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: PreparingToBuild
+        run: |
+          sudo apt-get update 
+          sudo apt-get install -y build-essential 
+          sudo apt-get install -y cmake 
+          sudo apt-get install -y libsdl2-dev
+
+      - name: InstallingGtests
+        uses: MarkusJx/googletest-installer@v1.1
+
+      - name: Building
+        run: |
+          cd project 
+          ./build.sh
+
+      - name: UploadingArtifacts
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: Distributive
+          path: |
+            project/lib
+            project/bin
