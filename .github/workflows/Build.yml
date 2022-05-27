@@ -23,8 +23,7 @@ jobs:
         uses: MarkusJx/googletest-installer@v1.1
 
       - name: Building
-        run: |
-          cd project 
+        run: | 
           ./build.sh
 
       - name: UploadingArtifacts
@@ -32,5 +31,5 @@ jobs:
         with:
           name: Distributive
           path: |
-            project/lib
-            project/bin
+            lib
+            bin
