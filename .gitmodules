@@ -1,0 +1,3 @@
+[submodule "casbab"]
+	path = casbab
+	url = git@github.com:vandot/casbab.git
