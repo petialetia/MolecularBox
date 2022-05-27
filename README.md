@@ -1,8 +1,8 @@
 I am not good enough in English to describe my project in it.
 
-# Это есть мой проект по предмету "Технологии программирования" - "Коробка с молекулами".
+# Это есть мой проект "Коробка с молекулами".
 
-> Полное описание можно прочитать в папке documentation в файле [Description.md](documentation/Description.md)
+> Полное описание можно прочитать в файле [documentation/Description.md](documentation/Description.md)
 
 > ChangeLog лежит в файле [documentation/ChangeLog.md](documentation/ChangeLog.md)
 
@@ -18,6 +18,34 @@ I am not good enough in English to describe my project in it.
 
 ## Как запускать:
 
-1) Запустите скрипт build.sh
+### 1) Установка зависимостей:
 
-2) Если всё пройдёт штатно, после этого появится папка bin, а в ней исполняемый файлик MolecularBox.out. Запустить его можно как ручками, так и с помощью скриптика execute.sh
+#### Под ubuntu:
+
+Запустить скрипт requirements_ubuntu.sh.
+
+#### Под другими дистрибутивами или ОС:
+
+Нужно установить все необходимые зависимости из requirements_ubuntu.sh:
+
+а) Компилятор c++.
+
+б) CMake.
+
+в) SDL2.
+
+г) GTests (для тестов).
+
+### 2) Сборка:
+
+#### Под linux:
+
+Запустить скрипт build.sh.
+
+#### Под другими ОС:
+
+Нужно исполнить команды из build.sh, собрав проект с помощью CMake.
+
+### 3) Запуск
+
+Если всё пройдёт штатно, должна появится папка bin, а в ней исполняемый файлик MolecularBox.out. Запустить его можно ручками, либо же с помощью скриптика execute.sh (под Linux).
