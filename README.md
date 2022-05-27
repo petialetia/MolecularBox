@@ -1,5 +1,7 @@
 I am not good enough in English to describe my project in it.
 
+> TODO: сделать раздельную сборку основного проекта и тестов к нему.
+
 # Это есть мой проект "Коробка с молекулами".
 
 > Полное описание можно прочитать в файле [documentation/Description.md](documentation/Description.md)
