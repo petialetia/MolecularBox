@@ -1,7 +1,11 @@
 name: Build
 
 on:
-  push
+  push:
+    paths:
+      - 'include/**'
+      - 'src/**'
+      - 'tests/**'
 
 jobs:
   build:
