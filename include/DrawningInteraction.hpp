@@ -36,6 +36,8 @@ struct drawning_adapters
     TimerInterface<TimerImplementation>* timer_;
 };
 
+//TODO: Make separate compilation for ones who do not want to limit fps
+
 template<typename GraphicImplementation, typename TimerImplementation>
 class Draw
 {
@@ -94,9 +96,8 @@ class Draw
             }
             else
             {
-                //TODO: user shouldn't see this message, logging is needed
-                //TODO: for user to see that kind of problem FPS counter is needed
-                //std::cout << "FPS downfall is detected on " << current_ticks << " ticks" << std::endl;
+                //TODO: Write in log about fps downfall
+                //TODO: For user to see that kind of problem FPS counter is needed
                 last_draw_ticks_.value() = current_ticks;
             }
         }
