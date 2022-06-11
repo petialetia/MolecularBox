@@ -6,7 +6,7 @@ int main()
     GetGraphic()->CreateWindow(WINDOW_NAME, window_coordinates({resolution[0]/4, resolution[1]/4}), {resolution[0]/2, resolution[1]/2});
 
     Simulation simulation = Simulation(TIME_STEP, GetCoordinateSystem(), DRAWNING_PERIOD_BY_DEFAULT, BACKGROUND_COLOR, FRAME_TIME,
-                                       DrawningInteraction::drawning_adapters<SDL2GraphicImplementation, SDL2TimerImplementation>({GetGraphic(), GetTimer()}));
+                                       DrawningInteraction::drawning_adapters_dto<SDL2GraphicImplementation, SDL2TimerImplementation>({GetGraphic(), GetTimer()}));
 
     simulation.AddSubscriptionByDefault(GetAddDrawSubscription(simulation));
     simulation.AddSubscriptionByDefault(GetAddCollisionSubscription(simulation));

@@ -17,20 +17,20 @@
 namespace Draw
 {
 
-struct drawning_info
+struct drawning_info_dto
 {
     const std::unordered_set<id_type>& objects_to_draw_;
     const color background_color_;
 };
 
-struct time_info
+struct time_info_dto
 {
     time_type& next_drawning_time_;
     const time_type drawning_period_;
 };
 
 template<typename GraphicImplementation, typename TimerImplementation>
-struct drawning_adapters
+struct drawning_adapters_dto
 {
     GraphicInterface<GraphicImplementation>* graphic_;
     TimerInterface<TimerImplementation>* timer_;
@@ -42,8 +42,8 @@ template<typename GraphicImplementation, typename TimerImplementation>
 class Draw
 {
   private:
-    const drawning_info drawning_info_;
-    time_info time_info_;
+    const drawning_info_dto drawning_info_;
+    time_info_dto time_info_;
 
     const ObjectStorage& objects_;
     const molecular_box_coordinate_system& coordinate_system_;
@@ -52,14 +52,14 @@ class Draw
 
     std::optional<milliseconds> last_draw_ticks_ = std::nullopt;
 
-    drawning_adapters<GraphicImplementation, TimerImplementation> adapters_;
+    drawning_adapters_dto<GraphicImplementation, TimerImplementation> adapters_;
 
   public:
 
     Draw() = delete;
-    Draw(const drawning_info drawning_info, time_info time_info, const ObjectStorage& objects, 
+    Draw(const drawning_info_dto drawning_info, time_info_dto time_info, const ObjectStorage& objects, 
          const molecular_box_coordinate_system& coordinate_system, const milliseconds frame_time,
-         drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
+         drawning_adapters_dto<GraphicImplementation, TimerImplementation> adapters) :
         drawning_info_(drawning_info), time_info_(time_info), 
         objects_(objects), coordinate_system_(coordinate_system), frame_time_(frame_time),
         adapters_(adapters)
@@ -126,7 +126,7 @@ class GetTimeToNextDrawning
 namespace DrawningInteraction
 {
 
-struct time_info
+struct time_info_dto
 {
     const time_type& global_time_;
     time_type next_drawning_time_;
@@ -134,7 +134,7 @@ struct time_info
 };
 
 template<typename GraphicImplementation, typename TimerImplementation>
-using drawning_adapters = Draw::drawning_adapters<GraphicImplementation, TimerImplementation>;
+using drawning_adapters_dto = Draw::drawning_adapters_dto<GraphicImplementation, TimerImplementation>;
 
 class DrawningInteraction: public PredictableInteraction
 {
@@ -146,8 +146,8 @@ class DrawningInteraction: public PredictableInteraction
     DrawningInteraction() = delete;
 
     template<typename GraphicImplementation, typename TimerImplementation>
-    DrawningInteraction(const time_info time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
-                        const color background_color, const milliseconds frame_time, drawning_adapters<GraphicImplementation, TimerImplementation> adapters) :
+    DrawningInteraction(const time_info_dto time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
+                        const color background_color, const milliseconds frame_time, drawning_adapters_dto<GraphicImplementation, TimerImplementation> adapters) :
         PredictableInteraction(Draw::Draw<GraphicImplementation, TimerImplementation>({objects_to_draw_, background_color}, 
                                                                                       {next_drawning_time_, time_info.drawning_period_}, 
                                                                                       objects, coordinate_system, frame_time, adapters), 

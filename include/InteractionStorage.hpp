@@ -17,9 +17,9 @@ class InteractionStorage
     InteractionStorage() = delete;
 
     template<typename GraphicImplementation, typename TimerImplementation>
-    InteractionStorage(const DrawningInteraction::time_info time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
+    InteractionStorage(const DrawningInteraction::time_info_dto time_info, const ObjectStorage& objects, const molecular_box_coordinate_system& coordinate_system,
                        const color background_color, const milliseconds frame_time, 
-                       DrawningInteraction::drawning_adapters<GraphicImplementation, TimerImplementation> adapters):
+                       DrawningInteraction::drawning_adapters_dto<GraphicImplementation, TimerImplementation> adapters):
         drawning_interaction_(time_info, objects, coordinate_system, background_color, frame_time, adapters)
     {
     }
